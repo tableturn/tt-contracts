@@ -1,0 +1,544 @@
+{
+  "contracts": {
+    "Token": {
+      "address": "0x95077A49D82d2CdcC9c1E74c88874a427084816d",
+      "constructorCode": "608060405234801561001057600080fd5b50612d1a806100206000396000f3fe",
+      "bodyBytecodeHash": "27126207a612027592e3bbefff8d2e44def8b4859182540d9030f15d85dfb6ba",
+      "localBytecodeHash": "65011e9c3a71a7ca9b0bcf57deb5483554b9bef7c84e452c30f237382504edde",
+      "deployedBytecodeHash": "65011e9c3a71a7ca9b0bcf57deb5483554b9bef7c84e452c30f237382504edde",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_struct<Accountable.Account>": {
+          "id": "t_struct<Accountable.Account>",
+          "kind": "struct",
+          "label": "Accountable.Account",
+          "members": [
+            {
+              "label": "liquid",
+              "astId": 1341,
+              "type": "t_uint256",
+              "src": "240:14:8"
+            },
+            {
+              "label": "frozen",
+              "astId": 1343,
+              "type": "t_uint256",
+              "src": "260:14:8"
+            }
+          ]
+        },
+        "t_mapping<t_struct<Accountable.Account>>": {
+          "id": "t_mapping<t_struct<Accountable.Account>>",
+          "valueType": "t_struct<Accountable.Account>",
+          "label": "mapping(key => Accountable.Account)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 2130,
+          "type": "t_bool",
+          "src": "757:24:15"
+        },
+        {
+          "contract": "Initializable",
+          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 2132,
+          "type": "t_bool",
+          "src": "876:25:15"
+        },
+        {
+          "contract": "Initializable",
+          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 2188,
+          "type": "t_array:50<t_uint256>",
+          "src": "1951:29:15"
+        },
+        {
+          "contract": "Token",
+          "path": "contracts/Token.sol",
+          "label": "reg",
+          "astId": 395,
+          "type": "t_address",
+          "src": "609:19:3"
+        },
+        {
+          "contract": "Token",
+          "path": "contracts/Token.sol",
+          "label": "totalSupply",
+          "astId": 397,
+          "type": "t_uint256",
+          "src": "711:26:3"
+        },
+        {
+          "contract": "Token",
+          "path": "contracts/Token.sol",
+          "label": "accounts",
+          "astId": 401,
+          "type": "t_mapping<t_struct<Accountable.Account>>",
+          "src": "792:49:3"
+        },
+        {
+          "contract": "Token",
+          "path": "contracts/Token.sol",
+          "label": "allowances",
+          "astId": 407,
+          "type": "t_mapping<t_uint256>",
+          "src": "845:60:3"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    },
+    "Access": {
+      "address": "0x552870C964AfFc8b5432f5FFFfb313Ce94775605",
+      "constructorCode": "608060405234801561001057600080fd5b5061175f806100206000396000f3fe",
+      "bodyBytecodeHash": "8e8b357ce5c4597002b6f839bd461e410cf37dabb4da9e2abe6f8c1accd194f7",
+      "localBytecodeHash": "e86e0a2680d9ecf800b1ba98855d5cca155d10480b869a03099b0d8208e958a8",
+      "deployedBytecodeHash": "77eb4e657ffd91bbe3a075907d1c8254867e00717bf9696e555b9e2486cf87a8",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_struct<AddressSet.Set>": {
+          "id": "t_struct<AddressSet.Set>",
+          "kind": "struct",
+          "label": "AddressSet.Set",
+          "members": [
+            {
+              "label": "indices",
+              "astId": 1483,
+              "type": "t_mapping<t_uint256>",
+              "src": "102:35:9"
+            },
+            {
+              "label": "values",
+              "astId": 1486,
+              "type": "t_array:dyn<t_address>",
+              "src": "143:16:9"
+            }
+          ]
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_array:dyn<t_address>": {
+          "id": "t_array:dyn<t_address>",
+          "valueType": "t_address",
+          "length": "dyn",
+          "kind": "array",
+          "label": "address[]"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 2130,
+          "type": "t_bool",
+          "src": "757:24:15"
+        },
+        {
+          "contract": "Initializable",
+          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 2132,
+          "type": "t_bool",
+          "src": "876:25:15"
+        },
+        {
+          "contract": "Initializable",
+          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 2188,
+          "type": "t_array:50<t_uint256>",
+          "src": "1951:29:15"
+        },
+        {
+          "contract": "Access",
+          "path": "contracts/Access.sol",
+          "label": "issuerList",
+          "astId": 13,
+          "type": "t_struct<AddressSet.Set>",
+          "src": "354:25:0"
+        },
+        {
+          "contract": "Access",
+          "path": "contracts/Access.sol",
+          "label": "governorList",
+          "astId": 15,
+          "type": "t_struct<AddressSet.Set>",
+          "src": "383:27:0"
+        },
+        {
+          "contract": "Access",
+          "path": "contracts/Access.sol",
+          "label": "actorList",
+          "astId": 17,
+          "type": "t_struct<AddressSet.Set>",
+          "src": "414:24:0"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    },
+    "Registry": {
+      "address": "0x7491B398d56aB47389c01Bcd87Bfec3E83B95ab2",
+      "constructorCode": "608060405234801561001057600080fd5b5061091a806100206000396000f3fe",
+      "bodyBytecodeHash": "608f5008d9f7a3bbaa9db55da850b660cdc62b66f3e9f4dfa4f17624c44bc0ab",
+      "localBytecodeHash": "2f66f36130acf64b2cb380012182bb2d7266722009564e3e181b930cc1f4cfd9",
+      "deployedBytecodeHash": "2f66f36130acf64b2cb380012182bb2d7266722009564e3e181b930cc1f4cfd9",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 2130,
+          "type": "t_bool",
+          "src": "757:24:15"
+        },
+        {
+          "contract": "Initializable",
+          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 2132,
+          "type": "t_bool",
+          "src": "876:25:15"
+        },
+        {
+          "contract": "Initializable",
+          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 2188,
+          "type": "t_array:50<t_uint256>",
+          "src": "1951:29:15"
+        },
+        {
+          "contract": "Registry",
+          "path": "contracts/Registry.sol",
+          "label": "access",
+          "astId": 302,
+          "type": "t_address",
+          "src": "333:21:2"
+        },
+        {
+          "contract": "Registry",
+          "path": "contracts/Registry.sol",
+          "label": "transact",
+          "astId": 304,
+          "type": "t_address",
+          "src": "358:25:2"
+        },
+        {
+          "contract": "Registry",
+          "path": "contracts/Registry.sol",
+          "label": "token",
+          "astId": 306,
+          "type": "t_address",
+          "src": "387:19:2"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    },
+    "Transact": {
+      "address": "0x24Ac369F8d8EAEf4d07a31ab7b604D0582240320",
+      "constructorCode": "608060405234801561001057600080fd5b50611e08806100206000396000f3fe",
+      "bodyBytecodeHash": "0ad1a9608569d689fdae7edf430cec5e67b470805ba542c099bd717dcf318a5c",
+      "localBytecodeHash": "4c4e77ec2ed79e82a7dc94b5b0432543a534f6f101347ddcb126b5ccb2d9d817",
+      "deployedBytecodeHash": "4c4e77ec2ed79e82a7dc94b5b0432543a534f6f101347ddcb126b5ccb2d9d817",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_struct<ITransact.Book>": {
+          "id": "t_struct<ITransact.Book>",
+          "kind": "struct",
+          "label": "ITransact.Book",
+          "members": [
+            {
+              "label": "nextId",
+              "astId": 1313,
+              "type": "t_uint256",
+              "src": "392:14:7"
+            },
+            {
+              "label": "orders",
+              "astId": 1317,
+              "type": "t_mapping<t_struct<ITransact.Order>>",
+              "src": "412:33:7"
+            }
+          ]
+        },
+        "t_struct<ITransact.Order>": {
+          "id": "t_struct<ITransact.Order>",
+          "kind": "struct",
+          "label": "ITransact.Order",
+          "members": [
+            {
+              "label": "spender",
+              "astId": 1302,
+              "type": "t_address",
+              "src": "186:15:7"
+            },
+            {
+              "label": "recipient",
+              "astId": 1304,
+              "type": "t_address",
+              "src": "207:17:7"
+            },
+            {
+              "label": "amount",
+              "astId": 1306,
+              "type": "t_uint256",
+              "src": "230:14:7"
+            },
+            {
+              "label": "createdAt",
+              "astId": 1308,
+              "type": "t_uint256",
+              "src": "250:17:7"
+            },
+            {
+              "label": "status",
+              "astId": 1310,
+              "type": "t_enum<ITransact.Status>",
+              "src": "273:13:7"
+            }
+          ]
+        },
+        "t_enum<ITransact.Status>": {
+          "id": "t_enum<ITransact.Status>",
+          "kind": "enum",
+          "label": "ITransact.Status",
+          "members": [
+            "Pending",
+            "Approved",
+            "Rejected"
+          ]
+        },
+        "t_mapping<t_struct<ITransact.Order>>": {
+          "id": "t_mapping<t_struct<ITransact.Order>>",
+          "valueType": "t_struct<ITransact.Order>",
+          "label": "mapping(key => ITransact.Order)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_struct<ITransact.Book>>": {
+          "id": "t_mapping<t_struct<ITransact.Book>>",
+          "valueType": "t_struct<ITransact.Book>",
+          "label": "mapping(key => ITransact.Book)",
+          "kind": "mapping"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 2130,
+          "type": "t_bool",
+          "src": "757:24:15"
+        },
+        {
+          "contract": "Initializable",
+          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 2132,
+          "type": "t_bool",
+          "src": "876:25:15"
+        },
+        {
+          "contract": "Initializable",
+          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 2188,
+          "type": "t_array:50<t_uint256>",
+          "src": "1951:29:15"
+        },
+        {
+          "contract": "Transact",
+          "path": "contracts/Transact.sol",
+          "label": "reg",
+          "astId": 916,
+          "type": "t_address",
+          "src": "413:19:4"
+        },
+        {
+          "contract": "Transact",
+          "path": "contracts/Transact.sol",
+          "label": "books",
+          "astId": 920,
+          "type": "t_mapping<t_struct<ITransact.Book>>",
+          "src": "480:30:4"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    }
+  },
+  "solidityLibs": {
+    "AddressSet": {
+      "address": "0x13d35d4268ae26f2fD345c29A28182225aA9d10A",
+      "constructorCode": "6101fc610026600b82828239805160001a60731461001957fe5b30600052607381538281f3fe",
+      "bodyBytecodeHash": "1f729818fcd58debae5e3841b88531b303037437f06d3ce522ecd4e7592dcceb",
+      "localBytecodeHash": "a295aafc7eba05ff886629881275df18bca40c2f41a1b18064f9e3d600271c95",
+      "deployedBytecodeHash": "a295aafc7eba05ff886629881275df18bca40c2f41a1b18064f9e3d600271c95"
+    }
+  },
+  "proxies": {
+    "TTContracts/Access": [
+      {
+        "address": "0x5F92F5E183e38F7e9452f0d155bb788E7411B318",
+        "version": "0.0.1",
+        "implementation": "0x552870C964AfFc8b5432f5FFFfb313Ce94775605"
+      }
+    ],
+    "TTContracts/Registry": [
+      {
+        "address": "0x76b277aFfcA697c29dA8045C4C819f95b3308F43",
+        "version": "0.0.1",
+        "implementation": "0x7491B398d56aB47389c01Bcd87Bfec3E83B95ab2",
+        "admin": "0xcB84f371dCD52EcA4d9Fc42177262f88a3074f95"
+      }
+    ],
+    "TTContracts/Transact": [
+      {
+        "address": "0xba2CC6707D46358ced394924BA587e4AfedeA576",
+        "version": "0.0.1",
+        "implementation": "0x24Ac369F8d8EAEf4d07a31ab7b604D0582240320",
+        "admin": "0xcB84f371dCD52EcA4d9Fc42177262f88a3074f95"
+      }
+    ],
+    "TTContracts/Token": [
+      {
+        "address": "0xC881cc4dA74d63EEe3aBDF17b0e124A2150801dB",
+        "version": "0.0.1",
+        "implementation": "0x95077A49D82d2CdcC9c1E74c88874a427084816d",
+        "admin": "0xcB84f371dCD52EcA4d9Fc42177262f88a3074f95"
+      }
+    ]
+  },
+  "zosversion": "2.2",
+  "version": "0.0.1",
+  "proxyAdmin": {
+    "address": "0xcB84f371dCD52EcA4d9Fc42177262f88a3074f95"
+  }
+}

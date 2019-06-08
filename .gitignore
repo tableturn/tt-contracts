@@ -1,0 +1,17 @@
+node_modules
+bower_components
+.node*
+.tmp
+.DS_Store
+*.log
+
+build
+types
+coverage
+coverageEnv
+coverage.json
+
+.zos.session
+
+conf/keys.1802*.js
+zos.dev-5777.json
