@@ -87,13 +87,13 @@ contract('Token', accounts => {
 
   describe('issue', () => {
     itThrows('unauthorized for unknowns', MUST_BE_ISSUER, async () => {
-      await token.issue('500', { from: acc1 });
+      await token.issue('500', 'Test issuance', { from: acc1 });
     });
     itThrows('unauthorized for actors', MUST_BE_ISSUER, async () => {
-      await token.issue('500', { from: actor1 });
+      await token.issue('500', 'Test issuance', { from: actor1 });
     });
     itThrows('unauthorized for governors', MUST_BE_ISSUER, async () => {
-      await token.issue('500', governance);
+      await token.issue('500', 'Test issuance', governance);
     });
 
     describe('when successful', () => {
@@ -101,14 +101,14 @@ contract('Token', accounts => {
         const balance1 = await token.balanceOf(ZERO_ADDRESS);
         await Promise.all(
           [5, 50, 500, 5000].map(amount => {
-            return token.issue(amount, issuance);
+            return token.issue(amount, 'Test issuance', issuance);
           })
         );
         const balance2 = await token.balanceOf(ZERO_ADDRESS);
         assertNumberEquality(balance2.sub(balance1), '5555');
       });
       it('does not impact total supply', async () => {
-        await token.issue('5000', issuance);
+        await token.issue('5000', 'Test issuance', issuance);
         assertNumberEquality(await token.totalSupply(), '0');
       });
     });
@@ -116,7 +116,7 @@ contract('Token', accounts => {
 
   describe('allocate', () => {
     beforeEach(async () => {
-      await token.issue('5000', issuance);
+      await token.issue('5000', 'Test issuance', issuance);
     });
 
     itThrows('unauthorized unknown', MUST_BE_GOVERNOR, async () => {
@@ -156,7 +156,7 @@ contract('Token', accounts => {
       const reserve1 = await token.balanceOf(ZERO_ADDRESS);
       await Promise.all(
         [6, 60, 600, 6000].map(amount => {
-          return token.issue(amount, issuance);
+          return token.issue(amount, 'Test issuance', issuance);
         })
       );
       const reserve2 = await token.balanceOf(ZERO_ADDRESS);
@@ -180,7 +180,7 @@ contract('Token', accounts => {
 
   describe('transfer', () => {
     beforeEach(async () => {
-      await token.issue('5000', issuance);
+      await token.issue('5000', 'Test issuance', issuance);
     });
 
     itThrows('sender is not an actor', MUST_BE_ACTOR, async () => {
@@ -226,7 +226,7 @@ contract('Token', accounts => {
 
   describe('transferFrom', () => {
     beforeEach(async () => {
-      await token.issue('5000', issuance);
+      await token.issue('5000', 'Test issuance', issuance);
     });
 
     itThrows('owner is not an actor', MUST_BE_ACTOR, async () => {

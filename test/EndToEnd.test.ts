@@ -59,7 +59,7 @@ contract('EndToEnd', accounts => {
     });
 
     itThrows('Governor tries to issue tokens', MUST_BE_ISSUER, async () => {
-      await token.issue('1000', { from: bob });
+      await token.issue('1000', 'Test issuance', { from: bob });
     });
 
     it('adds a user as an Issuer', async () => {
@@ -67,7 +67,7 @@ contract('EndToEnd', accounts => {
     });
 
     it('lets the issuer create some tokens to the reserve', async () => {
-      await token.issue('150', issuance);
+      await token.issue('150', 'Test issuance', issuance);
       assertNumberEquality(await token.totalSupply(), '0');
       assertNumberEquality(await token.balanceOf(ZERO_ADDRESS), '150');
     });
@@ -94,7 +94,7 @@ contract('EndToEnd', accounts => {
     });
 
     itThrows('Bob tries to issue tokens', MUST_BE_ISSUER, async () => {
-      await token.issue('1000', { from: bob });
+      await token.issue('1000', 'Test issuance', { from: bob });
     });
 
     itThrows('Marie tries to allocate tokens', MUST_BE_GOVERNOR, async () => {
@@ -107,7 +107,7 @@ contract('EndToEnd', accounts => {
     });
 
     itThrows('Marie tries to issue tokens', MUST_BE_ISSUER, async () => {
-      await token.issue('1000', { from: marie });
+      await token.issue('1000', 'Test issuance', { from: marie });
     });
 
     itThrows('Bob tries to transfer more than what they owns', INSUFFICIENT_FUNDS, async () => {
