@@ -14,7 +14,7 @@ contract Token is Initializable, IToken, IERC20 {
   using SafeMath for uint256;
   using Accountable for Accountable.Account;
 
-  event Issuance(uint256 amount);
+  event Issuance(uint256 amount, string reason);
 
   /// @dev This is our contract registry.
   Registry public reg;
@@ -75,9 +75,9 @@ contract Token is Initializable, IToken, IERC20 {
    *      to actors.
    * @param amount is how many tokens should be allocated.
    */
-  function issue(uint256 amount) public issuance {
+  function issue(uint256 amount, string memory reason) public issuance {
     accounts[address(0)].credit(amount);
-    emit Issuance(amount);
+    emit Issuance(amount, reason);
   }
 
   /**

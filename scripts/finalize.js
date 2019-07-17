@@ -67,11 +67,11 @@ module.exports = async done => {
       const balance = await token.balanceOf(pk2m);
       console.log(`PK2M Balance: ${balance.toString()}.`);
       if (balance.eq(new BN(0))) {
-        const amount = convert('8_000_000');
-        console.log(`Issuing 8m tokens to the reserve.`);
-        await token.issue(amount, issuance);
-        console.log(`Allocating the tokens to ${pk2m}.`);
-        await token.allocate(pk2m, amount, governance);
+        await issue(token, '38_140', 'Operational costs for 2019', issuance);
+        await issue(token, '8_089_743', 'Entry of startup PK2M', issuance);
+
+        console.log(`Allocating tokens to ${pk2m}.`);
+        await token.allocate(pk2m, convert('8_089_743'), governance);
       }
     }
 
@@ -84,6 +84,11 @@ module.exports = async done => {
     console.log(e);
   }
   done();
+};
+
+const issue = async (token, amount, reason, issuance) => {
+  console.log(`Issuing ${amount} tokens: ${reason}`);
+  await token.issue(convert(amount), reason, issuance);
 };
 
 const promoteIssuer = async (access, governor, address) => {
