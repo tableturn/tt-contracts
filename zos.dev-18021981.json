@@ -2,10 +2,10 @@
   "contracts": {
     "Token": {
       "address": "0x95077A49D82d2CdcC9c1E74c88874a427084816d",
-      "constructorCode": "608060405234801561001057600080fd5b50612d1a806100206000396000f3fe",
-      "bodyBytecodeHash": "27126207a612027592e3bbefff8d2e44def8b4859182540d9030f15d85dfb6ba",
-      "localBytecodeHash": "65011e9c3a71a7ca9b0bcf57deb5483554b9bef7c84e452c30f237382504edde",
-      "deployedBytecodeHash": "65011e9c3a71a7ca9b0bcf57deb5483554b9bef7c84e452c30f237382504edde",
+      "constructorCode": "608060405234801561001057600080fd5b50612e1f806100206000396000f3fe",
+      "bodyBytecodeHash": "7530d0722ecb76c78f8cd73f5a12f0e89a2740eead0e910744023d55840d384f",
+      "localBytecodeHash": "d2db06f70986df76c3961cc6837df497707905739025875afa36397d59c5b407",
+      "deployedBytecodeHash": "d2db06f70986df76c3961cc6837df497707905739025875afa36397d59c5b407",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -36,13 +36,13 @@
           "members": [
             {
               "label": "liquid",
-              "astId": 1341,
+              "astId": 1346,
               "type": "t_uint256",
               "src": "240:14:8"
             },
             {
               "label": "frozen",
-              "astId": 1343,
+              "astId": 1348,
               "type": "t_uint256",
               "src": "260:14:8"
             }
@@ -66,7 +66,7 @@
           "contract": "Initializable",
           "path": "node_modules/zos-lib/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2130,
+          "astId": 2135,
           "type": "t_bool",
           "src": "757:24:15"
         },
@@ -74,7 +74,7 @@
           "contract": "Initializable",
           "path": "node_modules/zos-lib/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2132,
+          "astId": 2137,
           "type": "t_bool",
           "src": "876:25:15"
         },
@@ -82,7 +82,7 @@
           "contract": "Initializable",
           "path": "node_modules/zos-lib/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2188,
+          "astId": 2193,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:15"
         },
@@ -90,33 +90,33 @@
           "contract": "Token",
           "path": "contracts/Token.sol",
           "label": "reg",
-          "astId": 395,
+          "astId": 397,
           "type": "t_address",
-          "src": "609:19:3"
+          "src": "624:19:3"
         },
         {
           "contract": "Token",
           "path": "contracts/Token.sol",
           "label": "totalSupply",
-          "astId": 397,
+          "astId": 399,
           "type": "t_uint256",
-          "src": "711:26:3"
+          "src": "726:26:3"
         },
         {
           "contract": "Token",
           "path": "contracts/Token.sol",
           "label": "accounts",
-          "astId": 401,
+          "astId": 403,
           "type": "t_mapping<t_struct<Accountable.Account>>",
-          "src": "792:49:3"
+          "src": "807:49:3"
         },
         {
           "contract": "Token",
           "path": "contracts/Token.sol",
           "label": "allowances",
-          "astId": 407,
+          "astId": 409,
           "type": "t_mapping<t_uint256>",
-          "src": "845:60:3"
+          "src": "860:60:3"
         }
       ],
       "warnings": {
@@ -158,13 +158,13 @@
           "members": [
             {
               "label": "indices",
-              "astId": 1483,
+              "astId": 1488,
               "type": "t_mapping<t_uint256>",
               "src": "102:35:9"
             },
             {
               "label": "values",
-              "astId": 1486,
+              "astId": 1491,
               "type": "t_array:dyn<t_address>",
               "src": "143:16:9"
             }
@@ -194,7 +194,7 @@
           "contract": "Initializable",
           "path": "node_modules/zos-lib/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2130,
+          "astId": 2135,
           "type": "t_bool",
           "src": "757:24:15"
         },
@@ -202,7 +202,7 @@
           "contract": "Initializable",
           "path": "node_modules/zos-lib/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2132,
+          "astId": 2137,
           "type": "t_bool",
           "src": "876:25:15"
         },
@@ -210,7 +210,7 @@
           "contract": "Initializable",
           "path": "node_modules/zos-lib/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2188,
+          "astId": 2193,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:15"
         },
@@ -282,7 +282,7 @@
           "contract": "Initializable",
           "path": "node_modules/zos-lib/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2130,
+          "astId": 2135,
           "type": "t_bool",
           "src": "757:24:15"
         },
@@ -290,7 +290,7 @@
           "contract": "Initializable",
           "path": "node_modules/zos-lib/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2132,
+          "astId": 2137,
           "type": "t_bool",
           "src": "876:25:15"
         },
@@ -298,7 +298,7 @@
           "contract": "Initializable",
           "path": "node_modules/zos-lib/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2188,
+          "astId": 2193,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:15"
         },
@@ -371,13 +371,13 @@
           "members": [
             {
               "label": "nextId",
-              "astId": 1313,
+              "astId": 1318,
               "type": "t_uint256",
               "src": "392:14:7"
             },
             {
               "label": "orders",
-              "astId": 1317,
+              "astId": 1322,
               "type": "t_mapping<t_struct<ITransact.Order>>",
               "src": "412:33:7"
             }
@@ -390,31 +390,31 @@
           "members": [
             {
               "label": "spender",
-              "astId": 1302,
+              "astId": 1307,
               "type": "t_address",
               "src": "186:15:7"
             },
             {
               "label": "recipient",
-              "astId": 1304,
+              "astId": 1309,
               "type": "t_address",
               "src": "207:17:7"
             },
             {
               "label": "amount",
-              "astId": 1306,
+              "astId": 1311,
               "type": "t_uint256",
               "src": "230:14:7"
             },
             {
               "label": "createdAt",
-              "astId": 1308,
+              "astId": 1313,
               "type": "t_uint256",
               "src": "250:17:7"
             },
             {
               "label": "status",
-              "astId": 1310,
+              "astId": 1315,
               "type": "t_enum<ITransact.Status>",
               "src": "273:13:7"
             }
@@ -448,7 +448,7 @@
           "contract": "Initializable",
           "path": "node_modules/zos-lib/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2130,
+          "astId": 2135,
           "type": "t_bool",
           "src": "757:24:15"
         },
@@ -456,7 +456,7 @@
           "contract": "Initializable",
           "path": "node_modules/zos-lib/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2132,
+          "astId": 2137,
           "type": "t_bool",
           "src": "876:25:15"
         },
@@ -464,7 +464,7 @@
           "contract": "Initializable",
           "path": "node_modules/zos-lib/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2188,
+          "astId": 2193,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:15"
         },
@@ -472,7 +472,7 @@
           "contract": "Transact",
           "path": "contracts/Transact.sol",
           "label": "reg",
-          "astId": 916,
+          "astId": 921,
           "type": "t_address",
           "src": "413:19:4"
         },
@@ -480,7 +480,7 @@
           "contract": "Transact",
           "path": "contracts/Transact.sol",
           "label": "books",
-          "astId": 920,
+          "astId": 925,
           "type": "t_mapping<t_struct<ITransact.Book>>",
           "src": "480:30:4"
         }
