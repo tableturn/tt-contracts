@@ -77,7 +77,7 @@ contract('Token', accounts => {
     });
     it('exposes its precision', async () => {
       const ret = await token.decimals();
-      assertNumberEquality(ret, 18);
+      assertNumberEquality(ret, '6');
     });
     it('exposes its total supply', async () => {
       const ret = await token.totalSupply();

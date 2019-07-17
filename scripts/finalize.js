@@ -9,7 +9,7 @@ const Token = artifacts.require('Token');
 
 const convert = amount => {
   const clean = `${amount}`.split('_').join('');
-  return `${clean}${'0'.repeat(18)}`;
+  return `${clean}${'0'.repeat(6)}`;
 };
 
 module.exports = async done => {
