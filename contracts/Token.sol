@@ -48,9 +48,9 @@ contract Token is Initializable, IToken, IERC20 {
     account.frozen = frozen;
   }
 
-  function symbol() public pure returns(string memory) {return "CVD";}
-  function name() public pure returns(string memory) {return "Consilience Ventures Digital Share";}
-  function decimals() public pure returns(uint8) {return 18;}
+  function symbol() public pure returns(string memory) { return "CVD"; }
+  function name() public pure returns(string memory) { return "Consilience Ventures Digital Share"; }
+  function decimals() public pure returns(uint8) { return 6; }
 
   /**
    * @dev This function returns the liquid amount of tokens for a given account.
