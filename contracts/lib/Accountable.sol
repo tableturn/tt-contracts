@@ -1,6 +1,6 @@
 pragma solidity ^0.5.9;
 // Libraries.
-import "../../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 
 
 library Accountable {

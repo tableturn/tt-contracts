@@ -1,5 +1,5 @@
 pragma solidity ^0.5.9;
-import "../node_modules/zos-lib/contracts/Initializable.sol";
+import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./interfaces/IAccess.sol";
 import "./interfaces/ITransact.sol";
 import "./interfaces/IToken.sol";

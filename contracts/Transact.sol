@@ -1,9 +1,9 @@
 pragma solidity ^0.5.9;
 pragma experimental ABIEncoderV2;
 // Libraries.
-import "../node_modules/openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 // Interfaces and Contracts.
-import "../node_modules/zos-lib/contracts/Initializable.sol";
+import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./interfaces/ITransact.sol";
 import "./Registry.sol";
 
