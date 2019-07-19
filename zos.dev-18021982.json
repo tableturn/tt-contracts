@@ -3,9 +3,9 @@
     "Token": {
       "address": "0x4d7c36246EC2bC76db8F164647BB88bC38557243",
       "constructorCode": "608060405234801561001057600080fd5b50612e1f806100206000396000f3fe",
-      "bodyBytecodeHash": "7530d0722ecb76c78f8cd73f5a12f0e89a2740eead0e910744023d55840d384f",
-      "localBytecodeHash": "d2db06f70986df76c3961cc6837df497707905739025875afa36397d59c5b407",
-      "deployedBytecodeHash": "d2db06f70986df76c3961cc6837df497707905739025875afa36397d59c5b407",
+      "bodyBytecodeHash": "67a3311e6b9e8b3acd41be1b23ab53faabcb46470b7178dd3d6c26d16a223194",
+      "localBytecodeHash": "60cbcc01559de6572a2191f6d519075a1385bb03b59b33ca46775b73052998c9",
+      "deployedBytecodeHash": "60cbcc01559de6572a2191f6d519075a1385bb03b59b33ca46775b73052998c9",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -38,13 +38,13 @@
               "label": "liquid",
               "astId": 1346,
               "type": "t_uint256",
-              "src": "240:14:8"
+              "src": "221:14:8"
             },
             {
               "label": "frozen",
               "astId": 1348,
               "type": "t_uint256",
-              "src": "260:14:8"
+              "src": "241:14:8"
             }
           ]
         },
@@ -64,27 +64,27 @@
       "storage": [
         {
           "contract": "Initializable",
-          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2135,
+          "astId": 1933,
           "type": "t_bool",
-          "src": "757:24:15"
+          "src": "757:24:13"
         },
         {
           "contract": "Initializable",
-          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2137,
+          "astId": 1935,
           "type": "t_bool",
-          "src": "876:25:15"
+          "src": "876:25:13"
         },
         {
           "contract": "Initializable",
-          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2193,
+          "astId": 1991,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:15"
+          "src": "1951:29:13"
         },
         {
           "contract": "Token",
@@ -92,7 +92,7 @@
           "label": "reg",
           "astId": 397,
           "type": "t_address",
-          "src": "624:19:3"
+          "src": "591:19:3"
         },
         {
           "contract": "Token",
@@ -100,7 +100,7 @@
           "label": "totalSupply",
           "astId": 399,
           "type": "t_uint256",
-          "src": "726:26:3"
+          "src": "693:26:3"
         },
         {
           "contract": "Token",
@@ -108,7 +108,7 @@
           "label": "accounts",
           "astId": 403,
           "type": "t_mapping<t_struct<Accountable.Account>>",
-          "src": "807:49:3"
+          "src": "774:49:3"
         },
         {
           "contract": "Token",
@@ -116,7 +116,7 @@
           "label": "allowances",
           "astId": 409,
           "type": "t_mapping<t_uint256>",
-          "src": "860:60:3"
+          "src": "827:60:3"
         }
       ],
       "warnings": {
@@ -130,9 +130,9 @@
     "Access": {
       "address": "0x7f5086298aD7153018aAD6526Dafbcf1a992943B",
       "constructorCode": "608060405234801561001057600080fd5b5061175f806100206000396000f3fe",
-      "bodyBytecodeHash": "3481fc4eb90d745d64d8248c95f3eeddef7278d6a79af81edd1a835a0df9822e",
+      "bodyBytecodeHash": "1952a4e07f661380cc1f843c1c1980f3dbc2baaacca76271bcc7d34a94624412",
       "localBytecodeHash": "e86e0a2680d9ecf800b1ba98855d5cca155d10480b869a03099b0d8208e958a8",
-      "deployedBytecodeHash": "f532575a74422edaae7f1419ec393b573480c96dab990fda2e78f5252297c879",
+      "deployedBytecodeHash": "473bb34bf4ce94a10b48a7acbab1fe16707099fdf0032a59f9cb0bed708b56d9",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -192,27 +192,27 @@
       "storage": [
         {
           "contract": "Initializable",
-          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2135,
+          "astId": 1933,
           "type": "t_bool",
-          "src": "757:24:15"
+          "src": "757:24:13"
         },
         {
           "contract": "Initializable",
-          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2137,
+          "astId": 1935,
           "type": "t_bool",
-          "src": "876:25:15"
+          "src": "876:25:13"
         },
         {
           "contract": "Initializable",
-          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2193,
+          "astId": 1991,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:15"
+          "src": "1951:29:13"
         },
         {
           "contract": "Access",
@@ -220,7 +220,7 @@
           "label": "issuerList",
           "astId": 13,
           "type": "t_struct<AddressSet.Set>",
-          "src": "354:25:0"
+          "src": "353:25:0"
         },
         {
           "contract": "Access",
@@ -228,7 +228,7 @@
           "label": "governorList",
           "astId": 15,
           "type": "t_struct<AddressSet.Set>",
-          "src": "383:27:0"
+          "src": "382:27:0"
         },
         {
           "contract": "Access",
@@ -236,7 +236,7 @@
           "label": "actorList",
           "astId": 17,
           "type": "t_struct<AddressSet.Set>",
-          "src": "414:24:0"
+          "src": "413:24:0"
         }
       ],
       "warnings": {
@@ -250,9 +250,9 @@
     "Registry": {
       "address": "0xbe93DFEf0276c2ddbb1C6c10c4507Bd2C8599FE2",
       "constructorCode": "608060405234801561001057600080fd5b5061091a806100206000396000f3fe",
-      "bodyBytecodeHash": "608f5008d9f7a3bbaa9db55da850b660cdc62b66f3e9f4dfa4f17624c44bc0ab",
-      "localBytecodeHash": "2f66f36130acf64b2cb380012182bb2d7266722009564e3e181b930cc1f4cfd9",
-      "deployedBytecodeHash": "2f66f36130acf64b2cb380012182bb2d7266722009564e3e181b930cc1f4cfd9",
+      "bodyBytecodeHash": "0ceefb20ab31f936cdc18db2ae734aff368e7ade1b102e2c62cc45eb96186fc6",
+      "localBytecodeHash": "558fcc6277bfc5b7f9d0e945db825263d657177339b53ac90d91809677f65b19",
+      "deployedBytecodeHash": "558fcc6277bfc5b7f9d0e945db825263d657177339b53ac90d91809677f65b19",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -280,27 +280,27 @@
       "storage": [
         {
           "contract": "Initializable",
-          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2135,
+          "astId": 1933,
           "type": "t_bool",
-          "src": "757:24:15"
+          "src": "757:24:13"
         },
         {
           "contract": "Initializable",
-          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2137,
+          "astId": 1935,
           "type": "t_bool",
-          "src": "876:25:15"
+          "src": "876:25:13"
         },
         {
           "contract": "Initializable",
-          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2193,
+          "astId": 1991,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:15"
+          "src": "1951:29:13"
         },
         {
           "contract": "Registry",
@@ -308,7 +308,7 @@
           "label": "access",
           "astId": 302,
           "type": "t_address",
-          "src": "333:21:2"
+          "src": "332:21:2"
         },
         {
           "contract": "Registry",
@@ -316,7 +316,7 @@
           "label": "transact",
           "astId": 304,
           "type": "t_address",
-          "src": "358:25:2"
+          "src": "357:25:2"
         },
         {
           "contract": "Registry",
@@ -324,7 +324,7 @@
           "label": "token",
           "astId": 306,
           "type": "t_address",
-          "src": "387:19:2"
+          "src": "386:19:2"
         }
       ],
       "warnings": {
@@ -338,9 +338,9 @@
     "Transact": {
       "address": "0xf9eA42E95d69089E190504dD6652aE0EAd74CD11",
       "constructorCode": "608060405234801561001057600080fd5b50611e08806100206000396000f3fe",
-      "bodyBytecodeHash": "0ad1a9608569d689fdae7edf430cec5e67b470805ba542c099bd717dcf318a5c",
-      "localBytecodeHash": "4c4e77ec2ed79e82a7dc94b5b0432543a534f6f101347ddcb126b5ccb2d9d817",
-      "deployedBytecodeHash": "4c4e77ec2ed79e82a7dc94b5b0432543a534f6f101347ddcb126b5ccb2d9d817",
+      "bodyBytecodeHash": "71ff0e58bcc5bd41cf374eef951c4084ad097f36d14507a85e1b49bef912fa6d",
+      "localBytecodeHash": "4106656b602b773c94ea415591837d20f8fb68e95c5f57f4532a092dd3e4c36d",
+      "deployedBytecodeHash": "4106656b602b773c94ea415591837d20f8fb68e95c5f57f4532a092dd3e4c36d",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -446,27 +446,27 @@
       "storage": [
         {
           "contract": "Initializable",
-          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2135,
+          "astId": 1933,
           "type": "t_bool",
-          "src": "757:24:15"
+          "src": "757:24:13"
         },
         {
           "contract": "Initializable",
-          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2137,
+          "astId": 1935,
           "type": "t_bool",
-          "src": "876:25:15"
+          "src": "876:25:13"
         },
         {
           "contract": "Initializable",
-          "path": "node_modules/zos-lib/contracts/Initializable.sol",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2193,
+          "astId": 1991,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:15"
+          "src": "1951:29:13"
         },
         {
           "contract": "Transact",
@@ -474,7 +474,7 @@
           "label": "reg",
           "astId": 921,
           "type": "t_address",
-          "src": "413:19:4"
+          "src": "396:19:4"
         },
         {
           "contract": "Transact",
@@ -482,7 +482,7 @@
           "label": "books",
           "astId": 925,
           "type": "t_mapping<t_struct<ITransact.Book>>",
-          "src": "480:30:4"
+          "src": "463:30:4"
         }
       ],
       "warnings": {

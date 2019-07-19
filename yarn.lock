@@ -2,6 +2,46 @@
 # yarn lockfile v1
 
 
+"@openzeppelin/upgrades@^2.5.0-rc.0":
+  version "2.5.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/upgrades/-/upgrades-2.5.0-rc.0.tgz#f72d6a9ea804cd049bbee503ba2bad9b76da1363"
+  integrity sha512-j+bmOZNaQ05q/LPau/X4k8EPlk1qywoWUAdNN0Lc1Jd0vl93PGja/AoBSz4eBJfD9P4gpVpM9TZfPHA6/y7K5A==
+  dependencies:
+    "@types/cbor" "^2.0.0"
+    "@types/web3" "^1.0.14"
+    axios "^0.18.0"
+    bignumber.js "^7.2.0"
+    cbor "^4.1.5"
+    chalk "^2.4.1"
+    ethers "^4.0.20"
+    glob "^7.1.3"
+    lodash.concat "^4.5.0"
+    lodash.difference "^4.5.0"
+    lodash.every "^4.6.0"
+    lodash.findlast "^4.6.0"
+    lodash.flatten "^4.4.0"
+    lodash.includes "^4.3.0"
+    lodash.invertby "^4.7.0"
+    lodash.isarray "^4.0.0"
+    lodash.isempty "^4.4.0"
+    lodash.isequal "^4.5.0"
+    lodash.isstring "^4.0.1"
+    lodash.keys "^4.2.0"
+    lodash.map "^4.6.0"
+    lodash.omit "^4.5.0"
+    lodash.pick "^4.4.0"
+    lodash.pickby "^4.6.0"
+    lodash.random "^3.2.0"
+    lodash.reverse "^4.0.1"
+    lodash.some "^4.6.0"
+    lodash.uniq "^4.5.0"
+    lodash.values "^4.3.0"
+    lodash.without "^4.4.0"
+    semver "^5.5.1"
+    spinnies "^0.4.2"
+    truffle-flattener "^1.4.0"
+    web3 "1.0.0-beta.37"
+
 "@resolver-engine/core@^0.2.1":
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@resolver-engine/core/-/core-0.2.1.tgz#0d71803f6d3b8cb2e9ed481a1bf0ca5f5256d0c0"
@@ -40,6 +80,13 @@
   version "4.11.5"
   resolved "https://registry.yarnpkg.com/@types/bn.js/-/bn.js-4.11.5.tgz#40e36197433f78f807524ec623afcf0169ac81dc"
   integrity sha512-AEAZcIZga0JgVMHNtl1CprA/hXX7/wPt79AgR4XqaDt7jyj3QWYw6LPoOiznPtugDmlubUnAahMs2PFxGcQrng==
+  dependencies:
+    "@types/node" "*"
+
+"@types/cbor@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/cbor/-/cbor-2.0.0.tgz#c627afc2ee22f23f2337fecb34628a4f97c6afbb"
+  integrity sha1-xievwu4i8j8jN/7LNGKKT5fGr7s=
   dependencies:
     "@types/node" "*"
 
@@ -496,6 +543,16 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
+cbor@^4.1.5:
+  version "4.1.5"
+  resolved "https://registry.yarnpkg.com/cbor/-/cbor-4.1.5.tgz#c8ef3702b2f8710bde1425903c0c16a50419d369"
+  integrity sha512-WqpISHl7/kk1u1uoaqctGyGiET3+wGN4A6pPsFCzEBztJJlCVxnMB4JwcuuNSrMiV4V6UBlxMkhNzJrUxDWO1A==
+  dependencies:
+    bignumber.js "^8.0.2"
+    commander "^2.19.0"
+    json-text-sequence "^0.1"
+    nofilter "^1.0.1"
+
 chai@^4.2.0:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/chai/-/chai-4.2.0.tgz#760aa72cf20e3795e84b12877ce0e83737aa29e5"
@@ -553,6 +610,13 @@ cli-cursor@^2.1.0:
   integrity sha1-s12sN2R5+sw+lHR9QdDQ9SOP/LU=
   dependencies:
     restore-cursor "^2.0.0"
+
+cli-cursor@^3.0.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/cli-cursor/-/cli-cursor-3.1.0.tgz#264305a7ae490d1d03bf0c9ba7c925d1753af307"
+  integrity sha512-I/zHAwsKf9FqGoXM4WWRACob9+SNukZTd94DWF57E4toouRulbCxcUh6RKUEOQlYTHJnzkPMySvPNaaSLNfLZw==
+  dependencies:
+    restore-cursor "^3.1.0"
 
 cli-spinners@^2.0.0:
   version "2.1.0"
@@ -621,7 +685,7 @@ commander@2.15.1:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
   integrity sha512-VlfT9F3V0v+jr4yxPc5gg9s62/fIVWsd2Bk2iD435um1NlGMYdVCq+MjcXnhYq2icNOizHr1kK+5TI6H0Hy0ag==
 
-commander@^2.15.1, commander@^2.8.1:
+commander@^2.15.1, commander@^2.19.0, commander@^2.8.1:
   version "2.20.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.20.0.tgz#d58bb2b5c1ee8f87b0d340027e9e94e222c5a422"
   integrity sha512-7j2y+40w61zy6YC2iRNpUe/NwhNyoXrYpHMrSunaMG64nRnaf96zO/KMQR4OyN/UnE5KLyEBnKHd4aG3rskjpQ==
@@ -908,6 +972,11 @@ delayed-stream@~1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/delayed-stream/-/delayed-stream-1.0.0.tgz#df3ae199acadfb7d440aaae0b29e2272b24ec619"
   integrity sha1-3zrhmayt+31ECqrgsp4icrJOxhk=
+
+delimit-stream@0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/delimit-stream/-/delimit-stream-0.1.0.tgz#9b8319477c0e5f8aeb3ce357ae305fc25ea1cd2b"
+  integrity sha1-m4MZR3wOX4rrPONXrjBfwl6hzSs=
 
 depd@~1.1.2:
   version "1.1.2"
@@ -1949,6 +2018,13 @@ json-stringify-safe@~5.0.1:
   resolved "https://registry.yarnpkg.com/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
 
+json-text-sequence@^0.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/json-text-sequence/-/json-text-sequence-0.1.1.tgz#a72f217dc4afc4629fff5feb304dc1bd51a2f3d2"
+  integrity sha1-py8hfcSvxGKf/1/rME3BvVGi89I=
+  dependencies:
+    delimit-stream "0.1.0"
+
 jsonfile@^2.1.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/jsonfile/-/jsonfile-2.4.0.tgz#3736a2b428b87bbda0cc83b53fa3d633a35c2ae8"
@@ -2354,7 +2430,7 @@ mimic-fn@^1.0.0:
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-1.2.0.tgz#820c86a39334640e99516928bd03fca88057d022"
   integrity sha512-jf84uxzwiuiIVKiOLpfYk7N46TSy8ubTonmneY9vrpHNAnp0QBt2BxWV9dO3/j+BoVAb+a5G6YDPW3M5HOdMWQ==
 
-mimic-fn@^2.0.0:
+mimic-fn@^2.0.0, mimic-fn@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/mimic-fn/-/mimic-fn-2.1.0.tgz#7ed2c2ccccaf84d3ffcb7a69b57711fc2083401b"
   integrity sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==
@@ -2525,6 +2601,11 @@ node-environment-flags@1.0.5:
     object.getownpropertydescriptors "^2.0.3"
     semver "^5.7.0"
 
+nofilter@^1.0.1:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/nofilter/-/nofilter-1.0.2.tgz#d2887b9e76531fa251f20038c3843b993f1b3e26"
+  integrity sha512-d38SORxm9UNoDsnPXajV9nBEebKX4/paXAlyRGnSjZuFbLLZDFUO4objr+tbybqsbqGXDWllb6gQoKUDc9q3Cg==
+
 npm-programmatic@0.0.12:
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/npm-programmatic/-/npm-programmatic-0.0.12.tgz#566ba2452c886c7fd3a41586bd559cdc872fa77e"
@@ -2619,6 +2700,13 @@ onetime@^2.0.0:
   integrity sha1-BnQoIw/WdEOyeUsiu6UotoZ5YtQ=
   dependencies:
     mimic-fn "^1.0.0"
+
+onetime@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/onetime/-/onetime-5.1.0.tgz#fff0f3c91617fe62bb50189636e99ac8a6df7be5"
+  integrity sha512-5NcSkPHhwTVFIQN+TUqXoS5+dlElHXdpAWu9I0HP20YOtIi+aZ0Ct82jdlILDxjLEAWwvm+qj1m6aEtsDVmm6Q==
+  dependencies:
+    mimic-fn "^2.1.0"
 
 openzeppelin-solidity@^2.3.0:
   version "2.3.0"
@@ -3045,6 +3133,14 @@ restore-cursor@^2.0.0:
     onetime "^2.0.0"
     signal-exit "^3.0.2"
 
+restore-cursor@^3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/restore-cursor/-/restore-cursor-3.1.0.tgz#39f67c54b3a7a58cea5236d95cf0034239631f7e"
+  integrity sha512-l+sSefzHpj5qimhFSE5a8nufZYAM3sBSVMAPtYkmC+4EH2anSGaEMXSD0izRQbu9nfyQ9y5JrVmp7E8oZrUjvA==
+  dependencies:
+    onetime "^5.1.0"
+    signal-exit "^3.0.2"
+
 rimraf@2, rimraf@^2.2.8:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
@@ -3280,6 +3376,15 @@ source-map@^0.6.0:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"
   integrity sha512-UjgapumWlbMhkBgzT7Ykc5YXUT46F0iKu8SGXq0bcwP5dz/h0Plj6enJqjz1Zbq2l5WaqYnrVbwWOWMyF3F47g==
+
+spinnies@^0.4.2:
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/spinnies/-/spinnies-0.4.3.tgz#2ea0ad148e78353ddf621dec3951a6f4c3cbf66e"
+  integrity sha512-TTA2vWXrXJpfThWAl2t2hchBnCMI1JM5Wmb2uyI7Zkefdw/xO98LDy6/SBYwQPiYXL3swx3Eb44ZxgoS8X5wpA==
+  dependencies:
+    chalk "^2.4.2"
+    cli-cursor "^3.0.0"
+    strip-ansi "^5.2.0"
 
 sprintf-js@~1.0.2:
   version "1.0.3"
@@ -3557,7 +3662,7 @@ truffle-error@^0.0.5:
   resolved "https://registry.yarnpkg.com/truffle-error/-/truffle-error-0.0.5.tgz#6b5740c9f3aac74f47b85d654fff7fe2c1fc5e0e"
   integrity sha512-JpzPLMPSCE0vaZ3vH5NO5u42GpMj/Y1SRBkQ6b69PSw3xMSH1umApN32cEcg1nnh8q5FNYc5FnKu0m4tiBffyQ==
 
-truffle-flattener@^1.3.0:
+truffle-flattener@^1.3.0, truffle-flattener@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/truffle-flattener/-/truffle-flattener-1.4.0.tgz#cafed96cc87a83da9c51e34f5901e8e2fab06120"
   integrity sha512-hKpsuDBZEhH2TOTBDfKtFXJhvPbhOot/ZneKZoD7tFJ14PU2tz4C87GrenSt+TZF+iNlAjA9hq42ofl/Ynrn6w==

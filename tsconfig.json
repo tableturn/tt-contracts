@@ -12,8 +12,8 @@
     "esModuleInterop": true,
     "lib": ["es2015", "esnext.asynciterable"],
     "sourceMap": true,
-    "typeRoots": ["../../../node_modules/@types", "./@types"],
-    "types": ["node", "@types/mocha"]
+    "typeRoots": ["../node_modules/@types", "./@types"],
+    "types": ["node", "@types/bn.js", "@types/chai", "@types/mocha", "@types/node", "@types/web3"]
   },
   "include": ["**/*.ts"]
 }

@@ -53,26 +53,25 @@ module.exports = async done => {
       console.log(`  Registry already has the right Token contract.`);
     }
 
-    await promoteActor(access, pk2m, pk2m);
+    await Promise.all([promoteActor(access, pk2m, pk2m), promoteIssuer(access, pk2m, issuer)]);
 
     if (netId !== 18021982) {
       console.log('This is not production - making a few staging actors and governors...');
       await Promise.all([
-        promoteIssuer(access, pk2m, issuer),
         promoteGovernor(access, pk2m, pierre),
         promoteActor(access, pk2m, pierre),
         promoteActor(access, pk2m, kevin)
       ]);
+    }
 
-      const balance = await token.balanceOf(pk2m);
-      console.log(`PK2M Balance: ${balance.toString()}.`);
-      if (balance.eq(new BN(0))) {
-        await issue(token, '38_140', 'Operational costs for 2019', issuance);
-        await issue(token, '8_089_743', 'Entry of startup PK2M', issuance);
+    const balance = await token.balanceOf(pk2m);
+    console.log(`PK2M Balance: ${balance.toString()}.`);
+    if (balance.eq(new BN(0))) {
+      await issue(token, '38_140', 'Operational costs for 2019', issuance);
+      await issue(token, '8_089_743', 'Entry of startup PK2M', issuance);
 
-        console.log(`Allocating tokens to ${pk2m}.`);
-        await token.allocate(pk2m, convert('8_089_743'), governance);
-      }
+      console.log(`Allocating tokens to ${pk2m}.`);
+      await token.allocate(pk2m, convert('8_089_743'), governance);
     }
 
     console.log(`All done. Informations about network ${netId}:`);

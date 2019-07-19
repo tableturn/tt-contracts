@@ -7,5 +7,6 @@
     "Access": "Access",
     "Registry": "Registry",
     "Transact": "Transact"
-  }
+  },
+  "dependencies": {}
 }
