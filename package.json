@@ -6,9 +6,10 @@
   "license": "MIT",
   "main": "truffle-config.js",
   "scripts": {
+    "postinstall": "yarn build",
     "build": "yarn build:contracts",
     "build:contracts": "truffle compile",
-    "postbuild:contracts": "./scripts/exportABIs.js",
+    "postbuild:contracts": "yarn exec ./scripts/exportABIs.js",
     "build:types": "ts-generator ts-generator.json",
     "postbuild:types": "./scripts/fixTruffleTypes.sh",
     "pretest": "yarn build && yarn build:types",
