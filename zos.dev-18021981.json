@@ -337,10 +337,10 @@
     },
     "Transact": {
       "address": "0x24Ac369F8d8EAEf4d07a31ab7b604D0582240320",
-      "constructorCode": "608060405234801561001057600080fd5b50611e08806100206000396000f3fe",
-      "bodyBytecodeHash": "5fa7ef1799daea3adce3821de7e66e57b02aa95a83fa79c89a040025e487b3fb",
-      "localBytecodeHash": "453d275382adc8ed292eb8f1257db9b2579f4e2de175367bf86d219347ffd7dd",
-      "deployedBytecodeHash": "453d275382adc8ed292eb8f1257db9b2579f4e2de175367bf86d219347ffd7dd",
+      "constructorCode": "608060405234801561001057600080fd5b5061210d806100206000396000f3fe",
+      "bodyBytecodeHash": "603dbec35e792c87d969c264531d9b7b1a364b52f4438ae99d3a4a6b7398983f",
+      "localBytecodeHash": "d96e72c484d913b01f4bc5e2b2561e68b47f453f32569992444a2babacc3113f",
+      "deployedBytecodeHash": "d96e72c484d913b01f4bc5e2b2561e68b47f453f32569992444a2babacc3113f",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -364,25 +364,6 @@
           "kind": "elementary",
           "label": "address"
         },
-        "t_struct<ITransact.Book>": {
-          "id": "t_struct<ITransact.Book>",
-          "kind": "struct",
-          "label": "ITransact.Book",
-          "members": [
-            {
-              "label": "nextId",
-              "astId": 1318,
-              "type": "t_uint256",
-              "src": "392:14:7"
-            },
-            {
-              "label": "orders",
-              "astId": 1322,
-              "type": "t_mapping<t_struct<ITransact.Order>>",
-              "src": "412:33:7"
-            }
-          ]
-        },
         "t_struct<ITransact.Order>": {
           "id": "t_struct<ITransact.Order>",
           "kind": "struct",
@@ -390,31 +371,31 @@
           "members": [
             {
               "label": "spender",
-              "astId": 1307,
+              "astId": 1314,
               "type": "t_address",
               "src": "186:15:7"
             },
             {
               "label": "recipient",
-              "astId": 1309,
+              "astId": 1316,
               "type": "t_address",
               "src": "207:17:7"
             },
             {
               "label": "amount",
-              "astId": 1311,
+              "astId": 1318,
               "type": "t_uint256",
               "src": "230:14:7"
             },
             {
               "label": "createdAt",
-              "astId": 1313,
+              "astId": 1320,
               "type": "t_uint256",
               "src": "250:17:7"
             },
             {
               "label": "status",
-              "astId": 1315,
+              "astId": 1322,
               "type": "t_enum<ITransact.Status>",
               "src": "273:13:7"
             }
@@ -430,16 +411,17 @@
             "Rejected"
           ]
         },
-        "t_mapping<t_struct<ITransact.Order>>": {
-          "id": "t_mapping<t_struct<ITransact.Order>>",
+        "t_array:dyn<t_struct<ITransact.Order>>": {
+          "id": "t_array:dyn<t_struct<ITransact.Order>>",
           "valueType": "t_struct<ITransact.Order>",
-          "label": "mapping(key => ITransact.Order)",
-          "kind": "mapping"
+          "length": "dyn",
+          "kind": "array",
+          "label": "ITransact.Order[]"
         },
-        "t_mapping<t_struct<ITransact.Book>>": {
-          "id": "t_mapping<t_struct<ITransact.Book>>",
-          "valueType": "t_struct<ITransact.Book>",
-          "label": "mapping(key => ITransact.Book)",
+        "t_mapping<t_array:dyn<t_struct<ITransact.Order>>>": {
+          "id": "t_mapping<t_array:dyn<t_struct<ITransact.Order>>>",
+          "valueType": "t_array:dyn<t_struct<ITransact.Order>>",
+          "label": "mapping(key => ITransact.Order[])",
           "kind": "mapping"
         }
       },
@@ -479,10 +461,10 @@
         {
           "contract": "Transact",
           "path": "contracts/Transact.sol",
-          "label": "books",
-          "astId": 925,
-          "type": "t_mapping<t_struct<ITransact.Book>>",
-          "src": "463:30:4"
+          "label": "orderBook",
+          "astId": 926,
+          "type": "t_mapping<t_array:dyn<t_struct<ITransact.Order>>>",
+          "src": "463:37:4"
         }
       ],
       "warnings": {

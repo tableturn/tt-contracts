@@ -14,7 +14,7 @@ contract Transact is Initializable, ITransact {
   // Our contracts registry.
   Registry public reg;
   // Our accounts are held in this mapping.
-  mapping(address => Book) books;
+  mapping(address => Order[]) orderBook;
 
   /// Events.
 
@@ -45,25 +45,27 @@ contract Transact is Initializable, ITransact {
     uint256 amount
   ) public isActor(owner) isActor(recipient) fromToken
   {
-    Book storage book = books[owner];
-    // Current transfer id is next in queue.
-    uint256 id = book.nextId;
+    Order[] storage orders = orderBook[owner];
     // Store new order.
-    book.orders[id] = Order({
-      spender: spender,
-      recipient: recipient,
-      amount: amount,
-      createdAt: block.number,
-      status: ITransact.Status.Pending
-    });
-    // Increment next order id.
-    book.nextId += 1;
+    orders.push(
+      Order({
+        spender: spender,
+        recipient: recipient,
+        amount: amount,
+        createdAt: block.number,
+        status: ITransact.Status.Pending
+      })
+    );
     // Emit!
-    emit Request(owner, id);
+    emit Request(owner, orders.length - 1);
   }
 
   function count(address owner) public view returns(uint256) {
-    return books[owner].nextId;
+    return orderBook[owner].length;
+  }
+
+  function all(address owner) public view returns(Order[] memory) {
+    return orderBook[owner];
   }
 
   function get(address owner, uint256 id) public view returns(Order memory) {
@@ -117,9 +119,9 @@ contract Transact is Initializable, ITransact {
   // Private / internal stuff.
 
   function _get(address owner, uint256 id) internal view returns(Order storage) {
-    Book storage book = books[owner];
-    require(id < book.nextId, "The specified order id is invalid");
-    return book.orders[id];
+    Order[] storage orders = orderBook[owner];
+    require(id < orders.length, "The specified order id is invalid");
+    return orders[id];
   }
 
   /**
