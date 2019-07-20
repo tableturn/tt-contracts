@@ -13,7 +13,7 @@ function bump {
 }
 
 # Change these based on the accounts at hand.
-zosArgs="--verbose --network $NETWORK"
+zosArgs="--network $NETWORK"
 zosArtifacts="zos.dev-${NETWORK_ID}.json"
 version=$(cat zos.json | jq -r ".version")
 
