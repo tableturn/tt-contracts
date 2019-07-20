@@ -23,7 +23,7 @@ const Transact = artifacts.require('Transact');
 const TokenMock = artifacts.require('TokenMock');
 
 contract('Transact', accounts => {
-  const [_, governor, actor1, actor2, actor3, acc1, fakeToken] = accounts;
+  const [_, governor, actor1, actor2, actor3, actor4, acc1, fakeToken] = accounts;
   const governance = { from: governor };
   var registry: RegistryInstance;
   var access: AccessInstance;
@@ -38,9 +38,7 @@ contract('Transact', accounts => {
     await registry.setAccessContract(access.address, governance);
     // Set up 3 accounts as actors.
     Promise.all(
-      [actor1, actor2, actor3].map(async actor => {
-        return access.addActor(actor, governance);
-      })
+      [actor1, actor2, actor3, actor4].map(async actor => await access.addActor(actor, governance))
     );
   });
 
@@ -77,6 +75,33 @@ contract('Transact', accounts => {
       assert.equal(o.recipient, actor2);
       assertNumberEquality(o.amount, '1000');
       assertNumberEquality(o.status, '0');
+    });
+
+    it('allows to retrieve all orders at once', async () => {
+      await Promise.all(
+        [
+          { actor: actor1, amount: '50' },
+          { actor: actor2, amount: '100' },
+          { actor: actor2, amount: '150' },
+          { actor: actor3, amount: '200' },
+          { actor: actor3, amount: '250' },
+          { actor: actor3, amount: '300' }
+        ].map(
+          async ({ actor, amount }) =>
+            await transact.request(actor, actor, actor4, amount, { from: fakeToken })
+        )
+      );
+
+      [
+        { actor: actor1, count: '1' },
+        { actor: actor2, count: '2' },
+        { actor: actor3, count: '3' },
+        { actor: actor4, count: '0' }
+      ].map(async ({ actor, count }) => {
+        const [c, o] = await Promise.all([transact.count(actor), transact.all(actor)]);
+        assertNumberEquality(c, count);
+        assert.lengthOf(o, Number.parseInt(count));
+      });
     });
 
     it('makes as many valid ids for as long as there are funds', async () => {

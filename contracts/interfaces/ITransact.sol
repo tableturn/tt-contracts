@@ -13,12 +13,6 @@ interface ITransact {
     Status status;
   }
 
-  /// @dev Represents a group of orders and the index to use for the next one.
-  struct Book {
-    uint256 nextId;
-    mapping (uint256 => Order) orders;
-  }
-
   /**
    * @dev This function is a callback that should only be used from the Token contract after a
    *      transfer function was called. It creates a pending transfer order.
