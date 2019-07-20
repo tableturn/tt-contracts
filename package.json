@@ -42,6 +42,6 @@
     "typechain": "^0.3.14",
     "typescript": "^3.5.1",
     "typestrict": "^1.0.2",
-    "web3": "1.0.0-beta.37"
+    "web3": "^1.0.0-beta.55"
   }
 }

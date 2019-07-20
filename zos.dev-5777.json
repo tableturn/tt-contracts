@@ -3,9 +3,9 @@
     "Token": {
       "address": "0xFC855165A5332D0b5f8B46c7BE9fcBD5ed4534eC",
       "constructorCode": "608060405234801561001057600080fd5b50612e1f806100206000396000f3fe",
-      "bodyBytecodeHash": "67a3311e6b9e8b3acd41be1b23ab53faabcb46470b7178dd3d6c26d16a223194",
-      "localBytecodeHash": "60cbcc01559de6572a2191f6d519075a1385bb03b59b33ca46775b73052998c9",
-      "deployedBytecodeHash": "60cbcc01559de6572a2191f6d519075a1385bb03b59b33ca46775b73052998c9",
+      "bodyBytecodeHash": "5789c35529efe131f6feae1468d02fcb7c66ee257b9a3f3c51c2e6370efb1984",
+      "localBytecodeHash": "7bee7e46e26f0de8b3751763a9541fc445176532f728502187780d7be618eb0f",
+      "deployedBytecodeHash": "7bee7e46e26f0de8b3751763a9541fc445176532f728502187780d7be618eb0f",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -130,9 +130,9 @@
     "Access": {
       "address": "0xDDE21356C4eDD4072390E7FE3E8EC63a2eefd1DE",
       "constructorCode": "608060405234801561001057600080fd5b5061175f806100206000396000f3fe",
-      "bodyBytecodeHash": "f03107c984e68ff544c98405cc0e99364aefc06fc0e56bfe84cdf11f759a2c38",
+      "bodyBytecodeHash": "b4ffb6c79c068656319b252766bf08f571e861a144f194e4d1aa74f63a1eca98",
       "localBytecodeHash": "e86e0a2680d9ecf800b1ba98855d5cca155d10480b869a03099b0d8208e958a8",
-      "deployedBytecodeHash": "db09c68e3a259ab5a4d2050da91f66a3036b68a451af484d4e8a59ae204c2573",
+      "deployedBytecodeHash": "42fe3cf67d460607593b5f0258564ab55e7c06e3ee02fb0c58667c63531e0e79",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -250,9 +250,9 @@
     "Registry": {
       "address": "0xa68D88E52B66c17a282956fE0EAa65C83Dc919c6",
       "constructorCode": "608060405234801561001057600080fd5b5061091a806100206000396000f3fe",
-      "bodyBytecodeHash": "0ceefb20ab31f936cdc18db2ae734aff368e7ade1b102e2c62cc45eb96186fc6",
-      "localBytecodeHash": "558fcc6277bfc5b7f9d0e945db825263d657177339b53ac90d91809677f65b19",
-      "deployedBytecodeHash": "558fcc6277bfc5b7f9d0e945db825263d657177339b53ac90d91809677f65b19",
+      "bodyBytecodeHash": "2d5d8bc50464a461b2d64bd5ea15fcc65d3b57778b9b244b308b7db5485fe0bc",
+      "localBytecodeHash": "95b77d27beb8a21aa551e64375b090e54f8164a0ee9d39da0da2bcb966eb4920",
+      "deployedBytecodeHash": "95b77d27beb8a21aa551e64375b090e54f8164a0ee9d39da0da2bcb966eb4920",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -338,9 +338,9 @@
     "Transact": {
       "address": "0x599f9CB451d27D2CeB7Da28F2d527fd7aC43024d",
       "constructorCode": "608060405234801561001057600080fd5b50611e08806100206000396000f3fe",
-      "bodyBytecodeHash": "71ff0e58bcc5bd41cf374eef951c4084ad097f36d14507a85e1b49bef912fa6d",
-      "localBytecodeHash": "4106656b602b773c94ea415591837d20f8fb68e95c5f57f4532a092dd3e4c36d",
-      "deployedBytecodeHash": "4106656b602b773c94ea415591837d20f8fb68e95c5f57f4532a092dd3e4c36d",
+      "bodyBytecodeHash": "5fa7ef1799daea3adce3821de7e66e57b02aa95a83fa79c89a040025e487b3fb",
+      "localBytecodeHash": "453d275382adc8ed292eb8f1257db9b2579f4e2de175367bf86d219347ffd7dd",
+      "deployedBytecodeHash": "453d275382adc8ed292eb8f1257db9b2579f4e2de175367bf86d219347ffd7dd",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -498,9 +498,9 @@
     "AddressSet": {
       "address": "0xc4b7C54215FcCb72Fa9968E2fF17E4406C6Bc72E",
       "constructorCode": "6101fc610026600b82828239805160001a60731461001957fe5b30600052607381538281f3fe",
-      "bodyBytecodeHash": "1f729818fcd58debae5e3841b88531b303037437f06d3ce522ecd4e7592dcceb",
-      "localBytecodeHash": "a295aafc7eba05ff886629881275df18bca40c2f41a1b18064f9e3d600271c95",
-      "deployedBytecodeHash": "a295aafc7eba05ff886629881275df18bca40c2f41a1b18064f9e3d600271c95"
+      "bodyBytecodeHash": "f954fb63cec0bdf0aba97752fdfb386f6408a8964bbf7bf9073778a409b251ba",
+      "localBytecodeHash": "c67e13de4172f560775c9eb995c1911c81784f5979aa09f6d6911e7a4603fcfd",
+      "deployedBytecodeHash": "c67e13de4172f560775c9eb995c1911c81784f5979aa09f6d6911e7a4603fcfd"
     }
   },
   "proxies": {
@@ -508,7 +508,9 @@
       {
         "address": "0x9B035CF432a692D2E30993682dDD49CFe48B0E6E",
         "version": "0.0.1",
-        "implementation": "0xDDE21356C4eDD4072390E7FE3E8EC63a2eefd1DE"
+        "implementation": "0xDDE21356C4eDD4072390E7FE3E8EC63a2eefd1DE",
+        "admin": "0x804AB8c111d08628Dcf335144818Eb5cB828c2D4",
+        "kind": "Upgradeable"
       }
     ],
     "TTContracts/Registry": [
@@ -516,7 +518,8 @@
         "address": "0x998F9D0Cf29c110D5DAE6D30E9E845a4153F20d4",
         "version": "0.0.1",
         "implementation": "0xa68D88E52B66c17a282956fE0EAa65C83Dc919c6",
-        "admin": "0x804AB8c111d08628Dcf335144818Eb5cB828c2D4"
+        "admin": "0x804AB8c111d08628Dcf335144818Eb5cB828c2D4",
+        "kind": "Upgradeable"
       }
     ],
     "TTContracts/Transact": [
@@ -524,7 +527,8 @@
         "address": "0xEEa8741195d3d07D5062fb8d849318b3F8f7F609",
         "version": "0.0.1",
         "implementation": "0x599f9CB451d27D2CeB7Da28F2d527fd7aC43024d",
-        "admin": "0x804AB8c111d08628Dcf335144818Eb5cB828c2D4"
+        "admin": "0x804AB8c111d08628Dcf335144818Eb5cB828c2D4",
+        "kind": "Upgradeable"
       }
     ],
     "TTContracts/Token": [
@@ -532,7 +536,8 @@
         "address": "0xE9E34F3EeFa7d0f8D4052284C0852E027B339717",
         "version": "0.0.1",
         "implementation": "0xFC855165A5332D0b5f8B46c7BE9fcBD5ed4534eC",
-        "admin": "0x804AB8c111d08628Dcf335144818Eb5cB828c2D4"
+        "admin": "0x804AB8c111d08628Dcf335144818Eb5cB828c2D4",
+        "kind": "Upgradeable"
       }
     ]
   },

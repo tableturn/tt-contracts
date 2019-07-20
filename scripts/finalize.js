@@ -20,7 +20,7 @@ module.exports = async done => {
     const zosFile = `zos.dev-${netId}.json`;
     const zosAbi = JSON.parse(fs.readFileSync(zosFile));
     console.log(`Loaded ZOS ABIs.`);
-    // Get some useful things and functions.
+
     // Prepare some addresses.
     const { issuer, pk2m, pierre, kevin } = require(`../conf/people.${netId}`);
     const governance = { from: pk2m };
