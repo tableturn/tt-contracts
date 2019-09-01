@@ -14,3 +14,5 @@ coverage.json
 .zos.session
 
 conf/keys.1802*.js
+
+.openzeppelin/.session

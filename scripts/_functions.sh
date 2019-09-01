@@ -14,7 +14,7 @@ function bump {
 
 # Change these based on the accounts at hand.
 zosArgs="--network $NETWORK"
-zosArtifacts="zos.dev-${NETWORK_ID}.json"
+zosArtifacts=".openzeppelin/dev-${NETWORK_ID}.json"
 version=$(cat zos.json | jq -r ".version")
 
 echo "Operating on:"
@@ -27,4 +27,4 @@ echo "  Version: $version"
 
 # Make a session.
 rm -f .zos.session
-yarn zos session --timeout 30 --expires 7200 --from $DEPLOYER $zosArgs
+yarn oz session --timeout 30 --expires 7200 --from $DEPLOYER $zosArgs
