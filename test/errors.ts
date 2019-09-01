@@ -17,5 +17,6 @@ export const SAME_RECIPIENT = 'Recipient cannot be the same as owner';
 export const SELF_ALLOWANCE = 'Cannot perform a transfer using allowance on behalf of yourself';
 
 export const DUPLICATED_ADDRESS = 'Address already in set';
+export const DUPLICATED_HASH = 'Hash already in set';
 export const SELF_TERMINATION = 'Cannot self-destruct as a governor';
 export const ADDITION_OVERFLOW = 'SafeMath: addition overflow';

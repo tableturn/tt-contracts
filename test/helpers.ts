@@ -22,7 +22,10 @@ export const itThrows = (reason: string, exp: string, fun: any) => {
       const errorReason = error.message.match('Reason given: (.*)\\.');
       // If there's no message error provided, check for default errors
       if (errorReason === null) {
-        assert.ok(error.message.indexOf(exp) >= 0, 'threw the wrong exception type');
+        assert.ok(
+          error.message.indexOf(exp) >= 0,
+          `threw the wrong exception type: ${error.message}`
+        );
       } else {
         assert.equal(exp, errorReason[1], 'threw the wrong exception type');
       }
