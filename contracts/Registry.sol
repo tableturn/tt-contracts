@@ -1,6 +1,7 @@
 pragma solidity ^0.5.9;
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./interfaces/IAccess.sol";
+import "./interfaces/IRegister.sol";
 import "./interfaces/ITransact.sol";
 import "./interfaces/IToken.sol";
 
@@ -11,6 +12,7 @@ import "./interfaces/IToken.sol";
  */
 contract Registry is Initializable {
   IAccess public access;
+  IRegister public register;
   ITransact public transact;
   IToken public token;
 
@@ -23,6 +25,10 @@ contract Registry is Initializable {
 
   function setAccessContract(IAccess _access) public governance {
     access = _access;
+  }
+
+  function setRegisterContract(IRegister _register) public governance {
+    register = _register;
   }
 
   function setTransactContract(ITransact _transact) public governance {
