@@ -1,0 +1,679 @@
+{
+  "contracts": {
+    "Access": {
+      "address": "0x7f5086298aD7153018aAD6526Dafbcf1a992943B",
+      "constructorCode": "608060405234801561001057600080fd5b5061175f806100206000396000f3fe",
+      "bodyBytecodeHash": "8e740949bea0c94d660b59c5ef64564d69f3f91f0e79c8820218b6b4ffa8da00",
+      "localBytecodeHash": "e86e0a2680d9ecf800b1ba98855d5cca155d10480b869a03099b0d8208e958a8",
+      "deployedBytecodeHash": "57f1a1c731a51b1b093633fc916b0296d044885925f02e11f43e66ce29a96163",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_struct<AddressSet.Set>": {
+          "id": "t_struct<AddressSet.Set>",
+          "kind": "struct",
+          "label": "AddressSet.Set",
+          "members": [
+            {
+              "label": "indices",
+              "astId": 1606,
+              "type": "t_mapping<t_uint256>",
+              "src": "102:35:11"
+            },
+            {
+              "label": "values",
+              "astId": 1609,
+              "type": "t_array:dyn<t_address>",
+              "src": "143:16:11"
+            }
+          ]
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_array:dyn<t_address>": {
+          "id": "t_array:dyn<t_address>",
+          "valueType": "t_address",
+          "length": "dyn",
+          "kind": "array",
+          "label": "address[]"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 2210,
+          "type": "t_bool",
+          "src": "757:24:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 2212,
+          "type": "t_bool",
+          "src": "876:25:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 2268,
+          "type": "t_array:50<t_uint256>",
+          "src": "1951:29:16"
+        },
+        {
+          "contract": "Access",
+          "path": "contracts/Access.sol",
+          "label": "issuerList",
+          "astId": 13,
+          "type": "t_struct<AddressSet.Set>",
+          "src": "353:25:0"
+        },
+        {
+          "contract": "Access",
+          "path": "contracts/Access.sol",
+          "label": "governorList",
+          "astId": 15,
+          "type": "t_struct<AddressSet.Set>",
+          "src": "382:27:0"
+        },
+        {
+          "contract": "Access",
+          "path": "contracts/Access.sol",
+          "label": "actorList",
+          "astId": 17,
+          "type": "t_struct<AddressSet.Set>",
+          "src": "413:24:0"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    },
+    "Registry": {
+      "address": "0xbe93DFEf0276c2ddbb1C6c10c4507Bd2C8599FE2",
+      "constructorCode": "608060405234801561001057600080fd5b50610b57806100206000396000f3fe",
+      "bodyBytecodeHash": "d7e7b7c1f2ee19f77066186b3cf83bbf783729f44de688076acf5c1ab515d77c",
+      "localBytecodeHash": "63431e9de21df58204841080a1688717b5cd931db9cb3347046255b84b0b9ec0",
+      "deployedBytecodeHash": "63431e9de21df58204841080a1688717b5cd931db9cb3347046255b84b0b9ec0",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 2210,
+          "type": "t_bool",
+          "src": "757:24:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 2212,
+          "type": "t_bool",
+          "src": "876:25:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 2268,
+          "type": "t_array:50<t_uint256>",
+          "src": "1951:29:16"
+        },
+        {
+          "contract": "Registry",
+          "path": "contracts/Registry.sol",
+          "label": "access",
+          "astId": 403,
+          "type": "t_address",
+          "src": "369:21:3"
+        },
+        {
+          "contract": "Registry",
+          "path": "contracts/Registry.sol",
+          "label": "register",
+          "astId": 405,
+          "type": "t_address",
+          "src": "394:25:3"
+        },
+        {
+          "contract": "Registry",
+          "path": "contracts/Registry.sol",
+          "label": "transact",
+          "astId": 407,
+          "type": "t_address",
+          "src": "423:25:3"
+        },
+        {
+          "contract": "Registry",
+          "path": "contracts/Registry.sol",
+          "label": "token",
+          "astId": 409,
+          "type": "t_address",
+          "src": "452:19:3"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    },
+    "Register": {
+      "address": "0xf9eA42E95d69089E190504dD6652aE0EAd74CD11",
+      "constructorCode": "608060405234801561001057600080fd5b50610a5c806100206000396000f3fe",
+      "bodyBytecodeHash": "f5360462b6fa20860ca7455372e3945de408d46d0b6127d3950452fc02a27bfa",
+      "localBytecodeHash": "2b27088a46713020ae405d8079c4fe27eab40b6a566ca8a179b317eb28d84aed",
+      "deployedBytecodeHash": "473689f93a7e649f25b72ebe7532cea5534445ebe1703097b4eaca51bfba0799",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_struct<HashSet.Set>": {
+          "id": "t_struct<HashSet.Set>",
+          "kind": "struct",
+          "label": "HashSet.Set",
+          "members": [
+            {
+              "label": "indices",
+              "astId": 1774,
+              "type": "t_mapping<t_uint256>",
+              "src": "99:35:12"
+            },
+            {
+              "label": "values",
+              "astId": 1777,
+              "type": "t_array:dyn<t_bytes32>",
+              "src": "140:16:12"
+            }
+          ]
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        },
+        "t_bytes32": {
+          "id": "t_bytes32",
+          "kind": "elementary",
+          "label": "bytes32"
+        },
+        "t_array:dyn<t_bytes32>": {
+          "id": "t_array:dyn<t_bytes32>",
+          "valueType": "t_bytes32",
+          "length": "dyn",
+          "kind": "array",
+          "label": "bytes32[]"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 2210,
+          "type": "t_bool",
+          "src": "757:24:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 2212,
+          "type": "t_bool",
+          "src": "876:25:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 2268,
+          "type": "t_array:50<t_uint256>",
+          "src": "1951:29:16"
+        },
+        {
+          "contract": "Register",
+          "path": "contracts/Register.sol",
+          "label": "reg",
+          "astId": 307,
+          "type": "t_address",
+          "src": "345:19:2"
+        },
+        {
+          "contract": "Register",
+          "path": "contracts/Register.sol",
+          "label": "hashList",
+          "astId": 309,
+          "type": "t_struct<HashSet.Set>",
+          "src": "368:20:2"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    },
+    "Token": {
+      "address": "0x776F64b2B18105E0A44550164EB8C93FFF5cF88b",
+      "constructorCode": "608060405234801561001057600080fd5b50612e1f806100206000396000f3fe",
+      "bodyBytecodeHash": "5789c35529efe131f6feae1468d02fcb7c66ee257b9a3f3c51c2e6370efb1984",
+      "localBytecodeHash": "7bee7e46e26f0de8b3751763a9541fc445176532f728502187780d7be618eb0f",
+      "deployedBytecodeHash": "7bee7e46e26f0de8b3751763a9541fc445176532f728502187780d7be618eb0f",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_struct<Accountable.Account>": {
+          "id": "t_struct<Accountable.Account>",
+          "kind": "struct",
+          "label": "Accountable.Account",
+          "members": [
+            {
+              "label": "liquid",
+              "astId": 1464,
+              "type": "t_uint256",
+              "src": "221:14:10"
+            },
+            {
+              "label": "frozen",
+              "astId": 1466,
+              "type": "t_uint256",
+              "src": "241:14:10"
+            }
+          ]
+        },
+        "t_mapping<t_struct<Accountable.Account>>": {
+          "id": "t_mapping<t_struct<Accountable.Account>>",
+          "valueType": "t_struct<Accountable.Account>",
+          "label": "mapping(key => Accountable.Account)",
+          "kind": "mapping"
+        },
+        "t_mapping<t_uint256>": {
+          "id": "t_mapping<t_uint256>",
+          "valueType": "t_uint256",
+          "label": "mapping(key => uint256)",
+          "kind": "mapping"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 2210,
+          "type": "t_bool",
+          "src": "757:24:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 2212,
+          "type": "t_bool",
+          "src": "876:25:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 2268,
+          "type": "t_array:50<t_uint256>",
+          "src": "1951:29:16"
+        },
+        {
+          "contract": "Token",
+          "path": "contracts/Token.sol",
+          "label": "reg",
+          "astId": 512,
+          "type": "t_address",
+          "src": "591:19:4"
+        },
+        {
+          "contract": "Token",
+          "path": "contracts/Token.sol",
+          "label": "totalSupply",
+          "astId": 514,
+          "type": "t_uint256",
+          "src": "693:26:4"
+        },
+        {
+          "contract": "Token",
+          "path": "contracts/Token.sol",
+          "label": "accounts",
+          "astId": 518,
+          "type": "t_mapping<t_struct<Accountable.Account>>",
+          "src": "774:49:4"
+        },
+        {
+          "contract": "Token",
+          "path": "contracts/Token.sol",
+          "label": "allowances",
+          "astId": 524,
+          "type": "t_mapping<t_uint256>",
+          "src": "827:60:4"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    },
+    "Transact": {
+      "address": "0x9f299c1BE98097E7e8288A6bDfa3D9d905b45e00",
+      "constructorCode": "608060405234801561001057600080fd5b5061210d806100206000396000f3fe",
+      "bodyBytecodeHash": "603dbec35e792c87d969c264531d9b7b1a364b52f4438ae99d3a4a6b7398983f",
+      "localBytecodeHash": "d96e72c484d913b01f4bc5e2b2561e68b47f453f32569992444a2babacc3113f",
+      "deployedBytecodeHash": "d96e72c484d913b01f4bc5e2b2561e68b47f453f32569992444a2babacc3113f",
+      "types": {
+        "t_bool": {
+          "id": "t_bool",
+          "kind": "elementary",
+          "label": "bool"
+        },
+        "t_uint256": {
+          "id": "t_uint256",
+          "kind": "elementary",
+          "label": "uint256"
+        },
+        "t_array:50<t_uint256>": {
+          "id": "t_array:50<t_uint256>",
+          "valueType": "t_uint256",
+          "length": "50",
+          "kind": "array",
+          "label": "uint256[50]"
+        },
+        "t_address": {
+          "id": "t_address",
+          "kind": "elementary",
+          "label": "address"
+        },
+        "t_struct<ITransact.Order>": {
+          "id": "t_struct<ITransact.Order>",
+          "kind": "struct",
+          "label": "ITransact.Order",
+          "members": [
+            {
+              "label": "spender",
+              "astId": 1432,
+              "type": "t_address",
+              "src": "186:15:9"
+            },
+            {
+              "label": "recipient",
+              "astId": 1434,
+              "type": "t_address",
+              "src": "207:17:9"
+            },
+            {
+              "label": "amount",
+              "astId": 1436,
+              "type": "t_uint256",
+              "src": "230:14:9"
+            },
+            {
+              "label": "createdAt",
+              "astId": 1438,
+              "type": "t_uint256",
+              "src": "250:17:9"
+            },
+            {
+              "label": "status",
+              "astId": 1440,
+              "type": "t_enum<ITransact.Status>",
+              "src": "273:13:9"
+            }
+          ]
+        },
+        "t_enum<ITransact.Status>": {
+          "id": "t_enum<ITransact.Status>",
+          "kind": "enum",
+          "label": "ITransact.Status",
+          "members": [
+            "Pending",
+            "Approved",
+            "Rejected"
+          ]
+        },
+        "t_array:dyn<t_struct<ITransact.Order>>": {
+          "id": "t_array:dyn<t_struct<ITransact.Order>>",
+          "valueType": "t_struct<ITransact.Order>",
+          "length": "dyn",
+          "kind": "array",
+          "label": "ITransact.Order[]"
+        },
+        "t_mapping<t_array:dyn<t_struct<ITransact.Order>>>": {
+          "id": "t_mapping<t_array:dyn<t_struct<ITransact.Order>>>",
+          "valueType": "t_array:dyn<t_struct<ITransact.Order>>",
+          "label": "mapping(key => ITransact.Order[])",
+          "kind": "mapping"
+        }
+      },
+      "storage": [
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initialized",
+          "astId": 2210,
+          "type": "t_bool",
+          "src": "757:24:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "initializing",
+          "astId": 2212,
+          "type": "t_bool",
+          "src": "876:25:16"
+        },
+        {
+          "contract": "Initializable",
+          "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
+          "label": "______gap",
+          "astId": 2268,
+          "type": "t_array:50<t_uint256>",
+          "src": "1951:29:16"
+        },
+        {
+          "contract": "Transact",
+          "path": "contracts/Transact.sol",
+          "label": "reg",
+          "astId": 1036,
+          "type": "t_address",
+          "src": "396:19:5"
+        },
+        {
+          "contract": "Transact",
+          "path": "contracts/Transact.sol",
+          "label": "orderBook",
+          "astId": 1041,
+          "type": "t_mapping<t_array:dyn<t_struct<ITransact.Order>>>",
+          "src": "463:37:5"
+        }
+      ],
+      "warnings": {
+        "hasConstructor": false,
+        "hasSelfDestruct": false,
+        "hasDelegateCall": false,
+        "hasInitialValuesInDeclarations": false,
+        "uninitializedBaseContracts": []
+      }
+    }
+  },
+  "solidityLibs": {
+    "AddressSet": {
+      "address": "0x54e432C2568f163bf72C50FE2A10D519bC8D9beE",
+      "constructorCode": "6101fc610026600b82828239805160001a60731461001957fe5b30600052607381538281f3fe",
+      "bodyBytecodeHash": "f954fb63cec0bdf0aba97752fdfb386f6408a8964bbf7bf9073778a409b251ba",
+      "localBytecodeHash": "c67e13de4172f560775c9eb995c1911c81784f5979aa09f6d6911e7a4603fcfd",
+      "deployedBytecodeHash": "c67e13de4172f560775c9eb995c1911c81784f5979aa09f6d6911e7a4603fcfd"
+    },
+    "HashSet": {
+      "address": "0x4d7c36246EC2bC76db8F164647BB88bC38557243",
+      "constructorCode": "61016e610026600b82828239805160001a60731461001957fe5b30600052607381538281f3fe",
+      "bodyBytecodeHash": "9335f802949911577c316db3b72210a6171eb7f25dd55c791724e2b51c9c0b53",
+      "localBytecodeHash": "6be67cf293b16b2863dc8421d861789480156416ecec233a81afdaaac700c746",
+      "deployedBytecodeHash": "6be67cf293b16b2863dc8421d861789480156416ecec233a81afdaaac700c746"
+    }
+  },
+  "proxies": {
+    "TTContracts/Access": [
+      {
+        "address": "0x766cAa49B1ed4298c36347Ef243A7E0D41957729",
+        "version": "0.0.1",
+        "implementation": "0x7f5086298aD7153018aAD6526Dafbcf1a992943B",
+        "admin": "0x11731d8982E02b2E53e59706e13fc64F99406d29",
+        "kind": "Upgradeable"
+      },
+      {
+        "address": "0x6932f4A2761778C28dF91f98059735a492c1F2ef",
+        "version": "0.0.1",
+        "implementation": "0x7f5086298aD7153018aAD6526Dafbcf1a992943B",
+        "admin": "0x11731d8982E02b2E53e59706e13fc64F99406d29",
+        "kind": "Upgradeable"
+      }
+    ],
+    "TTContracts/Registry": [
+      {
+        "address": "0x7e80AfF28E1D41BF815e308f63004d1464c3B188",
+        "version": "0.0.1",
+        "implementation": "0xbe93DFEf0276c2ddbb1C6c10c4507Bd2C8599FE2",
+        "admin": "0x11731d8982E02b2E53e59706e13fc64F99406d29",
+        "kind": "Upgradeable"
+      }
+    ],
+    "TTContracts/Register": [
+      {
+        "address": "0xbC12e2d0085F9EC1664c27d2441C8B161B658bde",
+        "version": "0.0.1",
+        "implementation": "0xf9eA42E95d69089E190504dD6652aE0EAd74CD11",
+        "admin": "0x11731d8982E02b2E53e59706e13fc64F99406d29",
+        "kind": "Upgradeable"
+      }
+    ],
+    "TTContracts/Transact": [
+      {
+        "address": "0x258028EF7e34cee3dd7f3b547dcE4E24b4cFB472",
+        "version": "0.0.1",
+        "implementation": "0x9f299c1BE98097E7e8288A6bDfa3D9d905b45e00",
+        "admin": "0x11731d8982E02b2E53e59706e13fc64F99406d29",
+        "kind": "Upgradeable"
+      }
+    ],
+    "TTContracts/Token": [
+      {
+        "address": "0xbA73dD43546Dc438d30Fa91fc05159F2f3AF1052",
+        "version": "0.0.1",
+        "implementation": "0x776F64b2B18105E0A44550164EB8C93FFF5cF88b",
+        "admin": "0x11731d8982E02b2E53e59706e13fc64F99406d29",
+        "kind": "Upgradeable"
+      }
+    ]
+  },
+  "manifestVersion": "2.2",
+  "version": "0.0.1",
+  "proxyAdmin": {
+    "address": "0x11731d8982E02b2E53e59706e13fc64F99406d29"
+  }
+}

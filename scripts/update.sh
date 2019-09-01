@@ -4,7 +4,7 @@ dir=$(dirname "$0")
 source $dir/_functions.sh
 
 nextVersion=$(bump $version)
-yarn zos bump $nextVersion
+yarn oz bump $nextVersion
 
 # Deploy logic contracts.
-yarn zos update --all $zosArgs
+yarn oz update --all $zosArgs

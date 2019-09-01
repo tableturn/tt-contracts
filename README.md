@@ -9,5 +9,5 @@ If you ever add a contract that must be managed by ZOS, don't forget to:
 
 ```bash
 # Mark any new upgradable contract as managed by ZOS.
-yarn zos add Registry Access Transact Token
+yarn oz add Registry Access Transact Token
 ```
