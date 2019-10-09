@@ -150,6 +150,22 @@ contract('Access', accounts => {
         assert.include(await access.actors(), acc1);
       });
     });
+
+    describe('removeActor', () => {
+      itThrows('called from an unknown account', MUST_BE_GOVERNOR, async () => {
+        await access.removeActor(actor, { from: acc1 });
+      });
+      itThrows('called from an actor account', MUST_BE_GOVERNOR, async () => {
+        await access.removeActor(actor, { from: actor });
+      });
+
+      it('removes an actor', async () => {
+        await access.addActor(acc1, governance);
+        assert.include(await access.actors(), acc1);
+        await access.removeActor(acc1, governance);
+        assert.notInclude(await access.actors(), acc1);
+      });
+    });
   });
 
   describe('end-to-end', () => {});
