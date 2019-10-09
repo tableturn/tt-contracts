@@ -24,6 +24,7 @@
     "truffle": "^5.0.34"
   },
   "devDependencies": {
+    "@truffle/contract": "^4.0.35",
     "@types/bn.js": "^4.11.5",
     "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.7",
