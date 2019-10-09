@@ -2,10 +2,10 @@
   "contracts": {
     "Access": {
       "address": "0xDDE21356C4eDD4072390E7FE3E8EC63a2eefd1DE",
-      "constructorCode": "608060405234801561001057600080fd5b5061175f806100206000396000f3fe",
-      "bodyBytecodeHash": "b4ffb6c79c068656319b252766bf08f571e861a144f194e4d1aa74f63a1eca98",
-      "localBytecodeHash": "e86e0a2680d9ecf800b1ba98855d5cca155d10480b869a03099b0d8208e958a8",
-      "deployedBytecodeHash": "42fe3cf67d460607593b5f0258564ab55e7c06e3ee02fb0c58667c63531e0e79",
+      "constructorCode": "608060405234801561001057600080fd5b5061192e806100206000396000f3fe",
+      "bodyBytecodeHash": "469beff619b4b7364d7a0077fc80b7e82cba7cb344a0c734b45a2edfef150056",
+      "localBytecodeHash": "e7ad46ca0cc47861f088dd7bc4ceb1411dfcb1e5fbc2c4823f6a6a0ee20eb2e6",
+      "deployedBytecodeHash": "40145ea97982e0936e0d580017fd0a97d8ddab862ffffa902bb495251db28994",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -31,13 +31,13 @@
           "members": [
             {
               "label": "indices",
-              "astId": 1606,
+              "astId": 1667,
               "type": "t_mapping<t_uint256>",
               "src": "102:35:11"
             },
             {
               "label": "values",
-              "astId": 1609,
+              "astId": 1670,
               "type": "t_array:dyn<t_address>",
               "src": "143:16:11"
             }
@@ -67,7 +67,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2210,
+          "astId": 2271,
           "type": "t_bool",
           "src": "757:24:16"
         },
@@ -75,7 +75,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2212,
+          "astId": 2273,
           "type": "t_bool",
           "src": "876:25:16"
         },
@@ -83,7 +83,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2268,
+          "astId": 2329,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:16"
         },
@@ -155,7 +155,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2210,
+          "astId": 2271,
           "type": "t_bool",
           "src": "757:24:16"
         },
@@ -163,7 +163,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2212,
+          "astId": 2273,
           "type": "t_bool",
           "src": "876:25:16"
         },
@@ -171,7 +171,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2268,
+          "astId": 2329,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:16"
         },
@@ -179,7 +179,7 @@
           "contract": "Registry",
           "path": "contracts/Registry.sol",
           "label": "access",
-          "astId": 403,
+          "astId": 425,
           "type": "t_address",
           "src": "369:21:3"
         },
@@ -187,7 +187,7 @@
           "contract": "Registry",
           "path": "contracts/Registry.sol",
           "label": "register",
-          "astId": 405,
+          "astId": 427,
           "type": "t_address",
           "src": "394:25:3"
         },
@@ -195,7 +195,7 @@
           "contract": "Registry",
           "path": "contracts/Registry.sol",
           "label": "transact",
-          "astId": 407,
+          "astId": 429,
           "type": "t_address",
           "src": "423:25:3"
         },
@@ -203,7 +203,7 @@
           "contract": "Registry",
           "path": "contracts/Registry.sol",
           "label": "token",
-          "astId": 409,
+          "astId": 431,
           "type": "t_address",
           "src": "452:19:3"
         }
@@ -252,13 +252,13 @@
           "members": [
             {
               "label": "indices",
-              "astId": 1774,
+              "astId": 1835,
               "type": "t_mapping<t_uint256>",
               "src": "99:35:12"
             },
             {
               "label": "values",
-              "astId": 1777,
+              "astId": 1838,
               "type": "t_array:dyn<t_bytes32>",
               "src": "140:16:12"
             }
@@ -288,7 +288,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2210,
+          "astId": 2271,
           "type": "t_bool",
           "src": "757:24:16"
         },
@@ -296,7 +296,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2212,
+          "astId": 2273,
           "type": "t_bool",
           "src": "876:25:16"
         },
@@ -304,7 +304,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2268,
+          "astId": 2329,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:16"
         },
@@ -312,7 +312,7 @@
           "contract": "Register",
           "path": "contracts/Register.sol",
           "label": "reg",
-          "astId": 307,
+          "astId": 329,
           "type": "t_address",
           "src": "345:19:2"
         },
@@ -320,7 +320,7 @@
           "contract": "Register",
           "path": "contracts/Register.sol",
           "label": "hashList",
-          "astId": 309,
+          "astId": 331,
           "type": "t_struct<HashSet.Set>",
           "src": "368:20:2"
         }
@@ -335,10 +335,10 @@
     },
     "Token": {
       "address": "0x804AB8c111d08628Dcf335144818Eb5cB828c2D4",
-      "constructorCode": "608060405234801561001057600080fd5b50612e1f806100206000396000f3fe",
-      "bodyBytecodeHash": "5789c35529efe131f6feae1468d02fcb7c66ee257b9a3f3c51c2e6370efb1984",
-      "localBytecodeHash": "7bee7e46e26f0de8b3751763a9541fc445176532f728502187780d7be618eb0f",
-      "deployedBytecodeHash": "7bee7e46e26f0de8b3751763a9541fc445176532f728502187780d7be618eb0f",
+      "constructorCode": "608060405234801561001057600080fd5b506135b1806100206000396000f3fe",
+      "bodyBytecodeHash": "9727b5ab2206459342eb332705fb3e5f8b0c2e0949a7a732a15d6343048d333a",
+      "localBytecodeHash": "633ec4608a876b9049215fda80d3c5973d0a1d3941a3252c29d46a0668939d32",
+      "deployedBytecodeHash": "633ec4608a876b9049215fda80d3c5973d0a1d3941a3252c29d46a0668939d32",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -369,13 +369,13 @@
           "members": [
             {
               "label": "liquid",
-              "astId": 1464,
+              "astId": 1525,
               "type": "t_uint256",
               "src": "221:14:10"
             },
             {
               "label": "frozen",
-              "astId": 1466,
+              "astId": 1527,
               "type": "t_uint256",
               "src": "241:14:10"
             }
@@ -399,7 +399,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2210,
+          "astId": 2271,
           "type": "t_bool",
           "src": "757:24:16"
         },
@@ -407,7 +407,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2212,
+          "astId": 2273,
           "type": "t_bool",
           "src": "876:25:16"
         },
@@ -415,7 +415,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2268,
+          "astId": 2329,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:16"
         },
@@ -423,7 +423,7 @@
           "contract": "Token",
           "path": "contracts/Token.sol",
           "label": "reg",
-          "astId": 512,
+          "astId": 534,
           "type": "t_address",
           "src": "591:19:4"
         },
@@ -431,7 +431,7 @@
           "contract": "Token",
           "path": "contracts/Token.sol",
           "label": "totalSupply",
-          "astId": 514,
+          "astId": 536,
           "type": "t_uint256",
           "src": "693:26:4"
         },
@@ -439,7 +439,7 @@
           "contract": "Token",
           "path": "contracts/Token.sol",
           "label": "accounts",
-          "astId": 518,
+          "astId": 540,
           "type": "t_mapping<t_struct<Accountable.Account>>",
           "src": "774:49:4"
         },
@@ -447,7 +447,7 @@
           "contract": "Token",
           "path": "contracts/Token.sol",
           "label": "allowances",
-          "astId": 524,
+          "astId": 546,
           "type": "t_mapping<t_uint256>",
           "src": "827:60:4"
         }
@@ -496,31 +496,31 @@
           "members": [
             {
               "label": "spender",
-              "astId": 1432,
+              "astId": 1493,
               "type": "t_address",
               "src": "186:15:9"
             },
             {
               "label": "recipient",
-              "astId": 1434,
+              "astId": 1495,
               "type": "t_address",
               "src": "207:17:9"
             },
             {
               "label": "amount",
-              "astId": 1436,
+              "astId": 1497,
               "type": "t_uint256",
               "src": "230:14:9"
             },
             {
               "label": "createdAt",
-              "astId": 1438,
+              "astId": 1499,
               "type": "t_uint256",
               "src": "250:17:9"
             },
             {
               "label": "status",
-              "astId": 1440,
+              "astId": 1501,
               "type": "t_enum<ITransact.Status>",
               "src": "273:13:9"
             }
@@ -555,7 +555,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2210,
+          "astId": 2271,
           "type": "t_bool",
           "src": "757:24:16"
         },
@@ -563,7 +563,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2212,
+          "astId": 2273,
           "type": "t_bool",
           "src": "876:25:16"
         },
@@ -571,7 +571,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2268,
+          "astId": 2329,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:16"
         },
@@ -579,7 +579,7 @@
           "contract": "Transact",
           "path": "contracts/Transact.sol",
           "label": "reg",
-          "astId": 1036,
+          "astId": 1097,
           "type": "t_address",
           "src": "396:19:5"
         },
@@ -587,7 +587,7 @@
           "contract": "Transact",
           "path": "contracts/Transact.sol",
           "label": "orderBook",
-          "astId": 1041,
+          "astId": 1102,
           "type": "t_mapping<t_array:dyn<t_struct<ITransact.Order>>>",
           "src": "463:37:5"
         }
