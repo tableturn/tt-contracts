@@ -194,6 +194,17 @@ contract Token is Initializable, IToken, IERC20 {
     accounts[owner].unfreeze(accounts[owner], amount);
   }
 
+  /**
+   * @dev Allows the retrieval of dead tokens - eg tokens that were transfered to a lost account.
+   *      This function is deprecated will be removed soon.
+   * @param owner is the account owning the funds.
+   * @param target is the account that should be credited.
+   */
+  function retrieveDeadTokens(address owner, address target) public governance() isActor(owner) isActor(target) {
+    require(accounts[owner].frozen == 0, "Cannot retrieve dead tokens on an account with frozen funds");
+    accounts[owner].transfer(accounts[target], accounts[owner].liquid);
+  }
+
   // Internal and private.
 
   /**
