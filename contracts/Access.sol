@@ -22,6 +22,7 @@ contract Access is Initializable, IAccess {
   event IssuerAdded(address indexed issuer);
   event IssuerRemoved(address indexed issuer);
   event ActorAdded(address indexed actor);
+  event ActorRemoved(address indexed actor);
 
   /// Public stuff.
 
@@ -137,6 +138,15 @@ contract Access is Initializable, IAccess {
   function addActor(address a) public governance {
     actorList.add(a);
     emit ActorAdded(a);
+  }
+
+  /**
+   * @dev Removes an actor from the actors list.
+   * @param a is the address of the actor to be removed.
+   */
+  function removeActor(address a) public governance {
+    actorList.remove(a);
+    emit ActorRemoved(a);
   }
 
   // Modifiers.
