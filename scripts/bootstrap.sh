@@ -4,8 +4,7 @@ dir=$(dirname "$0")
 source $dir/_functions.sh
 
 if [ "$NETWORK_ID" = "5777" ]; then
-  echo "WARNING: As you're using the development environment this script will now"
-  echo "erase the previous ZOS session and artifact files."
+  echo "WARNING: As you're using the development environment this script will now erase the previous ZOS session and artifact files."
   rm -rf .openzeppelin/.session .openzeppelin/dev-5777.json
 fi
 
