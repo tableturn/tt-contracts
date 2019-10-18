@@ -1,6 +1,6 @@
 require('ts-node/register');
 require('dotenv').config();
-const HDWalletProvider = require('@truffle/hdwallet-provider');
+const HDWalletProvider = require('truffle-hdwallet-provider');
 
 const hdWallet = host => {
   return new HDWalletProvider(require(`./conf/keys.${process.env.NETWORK_ID}`), host, 0, 4);
