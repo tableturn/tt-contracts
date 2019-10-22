@@ -66,10 +66,10 @@ contract('Transact', accounts => {
 
     it('creates a new order that can be queried', async () => {
       await transact.request(actor1, actor1, actor2, '1000', { from: fakeToken });
-      const count = await transact.count(actor1);
+      const count = await transact.countOrders(actor1);
       assertNumberEquality(count, '1');
       const id = count.sub(new BN(1));
-      const o = await transact.get(actor1, id);
+      const o = await transact.getOrder(actor1, id);
       // Check that all fields of the order are correctly filled.
       assert.equal(o.spender, actor1);
       assert.equal(o.recipient, actor2);
@@ -98,7 +98,7 @@ contract('Transact', accounts => {
         { actor: actor3, count: '3' },
         { actor: actor4, count: '0' }
       ].map(async ({ actor, count }) => {
-        const [c, o] = await Promise.all([transact.count(actor), transact.all(actor)]);
+        const [c, o] = await Promise.all([transact.countOrders(actor), transact.allOrders(actor)]);
         assertNumberEquality(c, count);
         assert.lengthOf(o, Number.parseInt(count));
       });
@@ -112,19 +112,48 @@ contract('Transact', accounts => {
         })
       );
       // Check that 4 orders were made.
-      const count = await transact.count(actor1);
+      const count = await transact.countOrders(actor1);
       assertNumberEquality(count, amounts.length);
       // Check that each order is of the correct amount.
       for (var i = 0; i < amounts.length; i++) {
-        const o = await transact.get(actor1, i);
+        const o = await transact.getOrder(actor1, i);
         assertNumberEquality(o.amount, amounts[i]);
       }
     });
   });
 
+  describe('allOrders', async () => {
+    it('allows to retrieve all orders at once', async () => {
+      await Promise.all(
+        [
+          { actor: actor1, amount: '50' },
+          { actor: actor2, amount: '100' },
+          { actor: actor2, amount: '150' },
+          { actor: actor3, amount: '200' },
+          { actor: actor3, amount: '250' },
+          { actor: actor3, amount: '300' }
+        ].map(
+          async ({ actor, amount }) =>
+            await transact.request(actor, actor, actor4, amount, { from: fakeToken })
+        )
+      );
+
+      [
+        { actor: actor1, count: '1' },
+        { actor: actor2, count: '2' },
+        { actor: actor3, count: '3' },
+        { actor: actor4, count: '0' }
+      ].map(async ({ actor, count }) => {
+        const [c, o] = await Promise.all([transact.countOrders(actor), transact.allOrders(actor)]);
+        assertNumberEquality(c, count);
+        assert.lengthOf(o, Number.parseInt(count));
+      });
+    });
+  });
+
   describe('functions that require a token callback', () => {
-    var tokenMock: TokenMockInstance;
-    var owner: string, spender: string, recipient: string;
+    let tokenMock: TokenMockInstance;
+    let owner: string, spender: string, recipient: string;
 
     beforeEach(async () => {
       [owner, spender, recipient] = [actor1, actor2, actor3];
@@ -147,7 +176,7 @@ contract('Transact', accounts => {
 
       it('marks the request as approved', async () => {
         await transact.approve(owner, '0', governance);
-        const { status } = await transact.get(owner, '0');
+        const { status } = await transact.getOrder(owner, '0');
         assertNumberEquality(status, '1');
       });
       it('notifies the Token contract via callback', async () => {
@@ -173,19 +202,19 @@ contract('Transact', accounts => {
 
       it('marks the request as rejected', async () => {
         await transact.reject(owner, '0', governance);
-        const { status } = await transact.get(owner, '0');
+        const { status } = await transact.getOrder(owner, '0');
         assertNumberEquality(status, '2');
       });
 
       it('can be called by the funds owner', async () => {
         await transact.reject(owner, '0', { from: owner });
-        const { status } = await transact.get(owner, '0');
+        const { status } = await transact.getOrder(owner, '0');
         assertNumberEquality(status, '2');
       });
 
       it('can be called by the transfer spender', async () => {
         await transact.reject(owner, '0', { from: spender });
-        const { status } = await transact.get(owner, '0');
+        const { status } = await transact.getOrder(owner, '0');
         assertNumberEquality(status, '2');
       });
 
