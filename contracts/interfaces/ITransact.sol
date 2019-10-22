@@ -13,6 +13,15 @@ interface ITransact {
     Status status;
   }
 
+  /// @dev Represents a transfer approval ahead of time.
+  struct Grant {
+    address approver;
+    address owner;
+    address recipient;
+    uint256 maxAmount;
+    bool valid;
+  }
+
   /**
    * @dev This function is a callback that should only be used from the Token contract after a
    *      transfer function was called. It creates a pending transfer order.
