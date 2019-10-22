@@ -568,11 +568,7 @@
           "id": "t_enum<ITransact.Status>",
           "kind": "enum",
           "label": "ITransact.Status",
-          "members": [
-            "Pending",
-            "Approved",
-            "Rejected"
-          ]
+          "members": ["Pending", "Approved", "Rejected"]
         },
         "t_array:dyn<t_struct<ITransact.Order>>": {
           "id": "t_array:dyn<t_struct<ITransact.Order>>",
@@ -659,13 +655,6 @@
     "TTContracts/Access": [
       {
         "address": "0x766cAa49B1ed4298c36347Ef243A7E0D41957729",
-        "version": "0.0.1",
-        "implementation": "0x11E8Fb7ED74B501Ad48EeDdcCC48ec22dCaF9edf",
-        "admin": "0x11731d8982E02b2E53e59706e13fc64F99406d29",
-        "kind": "Upgradeable"
-      },
-      {
-        "address": "0x6932f4A2761778C28dF91f98059735a492c1F2ef",
         "version": "0.0.1",
         "implementation": "0x11E8Fb7ED74B501Ad48EeDdcCC48ec22dCaF9edf",
         "admin": "0x11731d8982E02b2E53e59706e13fc64F99406d29",

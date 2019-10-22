@@ -568,11 +568,7 @@
           "id": "t_enum<ITransact.Status>",
           "kind": "enum",
           "label": "ITransact.Status",
-          "members": [
-            "Pending",
-            "Approved",
-            "Rejected"
-          ]
+          "members": ["Pending", "Approved", "Rejected"]
         },
         "t_array:dyn<t_struct<ITransact.Order>>": {
           "id": "t_array:dyn<t_struct<ITransact.Order>>",
