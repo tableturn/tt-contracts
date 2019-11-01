@@ -1,0 +1,30 @@
+---
+kind: pipeline
+name: tt-contracts
+
+steps:
+  - name: build
+    image: node:dubnium-alpine
+    commands: [./scripts/ci-build.sh]
+
+  # - name: coverage
+  #   image: plugins/codecov
+  #   settings:
+  #     files:
+  #       - 'coverage.json'
+  #     token:
+  #       from_secret: codecov_token
+
+  - name: slack-notify
+    image: plugins/slack
+    settings:
+      webhook:
+        from_secret: slack_webhook
+      channel: ci
+      username: Drone
+      template: >
+        [{{repo.name}}:{{build.branch}}]:
+        <{{build.link}}|Build {{truncate build.commit 8}}> by {{build.author}}
+        was a {{build.status}}.
+    when:
+      status: [success, failure]
