@@ -1,8 +1,8 @@
 pragma solidity ^0.5.9;
 // Libraries.
-import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 // Interfaces and Contracts.
-import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./interfaces/IToken.sol";
 import "./lib/AccountLib.sol";
