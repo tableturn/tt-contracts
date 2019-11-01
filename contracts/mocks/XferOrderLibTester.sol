@@ -6,7 +6,7 @@ import "../lib/XferOrderLib.sol";
 contract XferOrderLibTester {
   using XferOrderLib for XferOrderLib.Data;
 
-  XferOrderLib.Data public sample1;
+  XferOrderLib.Data private sample1;
 
   /// @dev Proxy to the `XferOrderLib.make` function.
   function make(address spender, address recipient, uint256 maxAmount) public view returns(XferOrderLib.Data memory) {
