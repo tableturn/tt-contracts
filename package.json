@@ -9,11 +9,12 @@
     "postinstall": "yarn build",
     "build": "yarn build:contracts",
     "build:contracts": "truffle compile",
-    "postbuild:contracts": "yarn exec ./scripts/exportABIs.js",
+    "postbuild:contracts": "./scripts/exportABIs.js",
     "build:types": "ts-generator ts-generator.json",
     "postbuild:types": "./scripts/fixTruffleTypes.sh",
+    "console": "truffle console --network $NETWORK",
     "pretest": "yarn build && yarn build:types",
-    "test": "yarn truffle test",
+    "test": "truffle test",
     "coverage": "solidity-coverage"
   },
   "dependencies": {
