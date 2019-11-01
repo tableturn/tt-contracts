@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm -rf /tmp/yarn*
+
 yarn ganache-cli \
   --host 127.0.0.1 \
   --port 7545 \

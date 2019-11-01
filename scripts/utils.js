@@ -49,7 +49,7 @@ module.exports = (registry, access, register, transact, token) => {
     await promoteActor(to, { from });
     console.log(`Transfering ${amount} to ${to}...`);
     await token.transfer(to, convert(`${amount}`), { from });
-    const id = (await transact.count(from)) - 1;
+    const id = (await transact.countOrders(from)) - 1;
     console.log(`Approving transfer with id ${id}...`);
     await transact.approve(from, id, { from });
   };
