@@ -8,8 +8,8 @@ const Registry = artifacts.require('Registry');
 contract('Registry', accounts => {
   const [_, governor, fakeContract] = accounts;
   const governance = { from: governor };
-  var access: AccessInstance;
-  var registry: RegistryInstance;
+  let access: AccessInstance;
+  let registry: RegistryInstance;
 
   before(async () => {
     access = await Access.new();

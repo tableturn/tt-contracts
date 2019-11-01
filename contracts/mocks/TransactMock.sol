@@ -12,8 +12,21 @@ contract TransactMock is ITransact {
   }
   RequestCall[] private _requestCalls;
 
-  function request(address owner, address spender, address recipient, uint256 amount) public {
-    _requestCalls.push(RequestCall(owner, spender, recipient, amount));
+  function request(
+    address owner,
+    address spender,
+    address recipient,
+    uint256 amount
+  ) public
+  {
+    _requestCalls.push(
+      RequestCall(
+        owner,
+        spender,
+        recipient,
+        amount
+      )
+    );
   }
 
   function requestCalls() public view returns(RequestCall[] memory) {

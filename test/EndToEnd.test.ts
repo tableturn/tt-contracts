@@ -24,10 +24,10 @@ contract('EndToEnd', accounts => {
   const [_, issuer, governor, bob, marie, tom] = accounts;
   const governance = { from: governor };
   const issuance = { from: issuer };
-  var registry: RegistryInstance;
-  var access: AccessInstance;
-  var transact: TransactInstance;
-  var token: TokenInstance;
+  let registry: RegistryInstance;
+  let access: AccessInstance;
+  let transact: TransactInstance;
+  let token: TokenInstance;
 
   before(async () => {
     // Instanciate a few contracts.
