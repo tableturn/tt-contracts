@@ -1,6 +1,11 @@
 import { AccessInstance } from '../types/truffle-contracts';
-import { itThrows } from './helpers';
-import { MUST_BE_GOVERNOR, DUPLICATED_ADDRESS, DOUBLE_INIT, SELF_TERMINATION } from './errors';
+import { itThrows } from './helpers/helpers';
+import {
+  MUST_BE_GOVERNOR,
+  DUPLICATED_ADDRESS,
+  DOUBLE_INIT,
+  SELF_TERMINATION
+} from './helpers/errors';
 
 const Access = artifacts.require('Access');
 

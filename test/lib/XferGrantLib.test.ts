@@ -1,7 +1,7 @@
-import { XferGrantLibTesterInstance } from '../types/truffle-contracts';
-import { assertNumberEquality, itThrows } from './helpers';
-import { INVALID_GRANT_STATUS } from './errors';
-import { XferGrantStatus } from './constants';
+import { XferGrantLibTesterInstance } from '../../types/truffle-contracts';
+import { assertNumberEquality, itThrows } from '../helpers/helpers';
+import { INVALID_GRANT_STATUS } from '../helpers/errors';
+import { XferGrantStatus } from '../helpers/constants';
 
 const XferGrantLibTester = artifacts.require('XferGrantLibTester');
 

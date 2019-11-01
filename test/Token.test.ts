@@ -4,7 +4,7 @@ import {
   RegistryInstance,
   TransactMockInstance
 } from '../types/truffle-contracts';
-import { itThrows, assertNumberEquality } from './helpers';
+import { itThrows, assertNumberEquality } from './helpers/helpers';
 import {
   ZERO_ADDRESS,
   INSUFFICIENT_FUNDS,
@@ -17,7 +17,7 @@ import {
   MUST_BE_GOVERNOR,
   MUST_BE_ISSUER,
   CANNOT_RETRIEVE_FROZEN
-} from './errors';
+} from './helpers/errors';
 
 const Registry = artifacts.require('Registry');
 const Access = artifacts.require('Access');
