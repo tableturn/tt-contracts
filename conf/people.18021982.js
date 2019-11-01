@@ -15,5 +15,7 @@ module.exports = {
   christophe_pechoux: '0x249ef7fee1c506d00dbb5a67f5a478717aaff12d',
   warwick_hill: '0xecb5acb863d99b2e48145797b1695d5e59963414',
   rhys_photis: '0x686a9683152ecd7ac58ef63921256716ed6d9119',
-  jimmy_bricknell: '0x3ec243079d66f1e8d4bdf49d4fffb59dd4ecea4f'
+  jimmy_bricknell: '0x3ec243079d66f1e8d4bdf49d4fffb59dd4ecea4f',
+  thomas_balgheim: '0xe007d444a79e4d2a5b1c1071a51f44d233d50f6b',
+  rajesh_subhankar: '0x29DeC9443fA0308358E1F74dF74D342b8517BA57'
 };
