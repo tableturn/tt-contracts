@@ -1,7 +1,11 @@
-import { AccountLibTesterInstance } from '../types/truffle-contracts';
-import { itThrows, assertNumberEquality } from './helpers';
+import { AccountLibTesterInstance } from '../../types/truffle-contracts';
+import { itThrows, assertNumberEquality } from '../helpers/helpers';
 import BN from 'bn.js';
-import { INSUFFICIENT_FUNDS, ADDITION_OVERFLOW, INSUFFICIENT_FROZEN_FUNDS } from './errors';
+import {
+  INSUFFICIENT_FUNDS,
+  ADDITION_OVERFLOW,
+  INSUFFICIENT_FROZEN_FUNDS
+} from '../helpers/errors';
 
 const AccountLibTester = artifacts.require('AccountLibTester');
 const MAX_UINT256 = new BN(2).pow(new BN(256)).sub(new BN(1));

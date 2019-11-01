@@ -4,7 +4,7 @@ import {
   RegistryInstance,
   TransactInstance
 } from '../types/truffle-contracts';
-import { assertNumberEquality, itThrows } from './helpers';
+import { assertNumberEquality, itThrows } from './helpers/helpers';
 import {
   ZERO_ADDRESS,
   MUST_BE_GOVERNOR,
@@ -16,7 +16,7 @@ import {
   GRANT_AMOUNT_MISMATCH,
   GRANT_RECIPIENT_MISMATCH,
   INVALID_GRANT_STATUS
-} from './errors';
+} from './helpers/errors';
 import BN = require('bn.js');
 
 const Registry = artifacts.require('Registry');
