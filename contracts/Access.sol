@@ -1,7 +1,7 @@
 pragma solidity ^0.5.9;
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./interfaces/IAccess.sol";
-import "./lib/AddressSet.sol";
+import "./lib/AddressSetLib.sol";
 
 
 /**
@@ -9,11 +9,11 @@ contract * @title Access
  * @dev Enforces that only certain enrolled members can perform certain actions.
  */
 contract Access is Initializable, IAccess {
-  using AddressSet for AddressSet.Set;
+  using AddressSetLib for AddressSetLib.Data;
 
-  AddressSet.Set issuerList;
-  AddressSet.Set governorList;
-  AddressSet.Set actorList;
+  AddressSetLib.Data issuerList;
+  AddressSetLib.Data governorList;
+  AddressSetLib.Data actorList;
 
   /// Events.
 

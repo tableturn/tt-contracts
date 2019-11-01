@@ -1,6 +1,6 @@
 pragma solidity ^0.5.9;
 // Libraries.
-import "./lib/HashSet.sol";
+import "./lib/HashSetLib.sol";
 // Interfaces and Contracts.
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./interfaces/IRegister.sol";
@@ -8,10 +8,10 @@ import "./Registry.sol";
 
 
 contract Register is Initializable, IRegister {
-  using HashSet for HashSet.Set;
+  using HashSetLib for HashSetLib.Data;
   /// @dev This is our contract registry.
   Registry public reg;
-  HashSet.Set hashList;
+  HashSetLib.Data hashList;
 
   // Public functions.
 

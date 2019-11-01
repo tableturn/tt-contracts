@@ -5,8 +5,10 @@ export const MUST_BE_ACTOR = 'Provided account is not an actor';
 export const MUST_BE_GOVERNOR = 'This function must be called by a governor';
 export const INVALID_ORDER_ID = 'The specified order id is invalid';
 export const INVALID_ORDER_STATUS = 'Cannot update a non-pending order';
-export const MUST_BE_GOV_OR_ORDERER =
-  'This function must be either called by a governor or by the transfer owner';
+export const INVALID_GRANT_ID = 'The specified grant id is invalid';
+export const INVALID_GRANT_STATUS = 'Cannot redeem an already invalid grant';
+export const GRANT_RECIPIENT_MISMATCH = "The specified pre-approval doesn't cover this recipient";
+export const GRANT_AMOUNT_MISMATCH = "The specified pre-approval doesn't cover for this amount";
 export const MUST_BE_TRANSACT = 'This function can only be called by the Transact contract';
 
 export const INSUFFICIENT_FUNDS = 'Insufficient funds';
