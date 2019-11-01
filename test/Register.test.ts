@@ -51,7 +51,7 @@ contract('Token', accounts => {
     itThrows('unauthorized', MUST_BE_GOVERNOR, async () => {
       await register.hashAndAdd(m1, { from: actor1 });
     });
-    itThrows('when adding the same value twice', DUPLICATED_HASH, async () => {
+    itThrows('adding the same value twice', DUPLICATED_HASH, async () => {
       await Promise.all([1, 2].map(() => register.hashAndAdd(m1, { from: governor })));
     });
 
@@ -80,7 +80,7 @@ contract('Token', accounts => {
     itThrows('unauthorized', MUST_BE_GOVERNOR, async () => {
       await register.addHash(m1, { from: actor1 });
     });
-    itThrows('when adding the same value twice', DUPLICATED_HASH, async () => {
+    itThrows('adding the same value twice', DUPLICATED_HASH, async () => {
       await Promise.all([1, 2].map(() => register.addHash(m1, { from: governor })));
     });
 
