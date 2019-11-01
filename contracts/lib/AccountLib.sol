@@ -1,6 +1,6 @@
 pragma solidity ^0.5.9;
 // Libraries.
-import "openzeppelin-solidity/contracts/math/SafeMath.sol";
+import "@openzeppelin/contracts/math/SafeMath.sol";
 
 
 library AccountLib {
