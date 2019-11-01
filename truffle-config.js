@@ -16,6 +16,14 @@ module.exports = {
       gas: 94000000,
       gas_price: 0x01
     },
+    // Coverage network config.
+    coverage: {
+      host: 'localhost',
+      network_id: '*',
+      port: 8555,
+      gas: 0xfffffffffff,
+      gasPrice: 0x01
+    },
     // Production network.
     cv: {
       provider: () => hdWallet('https://chain.consilienceventures.com'),
@@ -33,8 +41,19 @@ module.exports = {
   },
 
   // Mocha configuration.
-  mocha: {},
-
+  mocha: {
+    reporter: 'eth-gas-reporter',
+    reporterOptions: {
+      excludeContracts: [
+        'Migrations.sol',
+        'mocks/AccountLibTester.sol',
+        'mocks/TokenMock.sol',
+        'mocks/TransactMock.sol',
+        'mocks/XferGrantLibTester.sol',
+        'mocks/XferOrderLibTester.sol'
+      ]
+    }
+  },
   // Configure your compilers
   compilers: {
     solc: {
