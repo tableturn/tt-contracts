@@ -5,14 +5,14 @@ import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./interfaces/IToken.sol";
-import "./lib/Accountable.sol";
+import "./lib/AccountLib.sol";
 import "./Registry.sol";
 import "./Transact.sol";
 
 
 contract Token is Initializable, IToken, IERC20 {
   using SafeMath for uint256;
-  using Accountable for Accountable.Account;
+  using AccountLib for AccountLib.Data;
 
   event Issuance(uint256 amount, string reason);
 
@@ -23,7 +23,7 @@ contract Token is Initializable, IToken, IERC20 {
   uint256 public totalSupply;
 
   /// @dev Our accounts are held in this mapping.
-  mapping (address => Accountable.Account) accounts;
+  mapping (address => AccountLib.Data) accounts;
   mapping (address => mapping (address => uint256)) allowances;
 
   // Public functions.
@@ -43,7 +43,7 @@ contract Token is Initializable, IToken, IERC20 {
    * @param frozen is the amount of frozen tokens this account will have after the reset.
    */
   function resetAccount(address a, uint256 liquid, uint256 frozen) public governance {
-    Accountable.Account storage account = accounts[a];
+    AccountLib.Data storage account = accounts[a];
     account.liquid = liquid;
     account.frozen = frozen;
   }
