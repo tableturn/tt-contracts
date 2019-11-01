@@ -116,7 +116,7 @@ contract('EndToEnd', accounts => {
 
     it('orders a transfer of 5 tokens from Bob to Marie', async () => {
       await token.transfer(marie, '5', { from: bob });
-      assertNumberEquality(await transact.count(bob), '1');
+      assertNumberEquality(await transact.countOrders(bob), '1');
       assertNumberEquality(await token.balanceOf(bob), '95');
       assertNumberEquality(await token.frozenOf(bob), '5');
       assertNumberEquality(await token.balanceOf(marie), '0');
@@ -153,7 +153,7 @@ contract('EndToEnd', accounts => {
 
     it('lets Tom perform a transfer using their allowance', async () => {
       await token.transferFrom(bob, marie, '4', { from: tom });
-      assertNumberEquality(await transact.count(bob), '2');
+      assertNumberEquality(await transact.countOrders(bob), '2');
       assertNumberEquality(await token.allowance(bob, tom), '6');
       assertNumberEquality(await token.balanceOf(bob), '91');
       assertNumberEquality(await token.frozenOf(bob), '4');
@@ -169,7 +169,7 @@ contract('EndToEnd', accounts => {
 
     it('lets Tom perform a transfer using their allowance', async () => {
       await token.transferFrom(bob, marie, '6', { from: tom });
-      assertNumberEquality(await transact.count(bob), '3');
+      assertNumberEquality(await transact.countOrders(bob), '3');
       assertNumberEquality(await token.allowance(bob, tom), '0');
     });
 
