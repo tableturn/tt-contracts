@@ -1,9 +1,9 @@
 pragma solidity ^0.5.9;
 
 
-library AddressSet {
+library AddressSetLib {
   /// @dev Internal data structure.
-  struct Set {
+  struct Data {
     mapping(address => uint256) indices;
     address[] values;
   }
@@ -14,7 +14,7 @@ library AddressSet {
    * @param d is the internal data storage to use.
    * @param key is the address to be added.
    */
-  function add(Set storage d, address key) internal {
+  function add(Data storage d, address key) internal {
     require(key != address(0), "Address cannot be 0x0");
     require(!contains(d, key), "Address already in set");
     d.indices[key] = d.values.length;
@@ -27,7 +27,7 @@ library AddressSet {
    * @param d is the internal data storage to use.
    * @param key is the address to be removed.
    */
-  function remove(Set storage d, address key) internal {
+  function remove(Data storage d, address key) internal {
     require(contains(d, key), "Address does not exist in set");
     uint256 lastIndex = d.values.length - 1;
     address keyToMove = d.values[lastIndex];
@@ -44,7 +44,7 @@ library AddressSet {
    * @param d is the internal data storage to use.
    * @return the number of elements in the set.
    */
-  function count(Set storage d) public view returns(uint256) {
+  function count(Data storage d) public view returns(uint256) {
     return d.values.length;
   }
 
@@ -54,7 +54,7 @@ library AddressSet {
    * @param key is the address to test.
    * @return a boolean.
    */
-  function contains(Set storage d, address key) public view returns(bool) {
+  function contains(Data storage d, address key) public view returns(bool) {
     return d.values.length == 0
       ? false
       : d.values[d.indices[key]] == key;

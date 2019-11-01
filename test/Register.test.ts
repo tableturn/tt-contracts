@@ -9,9 +9,9 @@ const Register = artifacts.require('Register');
 contract('Token', accounts => {
   const [_, issuer, governor, actor1] = accounts;
   const governance = { from: governor };
-  var registry: RegistryInstance;
-  var access: AccessInstance;
-  var register: RegisterInstance;
+  let registry: RegistryInstance;
+  let access: AccessInstance;
+  let register: RegisterInstance;
 
   const m1 = web3.utils.toHex('Hello!');
   const h1 = '0x6cdba77591a790691c694fa0be937f835b8a589095e427022aa1035e579ee596';
@@ -51,7 +51,7 @@ contract('Token', accounts => {
     itThrows('unauthorized', MUST_BE_GOVERNOR, async () => {
       await register.hashAndAdd(m1, { from: actor1 });
     });
-    itThrows('when adding the same value twice', DUPLICATED_HASH, async () => {
+    itThrows('adding the same value twice', DUPLICATED_HASH, async () => {
       await Promise.all([1, 2].map(() => register.hashAndAdd(m1, { from: governor })));
     });
 
@@ -80,7 +80,7 @@ contract('Token', accounts => {
     itThrows('unauthorized', MUST_BE_GOVERNOR, async () => {
       await register.addHash(m1, { from: actor1 });
     });
-    itThrows('when adding the same value twice', DUPLICATED_HASH, async () => {
+    itThrows('adding the same value twice', DUPLICATED_HASH, async () => {
       await Promise.all([1, 2].map(() => register.addHash(m1, { from: governor })));
     });
 

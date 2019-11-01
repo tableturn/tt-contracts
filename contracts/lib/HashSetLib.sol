@@ -1,9 +1,9 @@
 pragma solidity ^0.5.9;
 
 
-library HashSet {
+library HashSetLib {
   /// @dev Internal data structure.
-  struct Set {
+  struct Data {
     mapping(bytes32 => uint256) indices;
     bytes32[] values;
   }
@@ -14,7 +14,7 @@ library HashSet {
    * @param d is the internal data storage to use.
    * @param key is the hash to be added.
    */
-  function add(Set storage d, bytes32 key) internal {
+  function add(Data storage d, bytes32 key) internal {
     require(!contains(d, key), "Hash already in set");
     d.indices[key] = d.values.length;
     d.values.push(key);
@@ -26,7 +26,7 @@ library HashSet {
    * @param d is the internal data storage to use.
    * @param key is the hash to be removed.
    */
-  function remove(Set storage d, bytes32 key) internal {
+  function remove(Data storage d, bytes32 key) internal {
     require(contains(d, key), "Hash does not exist in set");
     uint256 lastIndex = d.values.length - 1;
     bytes32 keyToMove = d.values[lastIndex];
@@ -43,7 +43,7 @@ library HashSet {
    * @param d is the internal data storage to use.
    * @return the number of elements in the set.
    */
-  function count(Set storage d) public view returns(uint256) {
+  function count(Data storage d) public view returns(uint256) {
     return d.values.length;
   }
 
@@ -53,7 +53,7 @@ library HashSet {
    * @param key is the hash to test.
    * @return a boolean.
    */
-  function contains(Set storage d, bytes32 key) public view returns(bool) {
+  function contains(Data storage d, bytes32 key) public view returns(bool) {
     return d.values.length == 0
       ? false
       : d.values[d.indices[key]] == key;

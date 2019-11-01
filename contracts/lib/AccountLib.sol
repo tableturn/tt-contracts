@@ -3,11 +3,11 @@ pragma solidity ^0.5.9;
 import "openzeppelin-solidity/contracts/math/SafeMath.sol";
 
 
-library Accountable {
+library AccountLib {
   using SafeMath for uint256;
-  using Accountable for Accountable.Account;
+  using AccountLib for Data;
 
-  struct Account {
+  struct Data {
     uint256 liquid;
     uint256 frozen;
   }
@@ -18,7 +18,7 @@ library Accountable {
    * @param account is the target account to credit.
    * @param amount is the number of tokens to add.
    */
-  function credit(Account storage account, uint256 amount) internal {
+  function credit(Data storage account, uint256 amount) internal {
     account.liquid = account.liquid.add(amount);
   }
 
@@ -28,7 +28,7 @@ library Accountable {
    * @param account is the target account to debit.
    * @param amount is the number of tokens to subtract.
    */
-  function debit(Account storage account, uint256 amount) internal {
+  function debit(Data storage account, uint256 amount) internal {
     require(amount <= account.liquid, "Insufficient funds");
     account.liquid = account.liquid.sub(amount);
   }
@@ -39,7 +39,7 @@ library Accountable {
    * @param account is the target account to freeze.
    * @param amount is the number of tokens to freeze.
    */
-  function freeze(Account storage account, uint256 amount) internal {
+  function freeze(Data storage account, uint256 amount) internal {
     require(amount <= account.liquid, "Insufficient funds");
     account.debit(amount);
     account.frozen = account.frozen.add(amount);
@@ -54,7 +54,7 @@ library Accountable {
    * @param recipient is the target account to credit to.
    * @param amount is the number of tokens to un-freeze.
    */
-  function unfreeze(Account storage account, Account storage recipient, uint256 amount) internal {
+  function unfreeze(Data storage account, Data storage recipient, uint256 amount) internal {
     require(amount <= account.frozen, "Insufficient frozen funds");
     account.frozen = account.frozen.sub(amount);
     recipient.credit(amount);
@@ -66,7 +66,7 @@ library Accountable {
    * @param recipient is the target account to transfer to.
    * @param amount is the number of tokens to transfer.
    */
-  function transfer(Account storage account, Account storage recipient, uint256 amount) internal {
+  function transfer(Data storage account, Data storage recipient, uint256 amount) internal {
     account.debit(amount);
     recipient.credit(amount);
   }
