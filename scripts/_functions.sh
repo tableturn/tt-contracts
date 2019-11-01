@@ -15,7 +15,7 @@ function bump {
 # Change these based on the accounts at hand.
 zosArgs="--network $NETWORK"
 zosArtifacts=".openzeppelin/dev-${NETWORK_ID}.json"
-version=$(cat zos.json | jq -r ".version")
+version=$(cat .openzeppelin/project.json | jq -r ".version")
 
 echo "Operating on:"
 echo "  Network: $NETWORK"
