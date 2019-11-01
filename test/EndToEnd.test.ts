@@ -179,5 +179,33 @@ contract('EndToEnd', accounts => {
       assertNumberEquality(await token.frozenOf(bob), '0');
       assertNumberEquality(await token.balanceOf(marie), '9');
     });
+
+    // Add tests:
+    // 1) Grant too low.
+    // Governor pre-approves a transfer from Marie to Tom of 4 tokens.
+    // Marie initiates a transfer of 5 tokens to Tom.
+    // Marie tries to apply the grant to her transfer
+    it('throws when a grant does not cover an order');
+    //   -> It should throw because the grant doesnt cover.
+    //   c: Governor rejects the transfer.
+    // 2) Grant on wrong person.
+    // Marie initiates a transfer of 1 token to Bob.
+    // Marie tries to apply the grant to her transfer.
+    it('throws when a grant does not match the recipient');
+    //   -> It should throw because the grant doesn't apply to Bob.
+    //   c: Governor rejects the transfer.
+    // 3) Successful grant.
+    // Marie initiates a transfer of 4 tokens to Tom.
+    // Marie tries to apply the grant to her transfer.
+    it('should have properly transfered the tokens');
+    //   -> The transfer should pass.
+    //   -> Marie should have 5 tokens.
+    //   -> Tom should have 4 tokens.
+    // 4) Re-used grant.
+    // Marie initiates a transfer of 1 token to Tom.
+    // Marie tries to apply the grant to her transfer.
+    it('should throw because the grant was already used');
+    //   -> It should throw because the grant was already used.
+    //   c: Governor rejects the transfer.
   });
 });
