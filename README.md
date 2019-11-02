@@ -1,5 +1,8 @@
 # TT Contracts
 
+[![codecov](https://codecov.io/gh/tableturn/tt-contracts/branch/master/graph/badge.svg?token=3qgwgCr9cg)](https://codecov.io/gh/tableturn/tt-contracts)
+[![Build Status](https://ci.linky.one/api/badges/tableturn/tt-contracts/status.svg)](https://ci.linky.one/tableturn/tt-contracts)
+
 ## Overview
 
 First and foremost, always remember to `source .env` or any other appropriate environment file.
