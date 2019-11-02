@@ -5,7 +5,7 @@ import {
   TransactInstance,
   TokenMockInstance
 } from '../types/truffle-contracts';
-import { assertNumberEquality } from './helpers';
+import { assertNumberEquality } from './helpers/helpers';
 import {
   DOUBLE_INIT,
   MUST_BE_ACTOR,
@@ -17,10 +17,10 @@ import {
   INVALID_GRANT_STATUS,
   GRANT_AMOUNT_MISMATCH,
   GRANT_RECIPIENT_MISMATCH
-} from './errors';
-import { XferGrantStatus, XferOrderStatus } from './constants';
+} from './helpers/errors';
+import { XferGrantStatus, XferOrderStatus } from './helpers/constants';
 
-const { itThrows } = require('./helpers');
+const { itThrows } = require('./helpers/helpers');
 
 const Registry = artifacts.require('Registry');
 const Access = artifacts.require('Access');
