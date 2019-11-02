@@ -36,18 +36,6 @@ contract Token is Initializable, IToken, IERC20 {
     reg = _reg;
   }
 
-  /**
-   * @dev This is a test-only function allowing to reset a given account to a specific balance.
-   * @param a is the address for which balances will be reset.
-   * @param liquid is the amount of liquid tokens this account will have after the reset.
-   * @param frozen is the amount of frozen tokens this account will have after the reset.
-   */
-  function resetAccount(address a, uint256 liquid, uint256 frozen) public governance {
-    AccountLib.Data storage account = accounts[a];
-    account.liquid = liquid;
-    account.frozen = frozen;
-  }
-
   function symbol() public pure returns(string memory) { return "CVD"; }
   function name() public pure returns(string memory) { return "Consilience Ventures Digital Share"; }
   function decimals() public pure returns(uint8) { return 6; }
