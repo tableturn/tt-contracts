@@ -1,6 +1,6 @@
 import { AccessInstance, RegistryInstance } from '../types/truffle-contracts';
-import { itThrows } from './helpers';
-import { DOUBLE_INIT, MUST_BE_GOVERNOR } from './errors';
+import { itThrows } from './helpers/helpers';
+import { DOUBLE_INIT, MUST_BE_GOVERNOR } from './helpers/errors';
 
 const Access = artifacts.require('Access');
 const Registry = artifacts.require('Registry');

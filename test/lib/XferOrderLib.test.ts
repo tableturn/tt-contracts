@@ -1,7 +1,7 @@
-import { XferOrderLibTesterInstance } from '../types/truffle-contracts';
-import { assertNumberEquality, itThrows } from './helpers';
-import { INVALID_ORDER_STATUS } from './errors';
-import { XferOrderStatus } from './constants';
+import { XferOrderLibTesterInstance } from '../../types/truffle-contracts';
+import { assertNumberEquality, itThrows } from '../helpers/helpers';
+import { INVALID_ORDER_STATUS } from '../helpers/errors';
+import { XferOrderStatus } from '../helpers/constants';
 
 const XferOrderLibTester = artifacts.require('XferOrderLibTester');
 

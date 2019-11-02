@@ -6,7 +6,7 @@ import "../lib/XferGrantLib.sol";
 contract XferGrantLibTester {
   using XferGrantLib for XferGrantLib.Data;
 
-  XferGrantLib.Data public sample1;
+  XferGrantLib.Data private sample1;
 
   /// @dev Proxy to the `XferGrantLib.make` function.
   function make(address recipient, uint256 maxAmount) public pure returns(XferGrantLib.Data memory) {
