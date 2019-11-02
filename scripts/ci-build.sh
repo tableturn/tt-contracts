@@ -11,12 +11,11 @@ echo "Installing dependencies..."
 yarn
 
 echo "Starting local chain..."
-./scripts/ganache.sh > /dev/null &
+# ./scripts/ganache.sh > /dev/null &
 
 echo "Building contracts..."
-yarn build
-echo "Running tests..."
-yarn test
-
-# echo "Generating coverage..."
-# yarn coverage
+yarn pretest
+# echo "Running tests..."
+# yarn test
+echo "Testing and generating coverage..."
+yarn coverage
