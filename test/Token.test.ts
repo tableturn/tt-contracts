@@ -300,13 +300,13 @@ contract('Token', accounts => {
 
   describe('callbacks', () => {
     beforeEach(async () => {
-      await Promise.all([
-        token.resetAccount(actor1, '700', '300', governance),
-        // This mocks an account and replaces the transact contract by
-        // an address we have the keys for, allowing to simulate calls using
-        // that address later on.
-        registry.setTransactContract(fakeTransact, governance)
-      ]);
+      // This mocks an account and replaces the transact contract by
+      // an address we have the keys for, allowing to simulate calls using
+      // that address later on.
+      await token.issue('1000', 'Test Issuance', issuance);
+      await token.allocate(actor1, '1000', governance);
+      await token.transfer(actor2, '300', { from: actor1 });
+      await registry.setTransactContract(fakeTransact, governance);
     });
 
     describe('transferApproved', () => {
