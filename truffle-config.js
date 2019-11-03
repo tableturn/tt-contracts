@@ -44,14 +44,7 @@ module.exports = {
   mocha: {
     reporter: 'eth-gas-reporter',
     reporterOptions: {
-      excludeContracts: [
-        'Migrations.sol',
-        'mocks/AccountLibTester.sol',
-        'mocks/TokenMock.sol',
-        'mocks/TransactMock.sol',
-        'mocks/XferGrantLibTester.sol',
-        'mocks/XferOrderLibTester.sol'
-      ]
+      excludeContracts: ['Migrations.sol']
     }
   },
   // Configure your compilers
