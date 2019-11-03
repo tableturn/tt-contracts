@@ -11,6 +11,13 @@ export const GRANT_RECIPIENT_MISMATCH = "The specified pre-approval doesn't cove
 export const GRANT_AMOUNT_MISMATCH = "The specified pre-approval doesn't cover for this amount";
 export const MUST_BE_TRANSACT = 'This function can only be called by the Transact contract';
 
+export const INVALID_ZERO_ADDRESS = 'Address cannot be 0x0';
+export const ADDRESS_ALREADY_IN_SET = 'Address already in set';
+export const NONEXISTENT_ADDRESS = 'Address does not exist in set';
+
+export const HASH_ALREADY_IN_SET = 'Hash already in set';
+export const NONEXISTENT_HASH = 'Hash does not exist in set';
+
 export const INSUFFICIENT_FUNDS = 'Insufficient funds';
 export const INSUFFICIENT_FROZEN_FUNDS = 'Insufficient frozen funds';
 export const INSUFFICIENT_ALLOWANCE = 'Insufficient allowance from owner';
