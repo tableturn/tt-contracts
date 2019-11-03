@@ -4,6 +4,10 @@ import { HASH_ALREADY_IN_SET, NONEXISTENT_HASH } from '../helpers/errors';
 
 const HashSetLibTester = artifacts.require('HashSetLibTester');
 
+const storedHash = (hash: string) => {
+  return `${hash.toLowerCase()}000000000000000000000000`;
+};
+
 contract('HashSetLib', accounts => {
   const [acc1, acc2, acc3] = accounts;
   let mock: HashSetLibTesterInstance;
@@ -20,9 +24,9 @@ contract('HashSetLib', accounts => {
     it('can add properly', async () => {
       await Promise.all([acc1, acc2, acc3].map(v => mock.add(v)));
       assert.includeMembers(await mock.getSample1Values(), [
-        '0x356cf535fc1f1c4dd1a4c4f4c261684bcd3e1bcb000000000000000000000000',
-        '0x59ef5b8b24ce3e00ad0345cd2d47f96947c3e2c3000000000000000000000000',
-        '0x4b54772cc9e233b4fe1f04a65a994af40a6834ac000000000000000000000000'
+        storedHash(acc1),
+        storedHash(acc2),
+        storedHash(acc3)
       ]);
     });
   });
@@ -37,10 +41,7 @@ contract('HashSetLib', accounts => {
       assertNumberEquality(await mock.count(), '3');
       await mock.remove(acc1);
       assertNumberEquality(await mock.count(), '2');
-      assert.includeMembers(await mock.getSample1Values(), [
-        '0x4b54772cc9e233b4fe1f04a65a994af40a6834ac000000000000000000000000',
-        '0x59ef5b8b24ce3e00ad0345cd2d47f96947c3e2c3000000000000000000000000'
-      ]);
+      assert.includeMembers(await mock.getSample1Values(), [storedHash(acc2), storedHash(acc3)]);
     });
   });
 
