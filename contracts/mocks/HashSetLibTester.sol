@@ -18,7 +18,5 @@ contract HashSetLibTester {
 
   // ----------------------------------------------------------------------------- //
 
-  function getSample1Index(bytes32 key) public view returns(uint256) { return sample1.indices[key]; }
-
   function getSample1Values() public view returns(bytes32[] memory) { return sample1.values; }
 }
