@@ -18,7 +18,5 @@ contract AddressSetLibTester {
 
   // ----------------------------------------------------------------------------- //
 
-  function getSample1Index(address key) public view returns(uint256) { return sample1.indices[key]; }
-
   function getSample1Values() public view returns(address[] memory) { return sample1.values; }
 }
