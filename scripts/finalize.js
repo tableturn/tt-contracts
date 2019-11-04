@@ -18,7 +18,9 @@ module.exports = async done => {
     console.log(`Loaded ZOS ABIs.`);
 
     // Prepare some addresses.
-    const people = require(`../conf/people.${netId}`);
+    const people = require(`../conf/addresses.${netId}`).merge(
+      require(`../conf/addresses.private.${netId}`)
+    );
     const governance = { from: people.pk2m };
     const issuance = { from: people.issuer };
     // Load contracts.

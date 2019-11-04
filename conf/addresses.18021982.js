@@ -1,0 +1,6 @@
+module.exports = {
+  deployer: '0x214a62AB48a2BbBf7938c353F0388D1996C627a3',
+  storage: '0xB4C87127F59c9b8653790e15F92effa62f7D17D7',
+  issuer: '0xa6cD80b78638E1eCcBE933148d9BBc6AeCDc6f98',
+  pk2m: '0xb1004872B989ec8894F8Dd07da85437Dff9ddb37'
+};
