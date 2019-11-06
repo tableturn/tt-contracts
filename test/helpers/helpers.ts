@@ -35,6 +35,9 @@ export const itThrows = (reason: string, exp: string, fun: any) => {
   });
 };
 
-export const assertNumberEquality = (a: any, b: any) => {
+export const assertNumberEquality = (
+  a: number | string | number[] | Uint8Array | Buffer | BN,
+  b: number | string | number[] | Uint8Array | Buffer | BN
+) => {
   assert.equal(new BN(a).toString(), new BN(b).toString());
 };

@@ -72,6 +72,7 @@ contract('Access', accounts => {
       it('removes a governor', async () => {
         await access.addIssuer(acc1, governance);
         assert.include(await access.issuers(), acc1);
+
         await access.removeIssuer(acc1, governance);
         assert.notInclude(await access.issuers(), acc1);
       });
@@ -121,6 +122,7 @@ contract('Access', accounts => {
       it('removes a governor', async () => {
         await access.addGovernor(acc1, governance);
         assert.include(await access.governors(), acc1);
+
         await access.removeGovernor(acc1, governance);
         assert.notInclude(await access.governors(), acc1);
       });
@@ -167,6 +169,7 @@ contract('Access', accounts => {
       it('removes an actor', async () => {
         await access.addActor(acc1, governance);
         assert.include(await access.actors(), acc1);
+
         await access.removeActor(acc1, governance);
         assert.notInclude(await access.actors(), acc1);
       });
