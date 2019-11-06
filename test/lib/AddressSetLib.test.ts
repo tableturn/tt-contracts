@@ -40,6 +40,7 @@ contract('AddressSetLib', accounts => {
     it('can remove properly', async () => {
       await Promise.all([acc1, acc2, acc3].map(v => mock.add(v)));
       assertNumberEquality(await mock.count(), '3');
+
       await mock.remove(acc1);
       assertNumberEquality(await mock.count(), '2');
       assert.includeMembers(await mock.getSample1Values(), [acc2, acc3]);
@@ -50,6 +51,7 @@ contract('AddressSetLib', accounts => {
     it('returns the items count', async () => {
       await Promise.all([acc1, acc2, acc3].map(v => mock.add(v)));
       assertNumberEquality(await mock.count(), '3');
+
       await mock.remove(acc1);
       assertNumberEquality(await mock.count(), '2');
     });
@@ -58,8 +60,10 @@ contract('AddressSetLib', accounts => {
   describe('contains', async () => {
     it('functions properly', async () => {
       assert.equal(await mock.contains(acc1), false);
+
       await mock.add(acc1);
       assert.equal(await mock.contains(acc1), true);
+
       await mock.remove(acc1);
       assert.equal(await mock.contains(acc1), false);
     });
