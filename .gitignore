@@ -1,5 +1,5 @@
-node_modules
-bower_components
+node_modules/
+bower_components/
 .node*
 .tmp
 .DS_Store
@@ -7,16 +7,13 @@ bower_components
 
 build
 types
-coverage
-coverageEnv
+allFiredEvents/
+coverage/
+coverageEnv/
+scTopics/
 coverage.json
-
-.zos.session
 
 conf/keys.1802198*.js
 conf/addresses.private.1802198*.js
 
 .openzeppelin/.session
-
-allFiredEvents
-scTopics
