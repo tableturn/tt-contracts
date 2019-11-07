@@ -16,7 +16,8 @@ import {
   INVALID_GRANT_ID,
   INVALID_GRANT_STATUS,
   GRANT_AMOUNT_MISMATCH,
-  GRANT_RECIPIENT_MISMATCH
+  GRANT_RECIPIENT_MISMATCH,
+  MUST_BE_TOKEN
 } from './helpers/errors';
 import { XferGrantStatus, XferOrderStatus } from './helpers/constants';
 
@@ -125,6 +126,9 @@ contract('Transact', accounts => {
     });
     itThrows('the recipient is not an actor', MUST_BE_ACTOR, async () => {
       await transact.request(actor1, actor2, acc1, '1000', { from: fakeToken });
+    });
+    itThrows('the caller is not the Token contract', MUST_BE_TOKEN, async () => {
+      await transact.request(actor1, actor1, actor2, '1000', governance);
     });
 
     it('creates a new order that can be queried', async () => {
