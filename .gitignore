@@ -16,4 +16,5 @@ coverage.json
 conf/keys.1802198*.js
 conf/addresses.private.1802198*.js
 
+.openzeppelin/.lock
 .openzeppelin/.session
