@@ -50,9 +50,9 @@ module.exports = async done => {
     if (netId !== 18021982) {
       console.log('This is not production - making a few staging actors and governors...');
       await Promise.all([
-        utils.promoteGovernor(people.pierre_martin, governance),
         utils.promoteActor(people.pierre_martin, governance),
-        utils.promoteActor(people.kevin_monserrat, governance)
+        utils.promoteActor(people.kevin_monserrat, governance),
+        utils.promoteGovernor(people.pierre_martin, governance)
       ]);
 
       const balance = await token.balanceOf(people.pk2m);
@@ -65,7 +65,7 @@ module.exports = async done => {
         console.log(`Transfering tokens from ${people.pk2m} to an actor account.`);
         await token.transfer(people.kevin_monserrat, utils.convert('6050'), { from: people.pk2m });
         console.log(`Approving transfer...`);
-        await transact.approve(people.pk2m, 0, { from: people.pierre_martin });
+        await transact.approve(people.pk2m, 0, { from: people.pk2m });
       }
     }
 
