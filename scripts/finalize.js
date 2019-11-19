@@ -71,7 +71,7 @@ module.exports = async done => {
 
     console.log(`All done. Informations about network ${netId}:`);
     console.log(`  Registry is at ${registry.address}`);
-    console.log(`  Register is at ${registry.register}`);
+    console.log(`  Register is at ${register.address}`);
     console.log(`  Access is at ${access.address}`);
     console.log(`  Transact is at ${transact.address}`);
     console.log(`  Token is at ${token.address}`);
