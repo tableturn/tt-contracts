@@ -12,10 +12,10 @@ module.exports = async done => {
   try {
     // Load ZOS ABI.
     const netId = process.env.NETWORK_ID;
-    console.log(`Using network id ${netId}.`);
+    console.info(`Using network id ${netId}.`);
     const zosFile = `.openzeppelin/dev-${netId}.json`;
     const zosAbi = JSON.parse(fs.readFileSync(zosFile));
-    console.log(`Loaded ZOS ABIs.`);
+    console.info(`Loaded ZOS ABIs.`);
 
     // Prepare some addresses.
     const people = Object.assign(
@@ -33,7 +33,7 @@ module.exports = async done => {
     // Pause here until all awaits are fullfilled...
     const utils = generateUtils(registry, access, register, transact, token);
 
-    console.log('Registering contracts with Registry...');
+    console.info('Registering contracts with Registry...');
 
     await utils.registerContract('Access', await registry.access(), access.address, governance);
     await Promise.all([
@@ -48,35 +48,59 @@ module.exports = async done => {
     ]);
 
     if (netId !== 18021982) {
-      console.log('This is not production - making a few staging actors and governors...');
-      await Promise.all([
-        utils.promoteActor(people.pierre_martin, governance),
-        utils.promoteActor(people.kevin_monserrat, governance),
-        utils.promoteGovernor(people.pierre_martin, governance)
-      ]);
-
-      const balance = await token.balanceOf(people.pk2m);
-      console.log(`PK2M Balance: ${balance.toString()}.`);
-      if (balance.eq(new BN(0))) {
-        console.log(`Allocating tokens to ${people.pk2m} for Year 1 of operational costs.`);
-        await utils.issue('1_121_010', 'Operational costs for 2019', issuance);
-        await token.allocate(people.pk2m, utils.convert('1_121_010'), governance);
-
-        console.log(`Transfering tokens from ${people.pk2m} to an actor account.`);
-        await token.transfer(people.kevin_monserrat, utils.convert('6050'), { from: people.pk2m });
-        console.log(`Approving transfer...`);
-        await transact.approve(people.pk2m, 0, { from: people.pk2m });
-      }
+      console.info('Seeding data...');
+      await seed({ utils, people, issuance, governance, token, transact });
     }
 
-    console.log(`All done. Informations about network ${netId}:`);
-    console.log(`  Registry is at ${registry.address}`);
-    console.log(`  Register is at ${register.address}`);
-    console.log(`  Access is at ${access.address}`);
-    console.log(`  Transact is at ${transact.address}`);
-    console.log(`  Token is at ${token.address}`);
+    console.info(`All done. Informations about network ${netId}:`);
+    console.info(`  Registry is at ${registry.address}`);
+    console.info(`  Register is at ${register.address}`);
+    console.info(`  Access is at ${access.address}`);
+    console.info(`  Transact is at ${transact.address}`);
+    console.info(`  Token is at ${token.address}`);
   } catch (e) {
-    console.log(e);
+    console.info(e);
   }
   done();
+};
+
+const seed = async ({ utils, people, issuance, governance, token, transact }) => {
+  console.info('This is not production - making a few staging actors and governors...');
+  await Promise.all([
+    utils.promoteActor(people.pierre_martin, governance),
+    utils.promoteActor(people.kevin_monserrat, governance),
+    utils.promoteGovernor(people.pierre_martin, governance)
+  ]);
+
+  const balance = await token.balanceOf(people.pk2m);
+  console.info(`PK2M Balance: ${balance.toString()}.`);
+  if (balance.eq(new BN(0))) {
+    console.info(`Allocating tokens to ${people.pk2m} for Year 1 of operational costs.`);
+    await utils.issue('1_121_010', 'Operational costs for 2019', issuance);
+    await token.allocate(people.pk2m, utils.convert('1_121_010'), governance);
+
+    console.info(`Transfering tokens from ${people.pk2m} to an ${people.pierre_martin}.`);
+    await token.transfer(people.pierre_martin, utils.convert('6050'), { from: people.pk2m });
+    console.info(`Approving transfer...`);
+    await transact.approve(people.pk2m, 0, { from: people.pk2m });
+
+    console.info(`Transfering tokens from ${people.pierre_martin} to ${people.kevin_monserrat}.`);
+    await token.transfer(people.kevin_monserrat, utils.convert('50'), {
+      from: people.pierre_martin
+    });
+    console.info(`Approving transfer...`);
+    await transact.approve(people.pierre_martin, 0, { from: people.pk2m });
+
+    console.info(`Transfering tokens from ${people.pierre_martin} to ${people.kevin_monserrat}.`);
+    await token.transfer(people.kevin_monserrat, utils.convert('40'), {
+      from: people.pierre_martin
+    });
+    console.info(`Rejecting transfer...`);
+    await transact.reject(people.pierre_martin, 1, { from: people.pk2m });
+
+    console.info(`Transfering tokens from ${people.pierre_martin} to ${people.kevin_monserrat}.`);
+    await token.transfer(people.kevin_monserrat, utils.convert('30'), {
+      from: people.pierre_martin
+    });
+  }
 };

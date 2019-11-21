@@ -6,51 +6,51 @@ module.exports = (registry, access, register, transact, token) => {
 
   const registerContract = async (name, addr, target, opts) => {
     if (addr !== target) {
-      console.log(`  Setting ${name} into Registry to ${target}.`);
+      console.info(`  Setting ${name} into Registry to ${target}.`);
       await registry[`set${name}Contract`](target, opts);
     } else {
-      console.log(`  Registry already has the right ${name} contract.`);
+      console.warn(`  Registry already has the right ${name} contract.`);
     }
   };
 
   const issue = async (amount, reason, issuance) => {
-    console.log(`Issuing ${amount} tokens: ${reason}`);
+    console.info(`Issuing ${amount} tokens: ${reason}`);
     await token.issue(convert(amount), reason, issuance);
   };
 
   const promoteIssuer = async (address, opts = {}) => {
     if (await access.isIssuer(address)) {
-      console.log(`  Address ${address} is already a governor, skipping...`);
+      console.warn(`  Address ${address} is already a governor, skipping...`);
       return;
     }
-    console.log(` Making ${address} a governor.`);
+    console.info(` Making ${address} a governor.`);
     await access.addIssuer(address, opts);
   };
 
   const promoteGovernor = async (address, opts = {}) => {
     if (await access.isGovernor(address)) {
-      console.log(`  Address ${address} is already a governor, skipping...`);
+      console.warn(`  Address ${address} is already a governor, skipping...`);
       return;
     }
-    console.log(` Making ${address} a governor.`);
+    console.info(` Making ${address} a governor.`);
     await access.addGovernor(address, opts);
   };
 
   const promoteActor = async (address, opts = {}) => {
     if (await access.isActor(address)) {
-      console.log(`  Address ${address} is already an actor, skipping...`);
+      console.warn(`  Address ${address} is already an actor, skipping...`);
       return;
     }
-    console.log(`  Making ${address} an actor.`);
+    console.info(`  Making ${address} an actor.`);
     await access.addActor(address, opts);
   };
 
   const promotePk2mInvestor = async (from, to, amount) => {
     await promoteActor(to, { from });
-    console.log(`Transfering ${amount} to ${to}...`);
+    console.info(`Transfering ${amount} to ${to}...`);
     await token.transfer(to, convert(`${amount}`), { from });
     const id = (await transact.countOrders(from)) - 1;
-    console.log(`Approving transfer with id ${id}...`);
+    console.info(`Approving transfer with id ${id}...`);
     await transact.approve(from, id, { from });
   };
 

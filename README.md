@@ -17,6 +17,7 @@ It will also run [`yarn truffle exec scripts/finalize.js --network $NETWORK`](sc
 To get all the required stuff available in the console, copy-paste the following snippet:
 
 ```code
+const BN = require('bn.js');
 const generateUtils = require('./scripts/utils.js')
 const netId = process.env.NETWORK_ID
 const zosFile = `.openzeppelin/dev-${netId}.json`
@@ -52,5 +53,5 @@ const count = await transact.countOrders(people.pk2m)
 At this point, `count` will be a `BigNumber` and you can infer what transfer is the one that needs approval. For example, if `count` came back equal to `3`, then the latest transfer has an identifier of `2`. To approve it, you can run:
 
 ```code
-transact.approve(people.pk2m, '2', { from: people.pk2m })
+transact.approve(people.pk2m, count.sub(new BN(1)), { from: people.pk2m })
 ```
