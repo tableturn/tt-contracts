@@ -35,15 +35,15 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
 
   // These are transfer restriction codes that can be returned by
   // the detection function.
-  uint8 constant ERRC_OWNER_NOT_ACTOR = 1;
-  uint8 constant ERRC_RECIPIENT_NOT_ACTOR = 2;
-  uint8 constant ERRC_OWNER_SAME_AS_RECIPIENT = 3;
+  uint8 public constant ERRC_OWNER_NOT_ACTOR = 1;
+  uint8 public constant ERRC_RECIPIENT_NOT_ACTOR = 2;
+  uint8 public constant ERRC_OWNER_SAME_AS_RECIPIENT = 3;
 
   // Error messages that can be mapped from a transfer restriction detection
   // error code.
-  string constant ERR_OWNER_NOT_ACTOR = "Owner of funds must be an actor";
-  string constant ERR_RECIPIENT_NOT_ACTOR = "Recipient of funds must be an actor";
-  string constant ERR_OWNER_SAME_AS_RECIPIENT = "Recipient cannot be the same as owner";
+  string public constant ERR_OWNER_NOT_ACTOR = "Owner of funds must be an actor";
+  string public constant ERR_RECIPIENT_NOT_ACTOR = "Recipient of funds must be an actor";
+  string public constant ERR_OWNER_SAME_AS_RECIPIENT = "Recipient cannot be the same as owner";
 
   /// --- Public functions, mostly ERC20 related.
 
