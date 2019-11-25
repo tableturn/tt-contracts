@@ -283,14 +283,6 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     _;
   }
 
-  modifier isActor(address c) {
-    require(
-      reg.access().isActor(c),
-      "Provided account is not an actor"
-    );
-    _;
-  }
-
   modifier isOwnerActor(address c) {
     require(
       reg.access().isActor(c),
