@@ -7,13 +7,13 @@ pragma solidity ^0.5.9;
 interface IERC1404 {
   /**
    * @dev Returns a transfer restriction error code if the transfer shoudln't be permitted,
-   *      or otherwise returns 0 if everything looks fine.
+   *      or otherwise returns zero if everything looks fine.
    * @param owner is the account from which the tokens should be transfered.
    * @param recipient is the target of the transfer.
    * @param amount is the amount to be transfered.
-   * @return a uint8 value.
+   * @return a uint8 error code if a problem was detected, otherwise zero.
    */
-  function detectTransferRestriction (address owner, address recipient, uint256 value)
+  function detectTransferRestriction (address owner, address recipient, uint256 amount)
     external view returns (uint8);
 
   /**
