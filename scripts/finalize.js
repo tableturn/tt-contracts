@@ -92,7 +92,7 @@ const seed = async ({ utils, people, issuance, governance, token, transact }) =>
     await transact.approve(people.pierre_martin, 0, { from: people.pk2m });
 
     console.info(`Transfering tokens from ${people.pierre_martin} to ${people.kevin_monserrat}.`);
-    await token.transfer(people.kevin_monserrat, utils.convert('40'), {
+    await token.transfer(people.pk2m, utils.convert('40'), {
       from: people.pierre_martin
     });
     console.info(`Rejecting transfer...`);
