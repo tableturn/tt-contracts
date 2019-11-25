@@ -4,13 +4,14 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 // Interfaces and Contracts.
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
+import "./interfaces/IERC1404.sol";
 import "./interfaces/IToken.sol";
 import "./lib/AccountLib.sol";
 import "./Registry.sol";
 import "./Transact.sol";
 
 
-contract Token is Initializable, IToken, IERC20 {
+contract Token is Initializable, IToken, IERC20, IERC1404 {
   using SafeMath for uint256;
   using AccountLib for AccountLib.Data;
 
@@ -181,6 +182,30 @@ contract Token is Initializable, IToken, IERC20 {
   }
 
   /// --- ERC1404 functions.
+
+  function detectTransferRestriction (address owner, address recipient, uint256) public view returns (uint8) {
+    IAccess access = reg.access();
+    if (!access.isActor(owner)) {
+      return ERRC_OWNER_NOT_ACTOR;
+    } else if (!access.isActor(recipient)) {
+      return ERRC_RECIPIENT_NOT_ACTOR;
+    } else if (owner == recipient) {
+      return ERRC_OWNER_SAME_AS_RECIPIENT;
+    } else {
+      return 0;
+    }
+  }
+
+  function messageForTransferRestriction (uint8 errCode) public view returns (string memory) {
+    if (errCode == ERRC_OWNER_NOT_ACTOR)
+      return ERR_OWNER_NOT_ACTOR;
+    else if (errCode == ERRC_RECIPIENT_NOT_ACTOR)
+      return ERR_RECIPIENT_NOT_ACTOR;
+    else if (errCode == ERRC_OWNER_SAME_AS_RECIPIENT)
+      return ERR_OWNER_SAME_AS_RECIPIENT;
+    else
+      revert("Unknown transfer restriction error code");
+  }
 
   /// --- Public but app functions.
 
