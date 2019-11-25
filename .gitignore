@@ -10,7 +10,7 @@ types
 allFiredEvents/
 coverage/
 coverageEnv/
-scTopics/
+scTopics
 coverage.json
 
 conf/keys.1802198*.js
