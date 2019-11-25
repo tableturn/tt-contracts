@@ -35,3 +35,5 @@ export const SELF_TERMINATION = 'Cannot self-destruct as a governor';
 export const ADDITION_OVERFLOW = 'SafeMath: addition overflow';
 
 export const CANNOT_RETRIEVE_FROZEN = 'Cannot retrieve dead tokens on an account with frozen funds';
+
+export const UNKNOWN_ERC1404_CODE = 'Unknown transfer restriction error code';

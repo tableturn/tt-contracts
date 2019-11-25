@@ -17,7 +17,8 @@ import {
   MUST_BE_ISSUER,
   CANNOT_RETRIEVE_FROZEN,
   RECIPIENT_NOT_ACTOR,
-  OWNER_NOT_ACTOR
+  OWNER_NOT_ACTOR,
+  UNKNOWN_ERC1404_CODE
 } from './helpers/errors';
 
 const Registry = artifacts.require('Registry');
@@ -83,6 +84,60 @@ contract('Token', accounts => {
     it('exposes its total supply', async () => {
       const ret = await token.totalSupply();
       assertNumberEquality(ret, '0');
+    });
+  });
+
+  describe('ERC1404', async () => {
+    describe('detectTransferRestriction', async () => {
+      it('does not return an error code when inputs are good', async () => {
+        const code = await token.detectTransferRestriction(actor1, actor2, '100');
+        assertNumberEquality(code, '0');
+      });
+      it('detects when owner is not an actor', async () => {
+        const code = await token.detectTransferRestriction(acc1, actor2, '100');
+        assert.notEqual(code.toString(), '0');
+        assertNumberEquality(code, await token.ERRC_OWNER_NOT_ACTOR());
+      });
+      it('detects when recipient is not an actor', async () => {
+        const code = await token.detectTransferRestriction(actor1, acc2, '100');
+        assert.notEqual(code.toString(), '0');
+        assertNumberEquality(code, await token.ERRC_RECIPIENT_NOT_ACTOR());
+      });
+      it('detects when owner and recipient are the same', async () => {
+        const code = await token.detectTransferRestriction(actor1, actor1, '100');
+        assert.notEqual(code.toString(), '0');
+        assertNumberEquality(code, await token.ERRC_OWNER_SAME_AS_RECIPIENT());
+      });
+    });
+
+    describe('messageForTransferRestriction', async () => {
+      itThrows('an invalid code is passed', UNKNOWN_ERC1404_CODE, async () => {
+        await token.messageForTransferRestriction('255');
+      });
+
+      it('matches the OWNER_NOT_ACTOR error pair', async () => {
+        const [code, msg] = await Promise.all([
+          token.ERRC_OWNER_NOT_ACTOR(),
+          token.ERR_OWNER_NOT_ACTOR()
+        ]);
+        assert.equal(msg, await token.messageForTransferRestriction(code));
+      });
+
+      it('matches the RECIPIENT_NOT_ACTOR error pair', async () => {
+        const [code, msg] = await Promise.all([
+          token.ERRC_RECIPIENT_NOT_ACTOR(),
+          token.ERR_RECIPIENT_NOT_ACTOR()
+        ]);
+        assert.equal(msg, await token.messageForTransferRestriction(code));
+      });
+
+      it('matches the OWNER_SAME_AS_RECIPIENT error pair', async () => {
+        const [code, msg] = await Promise.all([
+          token.ERRC_OWNER_SAME_AS_RECIPIENT(),
+          token.ERR_OWNER_SAME_AS_RECIPIENT()
+        ]);
+        assert.equal(msg, await token.messageForTransferRestriction(code));
+      });
     });
   });
 
