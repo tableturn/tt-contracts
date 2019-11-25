@@ -14,7 +14,11 @@ contract Token is Initializable, IToken, IERC20 {
   using SafeMath for uint256;
   using AccountLib for AccountLib.Data;
 
+  /// --- Events.
+
   event Issuance(uint256 amount, string reason);
+
+  /// --- Members.
 
   /// @dev This is our contract registry.
   Registry public reg;
@@ -26,7 +30,9 @@ contract Token is Initializable, IToken, IERC20 {
   mapping (address => AccountLib.Data) accounts;
   mapping (address => mapping (address => uint256)) allowances;
 
-  // Public functions.
+  /// --- Constants.
+
+  /// --- Public functions, mostly ERC20 related.
 
   /**
    * @dev This is the ZOS constructor.
@@ -80,6 +86,8 @@ contract Token is Initializable, IToken, IERC20 {
     accounts[recipient].credit(amount);
     emit IERC20.Transfer(address(0), recipient, amount);
   }
+
+  /// --- ERC20 functions.
 
   /**
    * @dev Initiates a token transfer between two accounts.
@@ -152,7 +160,9 @@ contract Token is Initializable, IToken, IERC20 {
     return allowances[owner][spender];
   }
 
-  // ------------------------ Public but app functions.
+  /// --- ERC1404 functions.
+
+  /// --- Public but app functions.
 
   /**
    * @dev This function is a callback that should only be used from the Transact contract after a
