@@ -1,7 +1,7 @@
 pragma solidity ^0.5.9;
 
 
-contract IToken {
+interface IToken {
   /**
    * @dev This function is a callback that should only be used from the Transact contract after a
    *      transfer order was approved.

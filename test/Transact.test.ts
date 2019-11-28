@@ -8,16 +8,16 @@ import {
 import { assertNumberEquality } from './helpers/helpers';
 import {
   DOUBLE_INIT,
-  MUST_BE_ACTOR,
   MUST_BE_GOVERNOR,
   INVALID_ORDER_ID,
   INVALID_ORDER_STATUS,
-  SAME_RECIPIENT,
+  OWNER_SAME_AS_RECIPIENT,
   INVALID_GRANT_ID,
   INVALID_GRANT_STATUS,
   GRANT_AMOUNT_MISMATCH,
   GRANT_RECIPIENT_MISMATCH,
-  MUST_BE_TOKEN
+  MUST_BE_TOKEN,
+  MUST_BE_ACTOR
 } from './helpers/errors';
 import { XferGrantStatus, XferOrderStatus } from './helpers/constants';
 
@@ -70,7 +70,7 @@ contract('Transact', accounts => {
     itThrows('the recipient is not an actor', MUST_BE_ACTOR, async () => {
       await transact.preapprove(actor1, acc1, '1000', governance);
     });
-    itThrows('the recipient is the same as the owner', SAME_RECIPIENT, async () => {
+    itThrows('the recipient is the same as the owner', OWNER_SAME_AS_RECIPIENT, async () => {
       await transact.preapprove(actor1, actor1, '1000', governance);
     });
 

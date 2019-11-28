@@ -8,15 +8,17 @@ import { itThrows, assertNumberEquality } from './helpers/helpers';
 import {
   ZERO_ADDRESS,
   INSUFFICIENT_FUNDS,
-  MUST_BE_ACTOR,
-  SAME_RECIPIENT,
+  OWNER_SAME_AS_RECIPIENT,
   SELF_ALLOWANCE,
   INSUFFICIENT_ALLOWANCE,
   MUST_BE_TRANSACT,
   DOUBLE_INIT,
   MUST_BE_GOVERNOR,
   MUST_BE_ISSUER,
-  CANNOT_RETRIEVE_FROZEN
+  CANNOT_RETRIEVE_FROZEN,
+  RECIPIENT_NOT_ACTOR,
+  OWNER_NOT_ACTOR,
+  UNKNOWN_ERC1404_CODE
 } from './helpers/errors';
 
 const Registry = artifacts.require('Registry');
@@ -85,6 +87,60 @@ contract('Token', accounts => {
     });
   });
 
+  describe('ERC1404', async () => {
+    describe('detectTransferRestriction', async () => {
+      it('does not return an error code when inputs are good', async () => {
+        const code = await token.detectTransferRestriction(actor1, actor2, '100');
+        assertNumberEquality(code, '0');
+      });
+      it('detects when owner is not an actor', async () => {
+        const code = await token.detectTransferRestriction(acc1, actor2, '100');
+        assert.notEqual(code.toString(), '0');
+        assertNumberEquality(code, await token.ERRC_OWNER_NOT_ACTOR());
+      });
+      it('detects when recipient is not an actor', async () => {
+        const code = await token.detectTransferRestriction(actor1, acc2, '100');
+        assert.notEqual(code.toString(), '0');
+        assertNumberEquality(code, await token.ERRC_RECIPIENT_NOT_ACTOR());
+      });
+      it('detects when owner and recipient are the same', async () => {
+        const code = await token.detectTransferRestriction(actor1, actor1, '100');
+        assert.notEqual(code.toString(), '0');
+        assertNumberEquality(code, await token.ERRC_OWNER_SAME_AS_RECIPIENT());
+      });
+    });
+
+    describe('messageForTransferRestriction', async () => {
+      itThrows('an invalid code is passed', UNKNOWN_ERC1404_CODE, async () => {
+        await token.messageForTransferRestriction('255');
+      });
+
+      it('matches the OWNER_NOT_ACTOR error pair', async () => {
+        const [code, msg] = await Promise.all([
+          token.ERRC_OWNER_NOT_ACTOR(),
+          token.ERR_OWNER_NOT_ACTOR()
+        ]);
+        assert.equal(msg, await token.messageForTransferRestriction(code));
+      });
+
+      it('matches the RECIPIENT_NOT_ACTOR error pair', async () => {
+        const [code, msg] = await Promise.all([
+          token.ERRC_RECIPIENT_NOT_ACTOR(),
+          token.ERR_RECIPIENT_NOT_ACTOR()
+        ]);
+        assert.equal(msg, await token.messageForTransferRestriction(code));
+      });
+
+      it('matches the OWNER_SAME_AS_RECIPIENT error pair', async () => {
+        const [code, msg] = await Promise.all([
+          token.ERRC_OWNER_SAME_AS_RECIPIENT(),
+          token.ERR_OWNER_SAME_AS_RECIPIENT()
+        ]);
+        assert.equal(msg, await token.messageForTransferRestriction(code));
+      });
+    });
+  });
+
   describe('issue', () => {
     itThrows('unauthorized for unknowns', MUST_BE_ISSUER, async () => {
       await token.issue('500', 'Test issuance', { from: acc1 });
@@ -128,7 +184,7 @@ contract('Token', accounts => {
     itThrows('unauthorized issuer', MUST_BE_GOVERNOR, async () => {
       await token.allocate(actor1, '500', issuance);
     });
-    itThrows('recipient is not an actor', MUST_BE_ACTOR, async () => {
+    itThrows('recipient is not an actor', RECIPIENT_NOT_ACTOR, async () => {
       await token.allocate(acc1, '500', governance);
     });
 
@@ -183,16 +239,16 @@ contract('Token', accounts => {
       await token.issue('5000', 'Test issuance', issuance);
     });
 
-    itThrows('sender is not an actor', MUST_BE_ACTOR, async () => {
+    itThrows('sender is not an actor', OWNER_NOT_ACTOR, async () => {
       await token.transfer(actor1, '500', { from: acc1 });
     });
-    itThrows('recipient is not an actor', MUST_BE_ACTOR, async () => {
+    itThrows('recipient is not an actor', RECIPIENT_NOT_ACTOR, async () => {
       await token.transfer(acc1, '500', { from: actor1 });
     });
     itThrows('there are not enough funds', INSUFFICIENT_FUNDS, async () => {
       await token.transfer(actor2, '100', { from: actor1 });
     });
-    itThrows('sender is the same as recipient', SAME_RECIPIENT, async () => {
+    itThrows('sender is the same as recipient', OWNER_SAME_AS_RECIPIENT, async () => {
       await token.allocate(actor1, '100', governance);
       await token.transfer(actor1, '100', { from: actor1 });
     });
@@ -229,16 +285,16 @@ contract('Token', accounts => {
       await token.issue('5000', 'Test issuance', issuance);
     });
 
-    itThrows('owner is not an actor', MUST_BE_ACTOR, async () => {
+    itThrows('owner is not an actor', OWNER_NOT_ACTOR, async () => {
       await token.transferFrom(acc1, actor3, '100', { from: actor1 });
     });
-    itThrows('recipient is not an actor', MUST_BE_ACTOR, async () => {
+    itThrows('recipient is not an actor', RECIPIENT_NOT_ACTOR, async () => {
       await token.transferFrom(actor2, acc2, '100', { from: actor1 });
     });
     itThrows('owner and spender are the same', SELF_ALLOWANCE, async () => {
       await token.transferFrom(actor1, actor2, '100', { from: actor1 });
     });
-    itThrows('sender is the same as recipient', SAME_RECIPIENT, async () => {
+    itThrows('sender is the same as recipient', OWNER_SAME_AS_RECIPIENT, async () => {
       await token.transferFrom(actor2, actor2, '100', { from: actor1 });
     });
     itThrows('allowance is insuficient', INSUFFICIENT_ALLOWANCE, async () => {
@@ -365,10 +421,10 @@ contract('Token', accounts => {
     itThrows('called as issuer', MUST_BE_GOVERNOR, async () => {
       await token.retrieveDeadTokens(actor1, actor2, issuance);
     });
-    itThrows('recipient is not an actor', MUST_BE_ACTOR, async () => {
+    itThrows('recipient is not an actor', RECIPIENT_NOT_ACTOR, async () => {
       await token.retrieveDeadTokens(actor1, acc1, governance);
     });
-    itThrows('owner is not an actor', MUST_BE_ACTOR, async () => {
+    itThrows('owner is not an actor', OWNER_NOT_ACTOR, async () => {
       await token.retrieveDeadTokens(acc1, actor2, governance);
     });
     describe('when there are tokens to retrieve', () => {

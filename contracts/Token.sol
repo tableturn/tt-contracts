@@ -4,17 +4,22 @@ import "@openzeppelin/contracts/math/SafeMath.sol";
 // Interfaces and Contracts.
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
+import "./interfaces/IERC1404.sol";
 import "./interfaces/IToken.sol";
 import "./lib/AccountLib.sol";
 import "./Registry.sol";
 import "./Transact.sol";
 
 
-contract Token is Initializable, IToken, IERC20 {
+contract Token is Initializable, IToken, IERC20, IERC1404 {
   using SafeMath for uint256;
   using AccountLib for AccountLib.Data;
 
+  /// --- Events.
+
   event Issuance(uint256 amount, string reason);
+
+  /// --- Members.
 
   /// @dev This is our contract registry.
   Registry public reg;
@@ -26,7 +31,21 @@ contract Token is Initializable, IToken, IERC20 {
   mapping (address => AccountLib.Data) accounts;
   mapping (address => mapping (address => uint256)) allowances;
 
-  // Public functions.
+  /// --- Constants.
+
+  // These are transfer restriction codes that can be returned by
+  // the detection function.
+  uint8 public constant ERRC_OWNER_NOT_ACTOR = 1;
+  uint8 public constant ERRC_RECIPIENT_NOT_ACTOR = 2;
+  uint8 public constant ERRC_OWNER_SAME_AS_RECIPIENT = 3;
+
+  // Error messages that can be mapped from a transfer restriction detection
+  // error code.
+  string public constant ERR_OWNER_NOT_ACTOR = "Owner of funds must be an actor";
+  string public constant ERR_RECIPIENT_NOT_ACTOR = "Recipient of funds must be an actor";
+  string public constant ERR_OWNER_SAME_AS_RECIPIENT = "Recipient cannot be the same as owner";
+
+  /// --- Public functions, mostly ERC20 related.
 
   /**
    * @dev This is the ZOS constructor.
@@ -74,12 +93,14 @@ contract Token is Initializable, IToken, IERC20 {
    * @param recipient is the actor who will receive the funds.
    * @param amount is how many tokens should be allocated.
    */
-  function allocate(address recipient, uint256 amount) public governance isActor(recipient) {
+  function allocate(address recipient, uint256 amount) public governance isRecipientActor(recipient) {
     totalSupply = totalSupply.add(amount);
     accounts[address(0)].debit(amount);
     accounts[recipient].credit(amount);
     emit IERC20.Transfer(address(0), recipient, amount);
   }
+
+  /// --- ERC20 functions.
 
   /**
    * @dev Initiates a token transfer between two accounts.
@@ -88,9 +109,13 @@ contract Token is Initializable, IToken, IERC20 {
    * @param amount is the quantity of tokens to transfer from the owner account.
    * @return A bool value set to true signaling a successful operation.
    */
-  function transfer(address recipient, uint256 amount) public isActor(msg.sender) isActor(recipient) returns(bool) {
+  function transfer(address recipient, uint256 amount)
+    public isOwnerActor(msg.sender)
+           isRecipientActor(recipient)
+           ownerAndRecipientDifferent(msg.sender, recipient)
+  returns(bool)
+  {
     address owner = msg.sender;
-    require(owner != recipient, "Recipient cannot be the same as owner");
     accounts[owner].freeze(amount);
     reg.transact().request(
       owner,
@@ -111,10 +136,14 @@ contract Token is Initializable, IToken, IERC20 {
    * @param amount is the quantity of tokens to transfer from the owner account.
    * @return A bool value set to true signaling a successful operation.
    */
-  function transferFrom(address owner, address recipient, uint256 amount) public isActor(owner) isActor(recipient) returns(bool) {
+  function transferFrom(address owner, address recipient, uint256 amount)
+    public isOwnerActor(owner)
+           isRecipientActor(recipient)
+           ownerAndRecipientDifferent(owner, recipient)
+  returns(bool)
+  {
     // We're transacting on behalf of someone. The owner and spender should be different.
     require(msg.sender != owner, "Cannot perform a transfer using allowance on behalf of yourself");
-    require(owner != recipient, "Recipient cannot be the same as owner");
     address spender = msg.sender;
     uint256 allowed = allowances[owner][spender];
     require(amount <= allowed, "Insufficient allowance from owner");
@@ -152,7 +181,33 @@ contract Token is Initializable, IToken, IERC20 {
     return allowances[owner][spender];
   }
 
-  // ------------------------ Public but app functions.
+  /// --- ERC1404 functions.
+
+  function detectTransferRestriction (address owner, address recipient, uint256) public view returns (uint8) {
+    IAccess access = reg.access();
+    if (!access.isActor(owner)) {
+      return ERRC_OWNER_NOT_ACTOR;
+    } else if (!access.isActor(recipient)) {
+      return ERRC_RECIPIENT_NOT_ACTOR;
+    } else if (owner == recipient) {
+      return ERRC_OWNER_SAME_AS_RECIPIENT;
+    } else {
+      return 0;
+    }
+  }
+
+  function messageForTransferRestriction (uint8 errCode) public view returns (string memory) {
+    if (errCode == ERRC_OWNER_NOT_ACTOR)
+      return ERR_OWNER_NOT_ACTOR;
+    else if (errCode == ERRC_RECIPIENT_NOT_ACTOR)
+      return ERR_RECIPIENT_NOT_ACTOR;
+    else if (errCode == ERRC_OWNER_SAME_AS_RECIPIENT)
+      return ERR_OWNER_SAME_AS_RECIPIENT;
+    else
+      revert("Unknown transfer restriction error code");
+  }
+
+  /// --- Public but app functions.
 
   /**
    * @dev This function is a callback that should only be used from the Transact contract after a
@@ -188,7 +243,7 @@ contract Token is Initializable, IToken, IERC20 {
    * @param owner is the account owning the funds.
    * @param target is the account that should be credited.
    */
-  function retrieveDeadTokens(address owner, address target) public governance() isActor(owner) isActor(target) {
+  function retrieveDeadTokens(address owner, address target) public governance() isOwnerActor(owner) isRecipientActor(target) {
     require(
       accounts[owner].frozen == 0,
       "Cannot retrieve dead tokens on an account with frozen funds"
@@ -205,7 +260,7 @@ contract Token is Initializable, IToken, IERC20 {
    * @param spender is the account that will be allowed to spend the funds on behalf of the owner.
    * @param amount is the quantity of tokens that the spender can spend at most.
    */
-  function _approve(address owner, address spender, uint256 amount) internal isActor(owner) {
+  function _approve(address owner, address spender, uint256 amount) internal isOwnerActor(owner) {
     allowances[owner][spender] = amount;
     emit IERC20.Approval(owner, spender, amount);
   }
@@ -228,10 +283,26 @@ contract Token is Initializable, IToken, IERC20 {
     _;
   }
 
-  modifier isActor(address c) {
+  modifier isOwnerActor(address c) {
     require(
       reg.access().isActor(c),
-      "Provided account is not an actor"
+      ERR_OWNER_NOT_ACTOR
+    );
+    _;
+  }
+
+  modifier isRecipientActor(address c) {
+    require(
+      reg.access().isActor(c),
+      ERR_RECIPIENT_NOT_ACTOR
+    );
+    _;
+  }
+
+  modifier ownerAndRecipientDifferent(address a, address b) {
+    require(
+      a != b,
+      ERR_OWNER_SAME_AS_RECIPIENT
     );
     _;
   }
