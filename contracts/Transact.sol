@@ -24,7 +24,10 @@ contract Transact is Initializable, ITransact {
 
   /// Events.
 
+  // Grant-related events.
   event Granted(address indexed owner, uint256 grantId);
+
+  // Transfer related events.
   event Request(address indexed owner, uint256 orderId);
   event Approval(address indexed owner, uint256 orderId);
   event Rejection(address indexed owner, uint256 orderId);
@@ -53,9 +56,10 @@ contract Transact is Initializable, ITransact {
   {
     XferOrderLib.Data[] storage orders = orderBook[owner];
     // Store new order.
+    uint256 orderId = orders.length;
     orders.push(XferOrderLib.make(spender, recipient, amount));
     // Emit!
-    emit Request(owner, orders.length - 1);
+    emit Request(owner, orderId);
   }
 
   /// @dev Counts all order for a given owner.
@@ -88,8 +92,9 @@ contract Transact is Initializable, ITransact {
   {
     require(owner != recipient, "Recipient cannot be the same as owner");
     XferGrantLib.Data[] storage grants = grantBook[owner];
+    uint256 orderId = grants.length;
     grants.push(XferGrantLib.make(recipient, maxAmount));
-    emit Granted(owner, grants.length - 1);
+    emit Granted(owner, orderId);
   }
 
   /// @dev Counts all grants for a given owner.
