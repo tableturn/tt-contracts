@@ -1,3 +1,5 @@
+const BN = require('bn.js');
+
 module.exports = (registry, access, register, transact, token) => {
   const convert = amount => {
     const clean = `${amount}`.split('_').join('');
@@ -49,9 +51,10 @@ module.exports = (registry, access, register, transact, token) => {
     await promoteActor(to, { from });
     console.info(`Transfering ${amount} to ${to}...`);
     await token.transfer(to, convert(`${amount}`), { from });
-    const id = (await transact.countOrders(from)) - 1;
-    console.info(`Approving transfer with id ${id}...`);
-    await transact.approve(from, id, { from });
+    const index = (await transact.countOrders(from)).sub(new BN(1));
+    console.info(`Approving transfer with index ${index}...`);
+    const orderId = await transact.orderIdAt(from, index);
+    await transact.approve(orderId, { from });
   };
 
   const accountancy = async people => {
@@ -72,7 +75,3 @@ module.exports = (registry, access, register, transact, token) => {
     accountancy
   };
 };
-
-// utils.promotePk2mInvestor(people.pk2m, people.warwick_hill, 1000)
-// utils.promotePk2mInvestor(people.pk2m, people.rhys_photis, 1000)
-// utils.promotePk2mInvestor(people.pk2m, people.jimmy_bricknell, 100)
