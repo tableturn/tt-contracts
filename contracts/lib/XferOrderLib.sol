@@ -8,6 +8,7 @@ library XferOrderLib {
   enum Status { Pending, Approved, Rejected }
   /// @dev Represents a transfer order, either Pending, Approved or Rejected.
   struct Data {
+    address owner;
     address spender;
     address recipient;
     uint256 amount;
@@ -16,14 +17,32 @@ library XferOrderLib {
   }
 
   /// @dev Makes a new XferOrderLib.Data structure.
-  function make(address spender, address recipient, uint256 amount) internal view returns(Data memory) {
+  function make(
+    address owner,
+    address spender,
+    address recipient,
+    uint256 amount
+  ) internal view returns(Data memory)
+  {
     return Data({
+      owner: owner,
       spender: spender,
       recipient: recipient,
       amount: amount,
       createdAt: block.number,
       status: Status.Pending
     });
+  }
+
+  function ensureValidStruct(Data storage order) internal view {
+    require(
+      order.owner != address(0) &&
+      order.spender != address(0) &&
+      order.recipient != address(0) &&
+      order.amount != 0 &&
+      order.createdAt != 0,
+      "The specified order is invalid"
+    );
   }
 
   /**

@@ -1,21 +1,21 @@
 import { XferGrantLibTesterInstance } from '../../types/truffle-contracts';
 import { assertNumberEquality, itThrows } from '../helpers/helpers';
-import { INVALID_GRANT_STATUS } from '../helpers/errors';
+import { INVALID_GRANT, INVALID_GRANT_STATUS, ZERO_ADDRESS } from '../helpers/errors';
 import { XferGrantStatus } from '../helpers/constants';
 
 const XferGrantLibTester = artifacts.require('XferGrantLibTester');
 
 contract('XferGrantLib', accounts => {
-  const [_, recipient] = accounts;
-  let tester: XferGrantLibTesterInstance;
+  const [_, owner, recipient] = accounts;
+  let t: XferGrantLibTesterInstance;
 
   before(async () => {
-    tester = await XferGrantLibTester.new();
+    t = await XferGrantLibTester.new();
   });
 
   describe('make', async () => {
     it('creates an object with its fields set properly', async () => {
-      const sample1 = await tester.make(recipient, '300');
+      const sample1 = await t.make(owner, recipient, '300');
       assert.equal(sample1.recipient, recipient);
       assertNumberEquality(sample1.maxAmount, '300');
       assertNumberEquality(sample1.status, XferGrantStatus.Valid);
@@ -24,17 +24,38 @@ contract('XferGrantLib', accounts => {
 
   describe('redeem', async () => {
     itThrows(' already redeemed', INVALID_GRANT_STATUS, async () => {
-      await tester.setSample1(recipient, '300', XferGrantStatus.Used);
-      await tester.redeem();
+      await t.setSample1(owner, recipient, '300', XferGrantStatus.Used);
+      await t.redeem();
     });
 
     it('sets status to used', async () => {
-      await tester.setSample1(recipient, '200', XferGrantStatus.Valid);
-      const before = await tester.getSample1();
+      await t.setSample1(owner, recipient, '200', XferGrantStatus.Valid);
+      const before = await t.getSample1();
       assertNumberEquality(before.status, XferGrantStatus.Valid);
-      await tester.redeem();
-      const after = await tester.getSample1();
+      await t.redeem();
+      const after = await t.getSample1();
       assertNumberEquality(after.status, XferGrantStatus.Used);
+    });
+  });
+
+  describe('ensureValidStruct', async () => {
+    itThrows('the grant owner is invalid', INVALID_GRANT, async () => {
+      await t.setSample1(ZERO_ADDRESS, recipient, '50', XferGrantStatus.Valid);
+      await t.ensureValidStruct();
+    });
+    itThrows('the grant recipient is invalid', INVALID_GRANT, async () => {
+      await t.setSample1(owner, ZERO_ADDRESS, '50', XferGrantStatus.Used);
+      await t.ensureValidStruct();
+    });
+    itThrows('the grant amount is invalid', INVALID_GRANT, async () => {
+      await t.setSample1(owner, recipient, '0', XferGrantStatus.Valid);
+      await t.ensureValidStruct();
+    });
+
+    it('succeeds when the grant is valid', async () => {
+      await t.setSample1(owner, recipient, '50', XferGrantStatus.Used);
+      await t.ensureValidStruct();
+      assert.isTrue(true);
     });
   });
 });

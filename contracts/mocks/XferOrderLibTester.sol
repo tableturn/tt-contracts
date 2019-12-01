@@ -9,8 +9,19 @@ contract XferOrderLibTester {
   XferOrderLib.Data private sample1;
 
   /// @dev Proxy to the `XferOrderLib.make` function.
-  function make(address spender, address recipient, uint256 maxAmount) public view returns(XferOrderLib.Data memory) {
-    return XferOrderLib.make(spender, recipient, maxAmount);
+  function make(
+    address owner,
+    address spender,
+    address recipient,
+    uint256 maxAmount
+  ) public view returns(XferOrderLib.Data memory)
+  {
+    return XferOrderLib.make(
+      owner,
+      spender,
+      recipient,
+      maxAmount
+    );
   }
 
   /// @dev Proxy to the `XferOrderLib.finalize` function.
@@ -22,17 +33,26 @@ contract XferOrderLibTester {
   /// @dev Proxy to the `XferOrderLib.reject` function.
   function reject() public { sample1.reject(); }
 
+  /// @dev Proxy to the `XferOrderLib.ensureValidStruct` function.
+  function ensureValidStruct() public view { sample1.ensureValidStruct(); }
+
   // ----------------------------------------------------------------------------- //
 
   /// @dev Sample 1 setter.
   function setSample1(
+    address owner,
     address spender,
     address recipient,
     uint256 amount,
     uint256 createdAt,
     XferOrderLib.Status status) public
   {
-    sample1 = XferOrderLib.make(spender, recipient, amount);
+    sample1 = XferOrderLib.make(
+      owner,
+      spender,
+      recipient,
+      amount
+    );
     sample1.createdAt = createdAt;
     sample1.status = status;
   }
