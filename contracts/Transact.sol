@@ -17,20 +17,29 @@ contract Transact is Initializable, ITransact {
 
   // Our contracts registry.
   Registry public reg;
-  // Our accounts are held in this mapping.
-  mapping(address => XferOrderLib.Data[]) orderBook;
-  // Our grant / pre-approvals are held in this mapping.
-  mapping(address => XferGrantLib.Data[]) grantBook;
+
+  // UNUSED: Our accounts are held in this mapping.
+  mapping(address => XferOrderLib.Data[]) oldOrderBook;
+  // UNUSED: Our grant / pre-approvals are held in this mapping.
+  mapping(address => XferGrantLib.Data[]) oldGrantBook;
+
+  // This is how we keep track of orders.
+  mapping(bytes32 => XferOrderLib.Data) orders;
+  mapping(address => bytes32[]) orderBook;
+
+  // This is how we keep track of grants.
+  mapping(bytes32 => XferGrantLib.Data) grants;
+  mapping(address => bytes32[]) grantBook;
 
   /// Events.
 
   // Grant-related events.
-  event Granted(address indexed owner, uint256 grantId);
+  event Granted(address indexed owner, address indexed recipient, bytes32 id);
 
   // Transfer related events.
-  event Request(address indexed owner, uint256 orderId);
-  event Approval(address indexed owner, uint256 orderId);
-  event Rejection(address indexed owner, uint256 orderId);
+  event Request(address indexed owner, address indexed recipient, bytes32 id);
+  event Approval(address indexed owner, address indexed recipient, bytes32 id);
+  event Rejection(address indexed owner, address indexed recipient, bytes32 id);
 
   /**
    * @dev This is the ZOS constructor.
@@ -44,6 +53,7 @@ contract Transact is Initializable, ITransact {
    * @dev This function is a callback that should only be used from the Token contract after a
    *      transfer function was called. It creates a pending transfer order.
    * @param owner is the account from which the funds shall be frozen.
+   * @param spender is the account that is actually spending the funds.
    * @param recipient is the account to which the funds would be transfered.
    * @param amount is the amount of tokens to include in the transfer.
    */
@@ -54,27 +64,56 @@ contract Transact is Initializable, ITransact {
     uint256 amount
   ) public isActor(owner) isActor(recipient) fromToken
   {
-    XferOrderLib.Data[] storage orders = orderBook[owner];
-    // Store new order.
-    uint256 orderId = orders.length;
-    orders.push(XferOrderLib.make(spender, recipient, amount));
+    // Get various order books.
+    bytes32[] storage ownerOrders = orderBook[owner];
+    bytes32[] storage recipientOrders = orderBook[recipient];
+    // Create our new order and its id.
+    bytes32 id = generateOrderId(owner, ownerOrders.length);
+    XferOrderLib.Data memory order = XferOrderLib.make(
+      owner,
+      spender,
+      recipient,
+      amount
+    );
+    // Add the order id to the owner and recipient book.
+    ownerOrders.push(id);
+    recipientOrders.push(id);
+    // Add the order to the global order list.
+    orders[id] = order;
     // Emit!
-    emit Request(owner, orderId);
+    emit Request(owner, recipient, id);
+  }
+
+  /// @dev Creates an order id.
+  function generateOrderId(address owner, uint256 index) public pure returns(bytes32) {
+    return keccak256(abi.encodePacked("Order", owner, index));
   }
 
   /// @dev Counts all order for a given owner.
-  function countOrders(address owner) public view returns(uint256) {
+  function orderCount(address owner) public view returns(uint256) {
     return orderBook[owner].length;
   }
 
-  /// @dev Gets all order for a given owner.
-  function allOrders(address owner) public view returns(XferOrderLib.Data[] memory) {
-    return orderBook[owner];
+  /// @dev Gets an order id given its owner and index.
+  function orderIdAt(address owner, uint256 index) public view returns(bytes32) {
+    bytes32[] storage ids = orderBook[owner];
+    require(
+      index < ids.length,
+      "The specified order index is invalid"
+    );
+    return ids[index];
   }
 
-  /// @dev Gets a order given its owner and its id.
-  function getOrder(address owner, uint256 orderId) public view returns(XferOrderLib.Data memory) {
-    return _getOrder(owner, orderId);
+  /// @dev Gets an order given its owner and the index of its id.
+  function orderAt(address owner, uint256 index) public view returns(XferOrderLib.Data memory) {
+    return orders[orderIdAt(owner, index)];
+  }
+
+  /// @dev Gets an order given it's id.
+  function order(bytes32 orderId) public view returns(XferOrderLib.Data memory) {
+    XferOrderLib.Data storage o = orders[orderId];
+    o.ensureValidStruct();
+    return o;
   }
 
   /**
@@ -91,111 +130,130 @@ contract Transact is Initializable, ITransact {
   ) public governance isActor(owner) isActor(recipient)
   {
     require(owner != recipient, "Recipient cannot be the same as owner");
-    XferGrantLib.Data[] storage grants = grantBook[owner];
-    uint256 orderId = grants.length;
-    grants.push(XferGrantLib.make(recipient, maxAmount));
-    emit Granted(owner, orderId);
+    // Get the owner order book.
+    bytes32[] storage ownerGrants = grantBook[owner];
+    // Make a new order id.
+    bytes32 id = generateGrantId(owner, ownerGrants.length);
+    // Add the grant id to the owner grant book.
+    ownerGrants.push(id);
+    // Add the order to the global order queue.
+    grants[id] = XferGrantLib.make(owner, recipient, maxAmount);
+    // Emit!
+    emit Granted(owner, recipient, id);
+  }
+
+  function generateGrantId(address owner, uint256 index) public pure returns(bytes32) {
+    return keccak256(abi.encodePacked("Grant", owner, index));
   }
 
   /// @dev Counts all grants for a given owner.
-  function countGrants(address owner) public view returns(uint256) {
+  function grantCount(address owner) public view returns(uint256) {
     return grantBook[owner].length;
   }
 
-  /// @dev Gets all grants for a given owner.
-  function allGrants(address owner) public view returns(XferGrantLib.Data[] memory) {
-    return grantBook[owner];
+  /// @dev Gets a grant id given its owner and index.
+  function grantIdAt(address owner, uint256 index) public view returns(bytes32) {
+    bytes32[] storage ids = grantBook[owner];
+    require(
+      index < ids.length,
+      "The specified grant index is invalid"
+    );
+    return ids[index];
   }
 
-  /// @dev Gets a grant given its owner and its id.
-  function getGrant(address owner, uint256 grantId) public view returns(XferGrantLib.Data memory) {
-    return _getGrant(owner, grantId);
+  /// @dev Gets a grant given its owner and the index of its id.
+  function grantAt(address owner, uint256 index) public view returns(XferGrantLib.Data memory) {
+    return grants[grantIdAt(owner, index)];
+  }
+
+  /// @dev Gets a grant given it's id.
+  function grant(bytes32 grantId) public view returns(XferGrantLib.Data memory) {
+    XferGrantLib.Data storage g = grants[grantId];
+    g.ensureValidStruct();
+    return g;
   }
 
   /**
   * @dev This function approves a transfer using a pre-approved grant which should still be valid.
   *      The transfer must be in the `ITransact.Status.Pending` status.
   * @notice For this to work, `msg.sender` must be a governor.
-  * @param owner is the account to which the transfer belongs to.
   * @param orderId is the order id that was returned by the `request` function to create the transfer order.
+  * @param orderId is the grant id to use to self-approve.
   */
   function approveGranted(
-    address owner,
-    uint256 orderId,
-    uint256 grantId
-  ) public isActor(owner)
+    bytes32 orderId,
+    bytes32 grantId
+  ) public isActor(msg.sender)
   {
-    // Get the order.
-    XferOrderLib.Data storage order = _getOrder(owner, orderId);
-    // Get the pre-approval grant.
-    XferGrantLib.Data storage grant = _getGrant(owner, grantId);
+    // Get the order and grant.
+    XferOrderLib.Data storage o = orders[orderId];
+    o.ensureValidStruct();
+    XferGrantLib.Data storage g = grants[grantId];
+    g.ensureValidStruct();
+    // Ensure that the order belongs to the message sender.
+    require(
+      msg.sender == o.owner && msg.sender == g.owner,
+      "The specified order and grant must belong to you"
+    );
     // Ensure that the pre-approval matches the order.
     require(
-      order.recipient == grant.recipient,
+      o.recipient == g.recipient,
       "The specified pre-approval doesn't cover this recipient"
     );
     require(
-      order.amount <= grant.maxAmount,
+      o.amount <= g.maxAmount,
       "The specified pre-approval doesn't cover for this amount"
     );
     // Update the order status.
-    order.approve();
+    o.approve();
     // Make sure the used grant cannot be used again.
-    grant.redeem();
+    g.redeem();
     // Make our token contract aware of the changes.
-    reg.token().transferApproved(owner, order.recipient, order.amount);
+    reg.token().transferApproved(o.owner, o.recipient, o.amount);
     // Emit!
-    emit Approval(owner, orderId);
+    emit Approval(o.owner, o.recipient, orderId);
   }
 
   /**
    * @dev This function approves a transfer. The transfer must be in the `ITransact.Status.Pending` status.
    * @notice For this to work, `msg.sender` must be a governor.
-   * @param owner is the account to which the transfer belongs to.
    * @param orderId is the order id that was returned by the `request` function to create the transfer order.
    */
-  function approve(address owner, uint256 orderId) public governance isActor(owner) {
+  function approve(bytes32 orderId) public governance {
     // Get the order.
-    XferOrderLib.Data storage order = _getOrder(owner, orderId);
+    XferOrderLib.Data storage o = orders[orderId];
+    o.ensureValidStruct();
     // Update the order status.
-    order.approve();
+    o.approve();
     // Make our token contract aware of the changes.
-    reg.token().transferApproved(owner, order.recipient, order.amount);
+    reg.token().transferApproved(o.owner, o.recipient, o.amount);
     // Emit!
-    emit Approval(owner, orderId);
+    emit Approval(o.owner, o.recipient, orderId);
   }
 
   /**
    * @dev This function rejects a transfer. The transfer must be in the `ITransact.Status.Pending` status.
    *      The function can be called either by a governor or the owner of the funds.
    * @notice For this to work, `msg.sender` must be a governor.
-   * @param owner is the account to which the transfer belongs to.
    * @param orderId is the order id that was returned by the `request` function to create the transfer order.
    */
-  function reject(address owner, uint256 orderId) public governance isActor(owner) {
-    // Get the order.
-    XferOrderLib.Data storage order = _getOrder(owner, orderId);
-    address spender = order.spender;
-    // Update the order.
-    order.reject();
+  function reject(bytes32 orderId) public governance {
+    // Get the order and update it.
+    XferOrderLib.Data storage o = orders[orderId];
+    o.ensureValidStruct();
+    o.reject();
     // Make our token contract aware of the changes.
-    reg.token().transferRejected(owner, spender, order.amount);
+    reg.token().transferRejected(o.owner, o.spender, o.amount);
     // Emit!
-    emit Rejection(owner, orderId);
+    emit Rejection(o.owner, o.recipient, orderId);
   }
 
   // Private / internal stuff.
 
-  function _getOrder(address owner, uint256 orderId) internal view returns(XferOrderLib.Data storage) {
-    XferOrderLib.Data[] storage orders = orderBook[owner];
-    require(orderId < orders.length, "The specified order id is invalid");
-    return orders[orderId];
-  }
-
-  function _getGrant(address owner, uint256 grantId) internal view returns(XferGrantLib.Data storage) {
-    XferGrantLib.Data[] storage grants = grantBook[owner];
-    require(grantId < grants.length, "The specified grant id is invalid");
-    return grants[grantId];
+  function _getGrant(bytes32 grantId) private view returns(XferGrantLib.Data storage) {
+    XferGrantLib.Data storage g = grants[grantId];
+    g.ensureValidStruct();
+    return g;
   }
 
   // Modifiers.

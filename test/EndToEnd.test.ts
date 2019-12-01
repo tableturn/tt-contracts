@@ -11,13 +11,13 @@ import {
   MUST_BE_ISSUER,
   INSUFFICIENT_FUNDS,
   INVALID_ORDER_STATUS,
-  INVALID_ORDER_ID,
+  INVALID_ORDER,
   INSUFFICIENT_ALLOWANCE,
   GRANT_AMOUNT_MISMATCH,
   GRANT_RECIPIENT_MISMATCH,
   INVALID_GRANT_STATUS
 } from './helpers/errors';
-import BN = require('bn.js');
+import { BAD_ID, ONE } from './helpers/constants';
 
 const Registry = artifacts.require('Registry');
 const Access = artifacts.require('Access');
@@ -158,20 +158,21 @@ contract('EndToEnd', accounts => {
     // Balances: Bob = 95+5, Marie = 0
     it('orders a transfer of 5 tokens from Bob to Marie', async () => {
       await token.transfer(marie, '5', { from: bob });
-      assertNumberEquality(await transact.countOrders(bob), '1');
+      assertNumberEquality(await transact.orderCount(bob), '1');
       assertNumberEquality(await token.balanceOf(bob), '95');
       assertNumberEquality(await token.frozenOf(bob), '5');
       assertNumberEquality(await token.balanceOf(marie), '0');
     });
 
     // Balances: Bob = 95+5, Marie = 0
-    itThrows('approving a wrong transfer', INVALID_ORDER_ID, async () => {
-      await transact.approve(bob, '1', governance);
+    itThrows('approving a wrong transfer', INVALID_ORDER, async () => {
+      await transact.approve(BAD_ID, governance);
     });
 
     // Balances: Bob = 95, Marie = 5
     it('approves the transfer', async () => {
-      await transact.approve(bob, '0', governance);
+      const orderId = await transact.orderIdAt(bob, '0');
+      await transact.approve(orderId, governance);
       assertNumberEquality(await token.balanceOf(bob), '95');
       assertNumberEquality(await token.frozenOf(bob), '0');
       assertNumberEquality(await token.balanceOf(marie), '5');
@@ -179,7 +180,8 @@ contract('EndToEnd', accounts => {
 
     // Balances: Bob = 95, Marie = 5
     itThrows('approving a transfer twice', INVALID_ORDER_STATUS, async () => {
-      await transact.approve(bob, '0', governance);
+      const orderId = await transact.orderIdAt(bob, '0');
+      await transact.approve(orderId, governance);
     });
 
     it("adds Tom as an actor using Bob's account", async () => {
@@ -204,7 +206,7 @@ contract('EndToEnd', accounts => {
     // Allowances: Tom = 6
     it('lets Tom perform a transfer using their allowance', async () => {
       await token.transferFrom(bob, marie, '4', { from: tom });
-      assertNumberEquality(await transact.countOrders(bob), '2');
+      assertNumberEquality(await transact.orderCount(bob), '2');
       assertNumberEquality(await token.allowance(bob, tom), '6');
       assertNumberEquality(await token.balanceOf(bob), '91');
       assertNumberEquality(await token.frozenOf(bob), '4');
@@ -214,7 +216,8 @@ contract('EndToEnd', accounts => {
     // Balances: Bob = 91, Marie = 9
     // Allowances: Tom = 6
     it("approves the transfer using Bob's account", async () => {
-      await transact.approve(bob, '1', { from: bob });
+      const orderId = await transact.orderIdAt(bob, '1');
+      await transact.approve(orderId, governance);
       assertNumberEquality(await token.balanceOf(bob), '91');
       assertNumberEquality(await token.frozenOf(bob), '0');
       assertNumberEquality(await token.balanceOf(marie), '9');
@@ -224,14 +227,15 @@ contract('EndToEnd', accounts => {
     // Allowances: Tom = 0
     it('lets Tom perform a transfer using their allowance', async () => {
       await token.transferFrom(bob, marie, '6', { from: tom });
-      assertNumberEquality(await transact.countOrders(bob), '3');
+      assertNumberEquality(await transact.orderCount(bob), '3');
       assertNumberEquality(await token.allowance(bob, tom), '0');
     });
 
     // Balances: Bob = 91, Marie = 9
     // Allowances: Tom = 6
     it('rejects the transfer', async () => {
-      await transact.reject(bob, '2', governance);
+      const orderId = await transact.orderIdAt(bob, '2');
+      await transact.reject(orderId, governance);
       assertNumberEquality(await token.balanceOf(bob), '91');
       assertNumberEquality(await token.frozenOf(bob), '0');
       assertNumberEquality(await token.balanceOf(marie), '9');
@@ -245,12 +249,12 @@ contract('EndToEnd', accounts => {
         transact.preapprove(marie, tom, '4', governance),
         token.transfer(tom, '5', { from: marie })
       ]);
-      const [orderId, grantId] = await Promise.all([
-        transact.countOrders(marie),
-        transact.countGrants(marie)
-      ]).then(counts => counts.map(c => c.sub(new BN(1))));
-      assertNumberEquality(orderId, '0');
-      assertNumberEquality(grantId, '0');
+      const [orderCount, grantCount] = await Promise.all([
+        transact.orderCount(marie),
+        transact.grantCount(marie)
+      ]);
+      assertNumberEquality(orderCount, '4');
+      assertNumberEquality(grantCount, '1');
     });
 
     // # Grant too low.
@@ -259,10 +263,14 @@ contract('EndToEnd', accounts => {
     // Allowances: Tom = 6
     itThrows('a grant does not cover an order', GRANT_AMOUNT_MISMATCH, async () => {
       const [orderId, grantId] = await Promise.all([
-        transact.countOrders(marie),
-        transact.countGrants(marie)
-      ]).then(counts => counts.map(c => c.sub(new BN(1))));
-      await transact.approveGranted(marie, orderId, grantId, { from: marie });
+        transact.orderCount(marie),
+        transact.grantCount(marie)
+      ])
+        .then(counts => counts.map(c => c.sub(ONE)))
+        .then(([orderIdx, grantIdx]) =>
+          Promise.all([transact.orderIdAt(marie, orderIdx), transact.grantIdAt(marie, grantIdx)])
+        );
+      await transact.approveGranted(orderId, grantId, { from: marie });
     });
 
     // # Grant Recipient Mismatch
@@ -271,13 +279,22 @@ contract('EndToEnd', accounts => {
     // Allowances: Tom = 6
     itThrows('a grant does not match the recipient', GRANT_RECIPIENT_MISMATCH, async () => {
       await token.transfer(bob, '1', { from: marie });
-      const [orderId, grantId] = await Promise.all([
-        transact.countOrders(marie),
-        transact.countGrants(marie)
-      ]).then(counts => counts.map(c => c.sub(new BN(1))));
-      assertNumberEquality(orderId, '1');
-      assertNumberEquality(grantId, '0');
-      await transact.approveGranted(marie, orderId, grantId, { from: marie });
+      const [orderIdx, grantIdx, orderId, grantId] = await Promise.all([
+        transact.orderCount(marie),
+        transact.grantCount(marie)
+      ])
+        .then(counts => counts.map(c => c.sub(ONE)))
+        .then(([orderIdx, grantIdx]) =>
+          Promise.all([
+            orderIdx,
+            grantIdx,
+            transact.orderIdAt(marie, orderIdx),
+            transact.grantIdAt(marie, grantIdx)
+          ])
+        );
+      assertNumberEquality(orderIdx, '4');
+      assertNumberEquality(grantIdx, '0');
+      await transact.approveGranted(orderId, grantId, { from: marie });
     });
 
     // # Successful Grant
@@ -287,12 +304,14 @@ contract('EndToEnd', accounts => {
     it('should have properly transfered the tokens', async () => {
       await token.transfer(tom, '1', { from: marie });
       const [orderId, grantId] = await Promise.all([
-        transact.countOrders(marie),
-        transact.countGrants(marie)
-      ]).then(counts => counts.map(c => c.sub(new BN(1))));
-      assertNumberEquality(orderId, '2');
-      assertNumberEquality(grantId, '0');
-      await transact.approveGranted(marie, orderId, grantId, { from: marie });
+        transact.orderCount(marie),
+        transact.grantCount(marie)
+      ])
+        .then(counts => counts.map(c => c.sub(ONE)))
+        .then(([orderIdx, grantIdx]) =>
+          Promise.all([transact.orderIdAt(marie, orderIdx), transact.grantIdAt(marie, grantIdx)])
+        );
+      await transact.approveGranted(orderId, grantId, { from: marie });
       assertNumberEquality(await token.balanceOf(marie), '2');
       assertNumberEquality(await token.balanceOf(tom), '1');
     });
@@ -303,13 +322,22 @@ contract('EndToEnd', accounts => {
     // Allowances: Tom = 6
     itThrows('a grant was already used', INVALID_GRANT_STATUS, async () => {
       await token.transfer(tom, '1', { from: marie });
-      const [orderId, grantId] = await Promise.all([
-        transact.countOrders(marie),
-        transact.countGrants(marie)
-      ]).then(counts => counts.map(c => c.sub(new BN(1))));
-      assertNumberEquality(orderId, '3');
-      assertNumberEquality(grantId, '0');
-      await transact.approveGranted(marie, orderId, grantId, { from: marie });
+      const [orderIdx, grantIdx, orderId, grantId] = await Promise.all([
+        transact.orderCount(marie),
+        transact.grantCount(marie)
+      ])
+        .then(counts => counts.map(c => c.sub(ONE)))
+        .then(([orderIdx, grantIdx]) =>
+          Promise.all([
+            orderIdx,
+            grantIdx,
+            transact.orderIdAt(marie, orderIdx),
+            transact.grantIdAt(marie, grantIdx)
+          ])
+        );
+      assertNumberEquality(orderIdx, '6');
+      assertNumberEquality(grantIdx, '0');
+      await transact.approveGranted(orderId, grantId, { from: marie });
     });
 
     // # Balances Test
