@@ -19,7 +19,8 @@ import {
   GRANT_RECIPIENT_MISMATCH,
   MUST_BE_TOKEN,
   MUST_BE_ACTOR,
-  GRANT_OWNER_MISMATCH
+  GRANT_OWNER_MISMATCH,
+  INVALID_ZERO_AMOUNT
 } from './helpers/errors';
 import { XferGrantStatus, XferOrderStatus, ONE, BAD_ID } from './helpers/constants';
 
@@ -71,6 +72,9 @@ contract('Transact', accounts => {
     });
     itThrows('the caller is not the Token contract', MUST_BE_TOKEN, async () => {
       await t.request(actor1, actor1, actor2, '1000', governance);
+    });
+    itThrows('amount is zero', INVALID_ZERO_AMOUNT, async () => {
+      await t.request(actor1, actor1, actor2, '0', { from: fakeToken });
     });
 
     it('creates a new order that can be queried', async () => {

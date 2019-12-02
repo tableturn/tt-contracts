@@ -71,6 +71,7 @@ contract Transact is Initializable, ITransact {
     uint256 amount
   ) public isActor(owner) isActor(recipient) fromToken
   {
+    require(amount > 0, "Amount cannot be zero");
     // Create our new order id.
     bytes32 id = orderData.create(
       owner,

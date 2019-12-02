@@ -18,6 +18,7 @@ export const GRANT_RECIPIENT_MISMATCH = "The specified pre-approval doesn't cove
 export const GRANT_AMOUNT_MISMATCH = "The specified pre-approval doesn't cover for this amount";
 export const MUST_BE_TRANSACT = 'This function can only be called by the Transact contract';
 export const MUST_BE_TOKEN = 'This function can only be called by the Token contract';
+export const INVALID_ZERO_AMOUNT = 'Amount cannot be zero';
 export const INVALID_ZERO_ADDRESS = 'Address cannot be 0x0';
 export const ADDRESS_ALREADY_IN_SET = 'Address already in set';
 export const NONEXISTENT_ADDRESS = 'Address does not exist in set';
