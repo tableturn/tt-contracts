@@ -85,7 +85,7 @@ contract Transact is Initializable, ITransact {
    * @param owner is the address for which to count orders.
    * @return The count of orders for the given owner, including sent and received orders.
    */
-  function orderCount(address owner) public view returns(uint256) {
+  function orderCount(address owner) public isActor(owner) view returns(uint256) {
     return orderData.count(owner);
   }
 
@@ -94,7 +94,7 @@ contract Transact is Initializable, ITransact {
    * @param index is the index of the order id to be retrieved.
    * @return An order id when the call succeeds, otherwise throws.
    */
-  function orderIdByOwnerAndIndex(address owner, uint256 index) public view returns(bytes32) {
+  function orderIdByOwnerAndIndex(address owner, uint256 index) public isActor(owner) view returns(bytes32) {
     return orderData.idByOwnerAndIndex(owner, index);
   }
 
@@ -103,7 +103,7 @@ contract Transact is Initializable, ITransact {
    * @param index is the index of the order to be retrieved.
    * @return An order when the call succeeds, otherwise throws.
    */
-  function orderByOwnerAndIndex(address owner, uint256 index) public view returns(OrderLib.Order memory) {
+  function orderByOwnerAndIndex(address owner, uint256 index) public isActor(owner) view returns(OrderLib.Order memory) {
     return orderData.byOwnerAndIndex(owner, index);
   }
 
@@ -136,7 +136,7 @@ contract Transact is Initializable, ITransact {
    * @param owner is the address for which to count grants.
    * @return The count of grants for the given owner, including sent and received orders.
    */
-  function grantCount(address owner) public view returns(uint256) {
+  function grantCount(address owner) public isActor(owner) view returns(uint256) {
     return grantData.count(owner);
   }
 
@@ -145,7 +145,7 @@ contract Transact is Initializable, ITransact {
    * @param index is the index of the grant id to be retrieved.
    * @return An grant id when the call succeeds, otherwise throws.
    */
-  function grantIdByOwnerAndIndex(address owner, uint256 index) public view returns(bytes32) {
+  function grantIdByOwnerAndIndex(address owner, uint256 index) public isActor(owner) view returns(bytes32) {
     return grantData.idByOwnerAndIndex(owner, index);
   }
 
@@ -154,7 +154,7 @@ contract Transact is Initializable, ITransact {
    * @param index is the index of the grant to be retrieved.
    * @return An grant when the call succeeds, otherwise throws.
    */
-  function grantByOwnerAndIndex(address owner, uint256 index) public view returns(GrantLib.Grant memory) {
+  function grantByOwnerAndIndex(address owner, uint256 index) public view isActor(owner) returns(GrantLib.Grant memory) {
     return grantData.byOwnerAndIndex(owner, index);
   }
 

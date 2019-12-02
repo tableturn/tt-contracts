@@ -141,6 +141,8 @@ contract('Transact', accounts => {
     });
 
     describe('orderCount', async () => {
+      it('throws when owner isn not an actor');
+
       it('returns the correct number of orders for a given owner', async () => {
         const [count1, count2, count3, count4] = await Promise.all(
           [actor1, actor2, actor3, actor4].map(actor => t.orderCount(actor))
@@ -155,12 +157,16 @@ contract('Transact', accounts => {
     });
 
     describe('orderIdByOwnerAndIndex', async () => {
+      it('throws when owner isn not an actor');
+
       itThrows('given an invalid owner and index combination', INVALID_ORDER_INDEX, async () => {
         await t.orderIdByOwnerAndIndex(actor1, '42');
       });
     });
 
     describe('orderByOwnerAndIndex', async () => {
+      it('throws when owner isn not an actor');
+
       itThrows('given an invalid owner and index combination', INVALID_ORDER_INDEX, async () => {
         await t.orderByOwnerAndIndex(actor1, '42');
       });
@@ -246,6 +252,8 @@ contract('Transact', accounts => {
     });
 
     describe('grantCount', async () => {
+      it('throws when owner isn not an actor');
+
       it('returns the correct number of grants for a given owner', async () => {
         const [count1, count2, count3] = await Promise.all(
           [actor1, actor2, actor3].map(actor => t.grantCount(actor))
@@ -259,12 +267,16 @@ contract('Transact', accounts => {
     });
 
     describe('grantIdByOwnerAndIndex', async () => {
+      it('throws when owner isn not an actor');
+
       itThrows('given an invalid owner and index combination', INVALID_GRANT_INDEX, async () => {
         await t.grantIdByOwnerAndIndex(actor1, '42');
       });
     });
 
     describe('grantByOwnerAndIndex', async () => {
+      it('throws when owner isn not an actor');
+
       itThrows('given an invalid owner and index combination', INVALID_GRANT_INDEX, async () => {
         await t.grantByOwnerAndIndex(actor1, '42');
       });
