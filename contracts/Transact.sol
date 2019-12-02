@@ -2,34 +2,41 @@ pragma solidity ^0.5.9;
 pragma experimental ABIEncoderV2;
 // Libraries.
 import "@openzeppelin/contracts/math/SafeMath.sol";
+// Legacy.
+import "./lib/OldV1XferOrderLib.sol";
+import "./lib/OldV1XferGrantLib.sol";
 // Interfaces and Contracts.
 import "@openzeppelin/upgrades/contracts/Initializable.sol";
 import "./interfaces/ITransact.sol";
+import "./lib/OrderLib.sol";
+import "./lib/GrantLib.sol";
 import "./lib/XferOrderLib.sol";
 import "./lib/XferGrantLib.sol";
 import "./Registry.sol";
 
 
 contract Transact is Initializable, ITransact {
+  // Legacy stuff.
+  using OldV1XferOrderLib for OldV1XferOrderLib.Data;
+  using OldV1XferGrantLib for OldV1XferGrantLib.Data;
+  // Libs and types.
   using SafeMath for uint256;
+  using OrderLib for OrderLib.Order;
+  using GrantLib for GrantLib.Grant;
   using XferOrderLib for XferOrderLib.Data;
   using XferGrantLib for XferGrantLib.Data;
 
   // Our contracts registry.
   Registry public reg;
 
-  // UNUSED: Our accounts are held in this mapping.
-  mapping(address => XferOrderLib.Data[]) oldOrderBook;
-  // UNUSED: Our grant / pre-approvals are held in this mapping.
-  mapping(address => XferGrantLib.Data[]) oldGrantBook;
+  // LEGACY: Our accounts are held in this mapping.
+  mapping(address => OldV1XferOrderLib.Data[]) oldV1OrderBook;
+  // LEGACY: Our grants / pre-approvals are held in this mapping.
+  mapping(address => OldV1XferGrantLib.Data[]) oldV1GrantBook;
 
-  // This is how we keep track of orders.
-  mapping(bytes32 => XferOrderLib.Data) orders;
-  mapping(address => bytes32[]) orderBook;
-
-  // This is how we keep track of grants.
-  mapping(bytes32 => XferGrantLib.Data) grants;
-  mapping(address => bytes32[]) grantBook;
+  // This is how we keep track of orders and grants.
+  XferOrderLib.Data orderData;
+  XferGrantLib.Data grantData;
 
   /// Events.
 
@@ -64,56 +71,48 @@ contract Transact is Initializable, ITransact {
     uint256 amount
   ) public isActor(owner) isActor(recipient) fromToken
   {
-    // Get various order books.
-    bytes32[] storage ownerOrders = orderBook[owner];
-    bytes32[] storage recipientOrders = orderBook[recipient];
-    // Create our new order and its id.
-    bytes32 id = generateOrderId(owner, ownerOrders.length);
-    XferOrderLib.Data memory order = XferOrderLib.make(
+    // Create our new order id.
+    bytes32 id = orderData.create(
       owner,
       spender,
       recipient,
       amount
     );
-    // Add the order id to the owner and recipient book.
-    ownerOrders.push(id);
-    recipientOrders.push(id);
-    // Add the order to the global order list.
-    orders[id] = order;
-    // Emit!
     emit Request(owner, recipient, id);
   }
 
-  /// @dev Creates an order id.
-  function generateOrderId(address owner, uint256 index) public pure returns(bytes32) {
-    return keccak256(abi.encodePacked("Order", owner, index));
-  }
-
-  /// @dev Counts all order for a given owner.
+  /** @dev Counts all order for a given owner.
+   * @param owner is the address for which to count orders.
+   * @return The count of orders for the given owner, including sent and received orders.
+   */
   function orderCount(address owner) public view returns(uint256) {
-    return orderBook[owner].length;
+    return orderData.count(owner);
   }
 
-  /// @dev Gets an order id given its owner and index.
-  function orderIdAt(address owner, uint256 index) public view returns(bytes32) {
-    bytes32[] storage ids = orderBook[owner];
-    require(
-      index < ids.length,
-      "The specified order index is invalid"
-    );
-    return ids[index];
+  /** @dev Gets an order id given its owner and index.
+   * @param owner is the address for which to get the order id.
+   * @param index is the index of the order id to be retrieved.
+   * @return An order id when the call succeeds, otherwise throws.
+   */
+  function orderIdByOwnerAndIndex(address owner, uint256 index) public view returns(bytes32) {
+    return orderData.idByOwnerAndIndex(owner, index);
   }
 
-  /// @dev Gets an order given its owner and the index of its id.
-  function orderAt(address owner, uint256 index) public view returns(XferOrderLib.Data memory) {
-    return orders[orderIdAt(owner, index)];
+  /** @dev Gets an order given its owner and the index of its id.
+   * @param owner is the address for which to get the order.
+   * @param index is the index of the order to be retrieved.
+   * @return An order when the call succeeds, otherwise throws.
+   */
+  function orderByOwnerAndIndex(address owner, uint256 index) public view returns(OrderLib.Order memory) {
+    return orderData.byOwnerAndIndex(owner, index);
   }
 
-  /// @dev Gets an order given it's id.
-  function order(bytes32 orderId) public view returns(XferOrderLib.Data memory) {
-    XferOrderLib.Data storage o = orders[orderId];
-    o.ensureValidStruct();
-    return o;
+  /** @dev Gets an order given it's id.
+   * @param orderId is the order id to look for.
+   * @return An order when the call succeeds, otherwise throws.
+   */
+  function orderById(bytes32 orderId) public view returns(OrderLib.Order memory) {
+    return orderData.byId(orderId);
   }
 
   /**
@@ -129,48 +128,42 @@ contract Transact is Initializable, ITransact {
     uint256 maxAmount
   ) public governance isActor(owner) isActor(recipient)
   {
-    require(owner != recipient, "Recipient cannot be the same as owner");
-    // Get the owner order book.
-    bytes32[] storage ownerGrants = grantBook[owner];
-    // Make a new order id.
-    bytes32 id = generateGrantId(owner, ownerGrants.length);
-    // Add the grant id to the owner grant book.
-    ownerGrants.push(id);
-    // Add the order to the global order queue.
-    grants[id] = XferGrantLib.make(owner, recipient, maxAmount);
-    // Emit!
+    bytes32 id = grantData.create(owner, recipient, maxAmount);
     emit Granted(owner, recipient, id);
   }
 
-  function generateGrantId(address owner, uint256 index) public pure returns(bytes32) {
-    return keccak256(abi.encodePacked("Grant", owner, index));
-  }
-
-  /// @dev Counts all grants for a given owner.
+  /** @dev Counts all grant for a given owner.
+   * @param owner is the address for which to count grants.
+   * @return The count of grants for the given owner, including sent and received orders.
+   */
   function grantCount(address owner) public view returns(uint256) {
-    return grantBook[owner].length;
+    return grantData.count(owner);
   }
 
-  /// @dev Gets a grant id given its owner and index.
-  function grantIdAt(address owner, uint256 index) public view returns(bytes32) {
-    bytes32[] storage ids = grantBook[owner];
-    require(
-      index < ids.length,
-      "The specified grant index is invalid"
-    );
-    return ids[index];
+  /** @dev Gets a grant id given its owner and index.
+   * @param owner is the address for which to get the grant id.
+   * @param index is the index of the grant id to be retrieved.
+   * @return An grant id when the call succeeds, otherwise throws.
+   */
+  function grantIdByOwnerAndIndex(address owner, uint256 index) public view returns(bytes32) {
+    return grantData.idByOwnerAndIndex(owner, index);
   }
 
-  /// @dev Gets a grant given its owner and the index of its id.
-  function grantAt(address owner, uint256 index) public view returns(XferGrantLib.Data memory) {
-    return grants[grantIdAt(owner, index)];
+  /** @dev Gets a grant given its owner and the index of its id.
+   * @param owner is the address for which to get the grant.
+   * @param index is the index of the grant to be retrieved.
+   * @return An grant when the call succeeds, otherwise throws.
+   */
+  function grantByOwnerAndIndex(address owner, uint256 index) public view returns(GrantLib.Grant memory) {
+    return grantData.byOwnerAndIndex(owner, index);
   }
 
-  /// @dev Gets a grant given it's id.
-  function grant(bytes32 grantId) public view returns(XferGrantLib.Data memory) {
-    XferGrantLib.Data storage g = grants[grantId];
-    g.ensureValidStruct();
-    return g;
+  /** @dev Gets a grant given it's id.
+   * @param grantId is the grant id to look for.
+   * @return An grant when the call succeeds, otherwise throws.
+   */
+  function grantById(bytes32 grantId) public view returns(GrantLib.Grant memory) {
+    return grantData.byId(grantId);
   }
 
   /**
@@ -186,10 +179,8 @@ contract Transact is Initializable, ITransact {
   ) public isActor(msg.sender)
   {
     // Get the order and grant.
-    XferOrderLib.Data storage o = orders[orderId];
-    o.ensureValidStruct();
-    XferGrantLib.Data storage g = grants[grantId];
-    g.ensureValidStruct();
+    OrderLib.Order storage o = orderData.byId(orderId);
+    GrantLib.Grant storage g = grantData.byId(grantId);
     // Ensure that the order belongs to the message sender.
     require(
       msg.sender == o.owner && msg.sender == g.owner,
@@ -221,8 +212,7 @@ contract Transact is Initializable, ITransact {
    */
   function approve(bytes32 orderId) public governance {
     // Get the order.
-    XferOrderLib.Data storage o = orders[orderId];
-    o.ensureValidStruct();
+    OrderLib.Order storage o = orderData.byId(orderId);
     // Update the order status.
     o.approve();
     // Make our token contract aware of the changes.
@@ -239,8 +229,7 @@ contract Transact is Initializable, ITransact {
    */
   function reject(bytes32 orderId) public governance {
     // Get the order and update it.
-    XferOrderLib.Data storage o = orders[orderId];
-    o.ensureValidStruct();
+    OrderLib.Order storage o = orderData.byId(orderId);
     o.reject();
     // Make our token contract aware of the changes.
     reg.token().transferRejected(o.owner, o.spender, o.amount);
@@ -249,12 +238,6 @@ contract Transact is Initializable, ITransact {
   }
 
   // Private / internal stuff.
-
-  function _getGrant(bytes32 grantId) private view returns(XferGrantLib.Data storage) {
-    XferGrantLib.Data storage g = grants[grantId];
-    g.ensureValidStruct();
-    return g;
-  }
 
   // Modifiers.
 

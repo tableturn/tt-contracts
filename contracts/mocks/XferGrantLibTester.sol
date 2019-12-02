@@ -8,33 +8,42 @@ contract XferGrantLibTester {
 
   XferGrantLib.Data private sample1;
 
-  /// @dev Proxy to the `XferGrantLib.make` function.
-  function make(address owner, address recipient, uint256 maxAmount) public pure returns(XferGrantLib.Data memory) {
-    return XferGrantLib.make(owner, recipient, maxAmount);
-  }
-
-  /// @dev Proxy to the `XferGrantLib.redeem` function.
-  function redeem() public { sample1.redeem(); }
-
-  /// @dev Proxy to the `XferGrantLib.ensureValidStruct` function.
-  function ensureValidStruct() public view { sample1.ensureValidStruct(); }
-
-  // ----------------------------------------------------------------------------- //
-
-  /// @dev Sample 1 getter.
-  function setSample1(
+  /// @dev Proxy to the `XferGrantLib.create` function.
+  function create(
     address owner,
     address recipient,
-    uint256 maxAmount,
-    XferGrantLib.Status status
-  ) public
+    uint256 maxAmount
+  ) public returns(bytes32)
   {
-    sample1 = XferGrantLib.make(owner, recipient, maxAmount);
-    sample1.status = status;
+    return sample1.create(
+      owner,
+      recipient,
+      maxAmount
+    );
   }
 
-  /// @dev Sample 1 setter.
-  function getSample1() public view returns(XferGrantLib.Data memory) {
-    return sample1;
+  /// @dev Proxy to the `XferGrantLib.create` function.
+  function generateId(address owner, uint256 index) public pure returns(bytes32) {
+    return XferGrantLib.generateId(owner, index);
+  }
+
+  /// @dev Proxy to the `XferGrantLib.create` function.
+  function count(address owner) public view returns(uint256) {
+    return sample1.count(owner);
+  }
+
+  /// @dev Proxy to the `XferGrantLib.create` function.
+  function idByOwnerAndIndex(address owner, uint256 index) public view returns(bytes32) {
+    return sample1.idByOwnerAndIndex(owner, index);
+  }
+
+  /// @dev Proxy to the `XferGrantLib.create` function.
+  function byOwnerAndIndex(address owner, uint256 index) public view returns(GrantLib.Grant memory) {
+    return sample1.byOwnerAndIndex(owner, index);
+  }
+
+  /// @dev Proxy to the `XferGrantLib.create` function.
+  function byId(bytes32 id) public view returns(GrantLib.Grant memory) {
+    return sample1.byId(id);
   }
 }

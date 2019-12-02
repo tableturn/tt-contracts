@@ -8,57 +8,44 @@ contract XferOrderLibTester {
 
   XferOrderLib.Data private sample1;
 
-  /// @dev Proxy to the `XferOrderLib.make` function.
-  function make(
+  /// @dev Proxy to the `XferOrderLib.create` function.
+  function create(
     address owner,
     address spender,
     address recipient,
-    uint256 maxAmount
-  ) public view returns(XferOrderLib.Data memory)
+    uint256 amount
+  ) public returns(bytes32)
   {
-    return XferOrderLib.make(
-      owner,
-      spender,
-      recipient,
-      maxAmount
-    );
-  }
-
-  /// @dev Proxy to the `XferOrderLib.finalize` function.
-  function finalize(XferOrderLib.Status status) public { sample1.finalize(status); }
-
-  /// @dev Proxy to the `XferOrderLib.approve` function.
-  function approve() public { sample1.approve(); }
-
-  /// @dev Proxy to the `XferOrderLib.reject` function.
-  function reject() public { sample1.reject(); }
-
-  /// @dev Proxy to the `XferOrderLib.ensureValidStruct` function.
-  function ensureValidStruct() public view { sample1.ensureValidStruct(); }
-
-  // ----------------------------------------------------------------------------- //
-
-  /// @dev Sample 1 setter.
-  function setSample1(
-    address owner,
-    address spender,
-    address recipient,
-    uint256 amount,
-    uint256 createdAt,
-    XferOrderLib.Status status) public
-  {
-    sample1 = XferOrderLib.make(
+    return sample1.create(
       owner,
       spender,
       recipient,
       amount
     );
-    sample1.createdAt = createdAt;
-    sample1.status = status;
   }
 
-  /// @dev Sample 1 getter.
-  function getSample1() public view returns(XferOrderLib.Data memory) {
-    return sample1;
+  /// @dev Proxy to the `XferOrderLib.create` function.
+  function generateId(address owner, uint256 index) public pure returns(bytes32) {
+    return XferOrderLib.generateId(owner, index);
+  }
+
+  /// @dev Proxy to the `XferOrderLib.create` function.
+  function count(address owner) public view returns(uint256) {
+    return sample1.count(owner);
+  }
+
+  /// @dev Proxy to the `XferOrderLib.create` function.
+  function idByOwnerAndIndex(address owner, uint256 index) public view returns(bytes32) {
+    return sample1.idByOwnerAndIndex(owner, index);
+  }
+
+  /// @dev Proxy to the `XferOrderLib.create` function.
+  function byOwnerAndIndex(address owner, uint256 index) public view returns(OrderLib.Order memory) {
+    return sample1.byOwnerAndIndex(owner, index);
+  }
+
+  /// @dev Proxy to the `XferOrderLib.create` function.
+  function byId(bytes32 id) public view returns(OrderLib.Order memory) {
+    return sample1.byId(id);
   }
 }

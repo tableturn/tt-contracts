@@ -171,7 +171,7 @@ contract('EndToEnd', accounts => {
 
     // Balances: Bob = 95, Marie = 5
     it('approves the transfer', async () => {
-      const orderId = await transact.orderIdAt(bob, '0');
+      const orderId = await transact.orderIdByOwnerAndIndex(bob, '0');
       await transact.approve(orderId, governance);
       assertNumberEquality(await token.balanceOf(bob), '95');
       assertNumberEquality(await token.frozenOf(bob), '0');
@@ -180,7 +180,7 @@ contract('EndToEnd', accounts => {
 
     // Balances: Bob = 95, Marie = 5
     itThrows('approving a transfer twice', INVALID_ORDER_STATUS, async () => {
-      const orderId = await transact.orderIdAt(bob, '0');
+      const orderId = await transact.orderIdByOwnerAndIndex(bob, '0');
       await transact.approve(orderId, governance);
     });
 
@@ -216,7 +216,7 @@ contract('EndToEnd', accounts => {
     // Balances: Bob = 91, Marie = 9
     // Allowances: Tom = 6
     it("approves the transfer using Bob's account", async () => {
-      const orderId = await transact.orderIdAt(bob, '1');
+      const orderId = await transact.orderIdByOwnerAndIndex(bob, '1');
       await transact.approve(orderId, governance);
       assertNumberEquality(await token.balanceOf(bob), '91');
       assertNumberEquality(await token.frozenOf(bob), '0');
@@ -234,7 +234,7 @@ contract('EndToEnd', accounts => {
     // Balances: Bob = 91, Marie = 9
     // Allowances: Tom = 6
     it('rejects the transfer', async () => {
-      const orderId = await transact.orderIdAt(bob, '2');
+      const orderId = await transact.orderIdByOwnerAndIndex(bob, '2');
       await transact.reject(orderId, governance);
       assertNumberEquality(await token.balanceOf(bob), '91');
       assertNumberEquality(await token.frozenOf(bob), '0');
@@ -268,7 +268,10 @@ contract('EndToEnd', accounts => {
       ])
         .then(counts => counts.map(c => c.sub(ONE)))
         .then(([orderIdx, grantIdx]) =>
-          Promise.all([transact.orderIdAt(marie, orderIdx), transact.grantIdAt(marie, grantIdx)])
+          Promise.all([
+            transact.orderIdByOwnerAndIndex(marie, orderIdx),
+            transact.grantIdByOwnerAndIndex(marie, grantIdx)
+          ])
         );
       await transact.approveGranted(orderId, grantId, { from: marie });
     });
@@ -288,8 +291,8 @@ contract('EndToEnd', accounts => {
           Promise.all([
             orderIdx,
             grantIdx,
-            transact.orderIdAt(marie, orderIdx),
-            transact.grantIdAt(marie, grantIdx)
+            transact.orderIdByOwnerAndIndex(marie, orderIdx),
+            transact.grantIdByOwnerAndIndex(marie, grantIdx)
           ])
         );
       assertNumberEquality(orderIdx, '4');
@@ -309,7 +312,10 @@ contract('EndToEnd', accounts => {
       ])
         .then(counts => counts.map(c => c.sub(ONE)))
         .then(([orderIdx, grantIdx]) =>
-          Promise.all([transact.orderIdAt(marie, orderIdx), transact.grantIdAt(marie, grantIdx)])
+          Promise.all([
+            transact.orderIdByOwnerAndIndex(marie, orderIdx),
+            transact.grantIdByOwnerAndIndex(marie, grantIdx)
+          ])
         );
       await transact.approveGranted(orderId, grantId, { from: marie });
       assertNumberEquality(await token.balanceOf(marie), '2');
@@ -331,8 +337,8 @@ contract('EndToEnd', accounts => {
           Promise.all([
             orderIdx,
             grantIdx,
-            transact.orderIdAt(marie, orderIdx),
-            transact.grantIdAt(marie, grantIdx)
+            transact.orderIdByOwnerAndIndex(marie, orderIdx),
+            transact.grantIdByOwnerAndIndex(marie, grantIdx)
           ])
         );
       assertNumberEquality(orderIdx, '6');

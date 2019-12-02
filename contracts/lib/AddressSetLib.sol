@@ -2,7 +2,7 @@ pragma solidity ^0.5.9;
 
 
 library AddressSetLib {
-  /// @dev Internal data structure.
+  /// @dev Represents a list of addresses.
   struct Data {
     mapping(address => uint256) indices;
     address[] values;
