@@ -262,6 +262,8 @@ contract Transact is Initializable, ITransact {
     OldV1XferOrderLib.Data[] storage v1Orders = oldV1OrderBook[owner];
     // Get a reference to the order itself.
     OldV1XferOrderLib.Data storage v1Order = v1Orders[i];
+    address recipient = v1Order.recipient;
+    OldV1XferOrderLib.Status status = v1Order.status;
     // Grab references to owner ids storages.
     bytes32[] storage ownerIds = orderData.ids[owner];
     // Generate an unique order id.
@@ -271,18 +273,26 @@ contract Transact is Initializable, ITransact {
       id,
       owner,
       v1Order.spender,
-      v1Order.recipient,
+      recipient,
       v1Order.amount
     );
     // Also copy hidden fields.
     order.createdAt = v1Order.createdAt;
-    order.status = OrderLib.Status(uint(v1Order.status));
+    order.status = OrderLib.Status(uint(status));
     // Add the order to both owner and recipient.
     ownerIds.push(id);
-    bytes32[] storage recipientIds = orderData.ids[order.recipient];
-    recipientIds.push(id);
+    orderData.ids[recipient].push(id);
     // Add the order to our order database.
     orderData.orders[id] = order;
+    // Emit!
+    emit RequestV2(owner, recipient, id);
+    if (status == OldV1XferOrderLib.Status.Pending) {
+      return;
+    } else if (status == OldV1XferOrderLib.Status.Approved) {
+      emit ApprovalV2(owner, recipient, id);
+    } else if (status == OldV1XferOrderLib.Status.Rejected) {
+      emit RejectionV2(owner, recipient, id);
+    }
   }
 
   // TODO: Remove after migration.
@@ -309,6 +319,7 @@ contract Transact is Initializable, ITransact {
     OldV1XferGrantLib.Data[] storage v1Grants = oldV1GrantBook[owner];
     // Get a reference to the grant itself.
     OldV1XferGrantLib.Data storage v1Grant = v1Grants[i];
+    address recipient = v1Grant.recipient;
     // Grab references to owner and recipient ids storages.
     bytes32[] storage ownerIds = grantData.ids[owner];
     // Generate an unique grant id.
@@ -317,17 +328,18 @@ contract Transact is Initializable, ITransact {
     GrantLib.Grant memory grant = GrantLib.make(
       id,
       owner,
-      v1Grant.recipient,
+      recipient,
       v1Grant.maxAmount
     );
     // Also copy hidden fields.
     grant.status = GrantLib.Status(uint(v1Grant.status));
-    bytes32[] storage recipientIds = grantData.ids[grant.recipient];
     // Add the grant to both owner and recipient.
     ownerIds.push(id);
-    recipientIds.push(id);
+    grantData.ids[recipient].push(id);
     // Add the grant to our grant database.
     grantData.grants[id] = grant;
+    // Emit!
+    emit GrantedV2(owner, recipient, id);
   }
 
   // Private / internal stuff.
