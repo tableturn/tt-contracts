@@ -31,15 +31,15 @@
           "members": [
             {
               "label": "indices",
-              "astId": 1917,
+              "astId": 1938,
               "type": "t_mapping<t_uint256>",
-              "src": "113:35:12"
+              "src": "106:35:12"
             },
             {
               "label": "values",
-              "astId": 1920,
+              "astId": 1941,
               "type": "t_array:dyn<t_address>",
-              "src": "154:16:12"
+              "src": "147:16:12"
             }
           ]
         },
@@ -67,25 +67,25 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4102,
+          "astId": 3249,
           "type": "t_bool",
-          "src": "757:24:31"
+          "src": "757:24:25"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4104,
+          "astId": 3251,
           "type": "t_bool",
-          "src": "876:25:31"
+          "src": "876:25:25"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4160,
+          "astId": 3307,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:31"
+          "src": "1951:29:25"
         },
         {
           "contract": "Access",
@@ -155,25 +155,25 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4102,
+          "astId": 3249,
           "type": "t_bool",
-          "src": "757:24:31"
+          "src": "757:24:25"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4104,
+          "astId": 3251,
           "type": "t_bool",
-          "src": "876:25:31"
+          "src": "876:25:25"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4160,
+          "astId": 3307,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:31"
+          "src": "1951:29:25"
         },
         {
           "contract": "Registry",
@@ -252,15 +252,15 @@
           "members": [
             {
               "label": "indices",
-              "astId": 2171,
+              "astId": 2106,
               "type": "t_mapping<t_uint256>",
-              "src": "107:35:14"
+              "src": "103:35:13"
             },
             {
               "label": "values",
-              "astId": 2174,
+              "astId": 2109,
               "type": "t_array:dyn<t_bytes32>",
-              "src": "148:16:14"
+              "src": "144:16:13"
             }
           ]
         },
@@ -288,25 +288,25 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4102,
+          "astId": 3249,
           "type": "t_bool",
-          "src": "757:24:31"
+          "src": "757:24:25"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4104,
+          "astId": 3251,
           "type": "t_bool",
-          "src": "876:25:31"
+          "src": "876:25:25"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4160,
+          "astId": 3307,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:31"
+          "src": "1951:29:25"
         },
         {
           "contract": "Register",
@@ -369,13 +369,13 @@
           "members": [
             {
               "label": "liquid",
-              "astId": 1775,
+              "astId": 1796,
               "type": "t_uint256",
               "src": "193:14:11"
             },
             {
               "label": "frozen",
-              "astId": 1777,
+              "astId": 1798,
               "type": "t_uint256",
               "src": "213:14:11"
             }
@@ -399,25 +399,25 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4102,
+          "astId": 3249,
           "type": "t_bool",
-          "src": "757:24:31"
+          "src": "757:24:25"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4104,
+          "astId": 3251,
           "type": "t_bool",
-          "src": "876:25:31"
+          "src": "876:25:25"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4160,
+          "astId": 3307,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:31"
+          "src": "1951:29:25"
         },
         {
           "contract": "Token",
@@ -462,10 +462,10 @@
     },
     "Transact": {
       "address": "0x9B035CF432a692D2E30993682dDD49CFe48B0E6E",
-      "constructorCode": "608060405234801561001057600080fd5b50613c78806100206000396000f3fe",
-      "bodyBytecodeHash": "248b1be6b26d0b8a5e1e4643ccf93c329e6a07357ab9abe07746edc260898fa3",
-      "localBytecodeHash": "88c71e9a00e2652ef88af4633f60e222a2f8b54e6c0c3122dd3233dbb9ebaa88",
-      "deployedBytecodeHash": "88c71e9a00e2652ef88af4633f60e222a2f8b54e6c0c3122dd3233dbb9ebaa88",
+      "constructorCode": "608060405234801561001057600080fd5b5061344b806100206000396000f3fe",
+      "bodyBytecodeHash": "baeb9c9c94a3856cf5f4d43ed0431282512749f3e448486084c3d89da505756d",
+      "localBytecodeHash": "912621961ad0641a56ee32187eeebc35b5785b2846cf36fc3d87b4269160981d",
+      "deployedBytecodeHash": "912621961ad0641a56ee32187eeebc35b5785b2846cf36fc3d87b4269160981d",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -489,193 +489,64 @@
           "kind": "elementary",
           "label": "address"
         },
-        "t_struct<OldV1XferOrderLib.Data>": {
-          "id": "t_struct<OldV1XferOrderLib.Data>",
-          "kind": "struct",
-          "label": "OldV1XferOrderLib.Data",
-          "members": [
-            {
-              "label": "spender",
-              "astId": 2391,
-              "type": "t_address",
-              "src": "269:15:16"
-            },
-            {
-              "label": "recipient",
-              "astId": 2393,
-              "type": "t_address",
-              "src": "290:17:16"
-            },
-            {
-              "label": "amount",
-              "astId": 2395,
-              "type": "t_uint256",
-              "src": "313:14:16"
-            },
-            {
-              "label": "createdAt",
-              "astId": 2397,
-              "type": "t_uint256",
-              "src": "333:17:16"
-            },
-            {
-              "label": "status",
-              "astId": 2399,
-              "type": "t_enum<OldV1XferOrderLib.Status>",
-              "src": "356:13:16"
-            }
-          ]
-        },
-        "t_enum<OldV1XferOrderLib.Status>": {
-          "id": "t_enum<OldV1XferOrderLib.Status>",
-          "kind": "enum",
-          "label": "OldV1XferOrderLib.Status",
-          "members": [
-            "Pending",
-            "Approved",
-            "Rejected"
-          ]
-        },
-        "t_mapping<t_struct<OldV1XferOrderLib.Data>>": {
-          "id": "t_mapping<t_struct<OldV1XferOrderLib.Data>>",
-          "valueType": "t_struct<OldV1XferOrderLib.Data>",
-          "label": "mapping(key => OldV1XferOrderLib.Data)",
-          "kind": "mapping"
-        },
-        "t_struct<OldV1XferGrantLib.Data>": {
-          "id": "t_struct<OldV1XferGrantLib.Data>",
-          "kind": "struct",
-          "label": "OldV1XferGrantLib.Data",
-          "members": [
-            {
-              "label": "recipient",
-              "astId": 2334,
-              "type": "t_address",
-              "src": "212:17:15"
-            },
-            {
-              "label": "maxAmount",
-              "astId": 2336,
-              "type": "t_uint256",
-              "src": "235:17:15"
-            },
-            {
-              "label": "status",
-              "astId": 2338,
-              "type": "t_enum<OldV1XferGrantLib.Status>",
-              "src": "258:13:15"
-            }
-          ]
-        },
-        "t_enum<OldV1XferGrantLib.Status>": {
-          "id": "t_enum<OldV1XferGrantLib.Status>",
-          "kind": "enum",
-          "label": "OldV1XferGrantLib.Status",
-          "members": [
-            "Valid",
-            "Used"
-          ]
-        },
-        "t_mapping<t_struct<OldV1XferGrantLib.Data>>": {
-          "id": "t_mapping<t_struct<OldV1XferGrantLib.Data>>",
-          "valueType": "t_struct<OldV1XferGrantLib.Data>",
-          "label": "mapping(key => OldV1XferGrantLib.Data)",
-          "kind": "mapping"
-        },
         "t_struct<XferOrderLib.Data>": {
           "id": "t_struct<XferOrderLib.Data>",
           "kind": "struct",
           "label": "XferOrderLib.Data",
           "members": [
             {
-              "label": "orders",
-              "astId": 2822,
-              "type": "t_mapping<t_struct<OrderLib.Order>>",
-              "src": "321:41:19"
-            },
-            {
-              "label": "ids",
-              "astId": 2827,
-              "type": "t_mapping<t_array:dyn<t_bytes32>>",
-              "src": "368:33:19"
-            }
-          ]
-        },
-        "t_struct<OrderLib.Order>": {
-          "id": "t_struct<OrderLib.Order>",
-          "kind": "struct",
-          "label": "OrderLib.Order",
-          "members": [
-            {
-              "label": "owner",
-              "astId": 2484,
-              "type": "t_address",
-              "src": "253:13:17"
-            },
-            {
               "label": "spender",
-              "astId": 2486,
+              "astId": 2326,
               "type": "t_address",
-              "src": "272:15:17"
+              "src": "259:15:15"
             },
             {
               "label": "recipient",
-              "astId": 2488,
+              "astId": 2328,
               "type": "t_address",
-              "src": "293:17:17"
+              "src": "280:17:15"
             },
             {
               "label": "amount",
-              "astId": 2490,
+              "astId": 2330,
               "type": "t_uint256",
-              "src": "316:14:17"
+              "src": "303:14:15"
             },
             {
               "label": "createdAt",
-              "astId": 2492,
+              "astId": 2332,
               "type": "t_uint256",
-              "src": "336:17:17"
+              "src": "323:17:15"
             },
             {
               "label": "status",
-              "astId": 2494,
-              "type": "t_enum<OrderLib.Status>",
-              "src": "359:13:17"
+              "astId": 2334,
+              "type": "t_enum<XferOrderLib.Status>",
+              "src": "346:13:15"
             }
           ]
         },
-        "t_enum<OrderLib.Status>": {
-          "id": "t_enum<OrderLib.Status>",
+        "t_enum<XferOrderLib.Status>": {
+          "id": "t_enum<XferOrderLib.Status>",
           "kind": "enum",
-          "label": "OrderLib.Status",
+          "label": "XferOrderLib.Status",
           "members": [
             "Pending",
             "Approved",
             "Rejected"
           ]
         },
-        "t_mapping<t_struct<OrderLib.Order>>": {
-          "id": "t_mapping<t_struct<OrderLib.Order>>",
-          "valueType": "t_struct<OrderLib.Order>",
-          "label": "mapping(key => OrderLib.Order)",
-          "kind": "mapping"
-        },
-        "t_bytes32": {
-          "id": "t_bytes32",
-          "kind": "elementary",
-          "label": "bytes32"
-        },
-        "t_array:dyn<t_bytes32>": {
-          "id": "t_array:dyn<t_bytes32>",
-          "valueType": "t_bytes32",
+        "t_array:dyn<t_struct<XferOrderLib.Data>>": {
+          "id": "t_array:dyn<t_struct<XferOrderLib.Data>>",
+          "valueType": "t_struct<XferOrderLib.Data>",
           "length": "dyn",
           "kind": "array",
-          "label": "bytes32[]"
+          "label": "XferOrderLib.Data[]"
         },
-        "t_mapping<t_array:dyn<t_bytes32>>": {
-          "id": "t_mapping<t_array:dyn<t_bytes32>>",
-          "valueType": "t_array:dyn<t_bytes32>",
-          "label": "mapping(key => bytes32[])",
+        "t_mapping<t_array:dyn<t_struct<XferOrderLib.Data>>>": {
+          "id": "t_mapping<t_array:dyn<t_struct<XferOrderLib.Data>>>",
+          "valueType": "t_array:dyn<t_struct<XferOrderLib.Data>>",
+          "label": "mapping(key => XferOrderLib.Data[])",
           "kind": "mapping"
         },
         "t_struct<XferGrantLib.Data>": {
@@ -684,63 +555,45 @@
           "label": "XferGrantLib.Data",
           "members": [
             {
-              "label": "grants",
-              "astId": 2623,
-              "type": "t_mapping<t_struct<GrantLib.Grant>>",
-              "src": "234:41:18"
-            },
-            {
-              "label": "ids",
-              "astId": 2628,
-              "type": "t_mapping<t_array:dyn<t_bytes32>>",
-              "src": "281:33:18"
-            }
-          ]
-        },
-        "t_struct<GrantLib.Grant>": {
-          "id": "t_struct<GrantLib.Grant>",
-          "kind": "struct",
-          "label": "GrantLib.Grant",
-          "members": [
-            {
-              "label": "owner",
-              "astId": 2087,
-              "type": "t_address",
-              "src": "208:13:13"
-            },
-            {
               "label": "recipient",
-              "astId": 2089,
+              "astId": 2269,
               "type": "t_address",
-              "src": "227:17:13"
+              "src": "202:17:14"
             },
             {
               "label": "maxAmount",
-              "astId": 2091,
+              "astId": 2271,
               "type": "t_uint256",
-              "src": "250:17:13"
+              "src": "225:17:14"
             },
             {
               "label": "status",
-              "astId": 2093,
-              "type": "t_enum<GrantLib.Status>",
-              "src": "273:13:13"
+              "astId": 2273,
+              "type": "t_enum<XferGrantLib.Status>",
+              "src": "248:13:14"
             }
           ]
         },
-        "t_enum<GrantLib.Status>": {
-          "id": "t_enum<GrantLib.Status>",
+        "t_enum<XferGrantLib.Status>": {
+          "id": "t_enum<XferGrantLib.Status>",
           "kind": "enum",
-          "label": "GrantLib.Status",
+          "label": "XferGrantLib.Status",
           "members": [
             "Valid",
             "Used"
           ]
         },
-        "t_mapping<t_struct<GrantLib.Grant>>": {
-          "id": "t_mapping<t_struct<GrantLib.Grant>>",
-          "valueType": "t_struct<GrantLib.Grant>",
-          "label": "mapping(key => GrantLib.Grant)",
+        "t_array:dyn<t_struct<XferGrantLib.Data>>": {
+          "id": "t_array:dyn<t_struct<XferGrantLib.Data>>",
+          "valueType": "t_struct<XferGrantLib.Data>",
+          "length": "dyn",
+          "kind": "array",
+          "label": "XferGrantLib.Data[]"
+        },
+        "t_mapping<t_array:dyn<t_struct<XferGrantLib.Data>>>": {
+          "id": "t_mapping<t_array:dyn<t_struct<XferGrantLib.Data>>>",
+          "valueType": "t_array:dyn<t_struct<XferGrantLib.Data>>",
+          "label": "mapping(key => XferGrantLib.Data[])",
           "kind": "mapping"
         }
       },
@@ -749,65 +602,49 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4102,
+          "astId": 3249,
           "type": "t_bool",
-          "src": "757:24:31"
+          "src": "757:24:25"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4104,
+          "astId": 3251,
           "type": "t_bool",
-          "src": "876:25:31"
+          "src": "876:25:25"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4160,
+          "astId": 3307,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:31"
+          "src": "1951:29:25"
         },
         {
           "contract": "Transact",
           "path": "contracts/Transact.sol",
           "label": "reg",
-          "astId": 1212,
+          "astId": 1196,
           "type": "t_address",
-          "src": "909:19:5"
+          "src": "542:19:5"
         },
         {
           "contract": "Transact",
           "path": "contracts/Transact.sol",
-          "label": "oldV1OrderBook",
-          "astId": 1216,
-          "type": "t_mapping<t_struct<OldV1XferOrderLib.Data>>",
-          "src": "985:57:5"
+          "label": "orderBook",
+          "astId": 1201,
+          "type": "t_mapping<t_array:dyn<t_struct<XferOrderLib.Data>>>",
+          "src": "609:49:5"
         },
         {
           "contract": "Transact",
           "path": "contracts/Transact.sol",
-          "label": "oldV1GrantBook",
-          "astId": 1220,
-          "type": "t_mapping<t_struct<OldV1XferGrantLib.Data>>",
-          "src": "1112:57:5"
-        },
-        {
-          "contract": "Transact",
-          "path": "contracts/Transact.sol",
-          "label": "orderData",
-          "astId": 1222,
-          "type": "t_struct<XferOrderLib.Data>",
-          "src": "1227:27:5"
-        },
-        {
-          "contract": "Transact",
-          "path": "contracts/Transact.sol",
-          "label": "grantData",
-          "astId": 1224,
-          "type": "t_struct<XferGrantLib.Data>",
-          "src": "1258:27:5"
+          "label": "grantBook",
+          "astId": 1206,
+          "type": "t_mapping<t_array:dyn<t_struct<XferGrantLib.Data>>>",
+          "src": "719:49:5"
         }
       ],
       "warnings": {
