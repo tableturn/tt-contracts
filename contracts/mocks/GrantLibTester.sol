@@ -10,12 +10,18 @@ contract GrantLibTester {
 
   /// @dev Proxy to the `GrantLib.make` function.
   function make(
+    bytes32 id,
     address owner,
     address recipient,
     uint256 maxAmount
   ) public pure returns(GrantLib.Grant memory)
   {
-    return GrantLib.make(owner, recipient, maxAmount);
+    return GrantLib.make(
+      id,
+      owner,
+      recipient,
+      maxAmount
+    );
   }
 
   /// @dev Proxy to the `GrantLib.redeem` function.
@@ -28,13 +34,19 @@ contract GrantLibTester {
 
   /// @dev Sample 1 getter.
   function setSample1(
+    bytes32 id,
     address owner,
     address recipient,
     uint256 maxAmount,
     GrantLib.Status status
   ) public
   {
-    sample1 = GrantLib.make(owner, recipient, maxAmount);
+    sample1 = GrantLib.make(
+      id,
+      owner,
+      recipient,
+      maxAmount
+    );
     sample1.status = status;
   }
 

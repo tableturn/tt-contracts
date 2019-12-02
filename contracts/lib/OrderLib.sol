@@ -8,6 +8,7 @@ library OrderLib {
   enum Status { Pending, Approved, Rejected }
   /// @dev Represents a transfer order, either Pending, Approved or Rejected.
   struct Order {
+    bytes32 id;
     address owner;
     address spender;
     address recipient;
@@ -24,6 +25,7 @@ library OrderLib {
    * @return An order object.
    */
   function make(
+    bytes32 id,
     address owner,
     address spender,
     address recipient,
@@ -31,6 +33,7 @@ library OrderLib {
   ) internal view returns(Order memory)
   {
     return Order({
+      id: id,
       owner: owner,
       spender: spender,
       recipient: recipient,

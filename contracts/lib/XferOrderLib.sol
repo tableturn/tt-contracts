@@ -29,6 +29,7 @@ library XferOrderLib {
     bytes32 id = generateId(owner, ownerOrders.length);
     // Create a new order.
     OrderLib.Order memory order = OrderLib.make(
+      id,
       owner,
       spender,
       recipient,

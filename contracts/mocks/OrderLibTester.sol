@@ -10,6 +10,7 @@ contract OrderLibTester {
 
   /// @dev Proxy to the `OrderLib.make` function.
   function make(
+    bytes32 id,
     address owner,
     address spender,
     address recipient,
@@ -17,6 +18,7 @@ contract OrderLibTester {
   ) public view returns(OrderLib.Order memory)
   {
     return OrderLib.make(
+      id,
       owner,
       spender,
       recipient,
@@ -40,6 +42,7 @@ contract OrderLibTester {
 
   /// @dev Sample 1 setter.
   function setSample1(
+    bytes32 id,
     address owner,
     address spender,
     address recipient,
@@ -48,6 +51,7 @@ contract OrderLibTester {
     OrderLib.Status status) public
   {
     sample1 = OrderLib.make(
+      id,
       owner,
       spender,
       recipient,

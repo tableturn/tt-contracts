@@ -1,5 +1,15 @@
 import BN from 'bn.js';
 
+export const makeId = () => {
+  var result = [];
+  var characters = '0123456789abcdef';
+  var charactersLength = characters.length;
+  for (var i = 0; i < 32; i++) {
+    result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
+  }
+  return `0x${result.join('')}`;
+};
+
 export const itThrows = (reason: string, exp: string, fun: any) => {
   it(`throws when ${reason}`, async () => {
     let error: Error | null = null;

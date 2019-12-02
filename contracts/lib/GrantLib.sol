@@ -6,6 +6,7 @@ library GrantLib {
   enum Status { Valid, Used }
   /// @dev Represents a transfer order, either Pending, Approved or Rejected.
   struct Grant {
+    bytes32 id;
     address owner;
     address recipient;
     uint256 maxAmount;
@@ -19,12 +20,14 @@ library GrantLib {
    * @return A grant object.
    */
   function make(
+    bytes32 id,
     address owner,
     address recipient,
     uint256 maxAmount
   ) internal pure returns(Grant memory)
   {
     return Grant({
+      id: id,
       owner: owner,
       recipient: recipient,
       maxAmount: maxAmount,

@@ -27,7 +27,12 @@ library XferGrantLib {
     // Add the grant id to the owner grant book.
     ids.push(id);
     // Add the order to the global order queue.
-    data.grants[id] = GrantLib.make(owner, recipient, maxAmount);
+    data.grants[id] = GrantLib.make(
+      id,
+      owner,
+      recipient,
+      maxAmount
+    );
     return id;
   }
 

@@ -27,6 +27,11 @@ contract('XferOrderLib', accounts => {
       await t.create(acc1, acc2, acc1, '1000');
     });
 
+    it('adds the id to the order itself', async () => {
+      const { id } = await t.byId(id3);
+      assert.equal(id3, id);
+    });
+
     it('adds the order to both owner and recipient but not spender', async () => {
       const [c1, c2, c3, c4] = await Promise.all([acc1, acc2, acc3, acc4].map(acc => t.count(acc)));
       assertNumberEquality(c1, '4');
@@ -56,12 +61,10 @@ contract('XferOrderLib', accounts => {
   describe('count', async () => {
     it('counts properly orders for owners and recipients', async () => {
       const [c1, c2, c3, c4] = await Promise.all([acc1, acc2, acc3, acc4].map(acc => t.count(acc)));
-      [
-        [c1, '4'],
-        [c2, '1'],
-        [c3, '3'],
-        [c4, '0']
-      ].map(([count, exp]) => assertNumberEquality(count, exp));
+      assertNumberEquality(c1, '4');
+      assertNumberEquality(c2, '1');
+      assertNumberEquality(c3, '3');
+      assertNumberEquality(c4, '0');
     });
   });
 
@@ -120,7 +123,8 @@ contract('XferOrderLib', accounts => {
     });
 
     it('returns the requested order', async () => {
-      const { owner, recipient, amount } = await t.byId(id3);
+      const { id, owner, recipient, amount } = await t.byId(id3);
+      assert.equal(id, id3);
       assert.equal(owner, acc3);
       assert.equal(recipient, acc1);
       assertNumberEquality(amount, '300');

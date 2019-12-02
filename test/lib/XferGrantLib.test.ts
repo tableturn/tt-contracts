@@ -27,6 +27,11 @@ contract('XferGrantLib', accounts => {
       await t.create(acc1, acc1, '1000');
     });
 
+    it('adds the id to the grant itself', async () => {
+      const { id } = await t.byId(id3);
+      assert.equal(id3, id);
+    });
+
     it('adds the grant to the owner', async () => {
       const [c1, c2, c3] = await Promise.all([acc1, acc2, acc3].map(acc => t.count(acc)));
       assertNumberEquality(c1, '2');
@@ -101,7 +106,8 @@ contract('XferGrantLib', accounts => {
     });
 
     it('returns the requested grant', async () => {
-      const { owner, recipient, maxAmount } = await t.byId(id3);
+      const { id, owner, recipient, maxAmount } = await t.byId(id3);
+      assert.equal(id, id3);
       assert.equal(owner, acc3);
       assert.equal(recipient, acc1);
       assertNumberEquality(maxAmount, '300');
