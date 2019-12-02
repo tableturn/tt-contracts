@@ -22,4 +22,7 @@ interface IAccess {
    * @return a boolean.
    */
   function isActor(address c) external view returns(bool);
+
+  // TODO: Remove after migrating v2.
+  function actors() external view returns(address[] memory);
 }
