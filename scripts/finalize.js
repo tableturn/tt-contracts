@@ -79,28 +79,24 @@ const seed = async ({ utils, people, issuance, governance, token, transact }) =>
     await utils.issue('1_121_010', 'Operational costs for 2019', issuance);
     await token.allocate(people.pk2m, utils.convert('1_121_010'), governance);
 
-    console.info(`Transfering tokens from ${people.pk2m} to an ${people.pierre_martin}.`);
-    await token.transfer(people.pierre_martin, utils.convert('6050'), { from: people.pk2m });
-    console.info(`Approving transfer...`);
-    await transact.approve(people.pk2m, 0, { from: people.pk2m });
-
-    console.info(`Transfering tokens from ${people.pierre_martin} to ${people.kevin_monserrat}.`);
-    await token.transfer(people.kevin_monserrat, utils.convert('50'), {
-      from: people.pierre_martin
-    });
-    console.info(`Approving transfer...`);
-    await transact.approve(people.pierre_martin, 0, { from: people.pk2m });
-
-    console.info(`Transfering tokens from ${people.pierre_martin} to ${people.kevin_monserrat}.`);
-    await token.transfer(people.pk2m, utils.convert('40'), {
-      from: people.pierre_martin
-    });
-    console.info(`Rejecting transfer...`);
-    await transact.reject(people.pierre_martin, 1, { from: people.pk2m });
-
-    console.info(`Transfering tokens from ${people.pierre_martin} to ${people.kevin_monserrat}.`);
-    await token.transfer(people.kevin_monserrat, utils.convert('30'), {
-      from: people.pierre_martin
-    });
+    const transfer = async (from, to, amount, method) => {
+      console.info(`Transfering from ${from} to ${to}.`);
+      await token.transfer(to, utils.convert(amount), { from });
+      if (!method) {
+        return;
+      }
+      console.info(`Calling ${method} on transfer...`);
+      const index = (await transact.countOrders(from)).sub(new BN(1));
+      await transact[method](from, index, governance);
+    };
+    // Make some transfers...
+    await transfer(people.pk2m, people.pierre_martin, '6050', 'approve');
+    await transfer(people.pierre_martin, people.kevin_monserrat, '50', 'approve');
+    await transfer(people.pierre_martin, people.kevin_monserrat, '40', 'reject');
+    await transfer(people.pierre_martin, people.kevin_monserrat, '30');
+    // Make 20 more fake transfers.
+    for (let i = 1; i <= 20; ++i) {
+      await transfer(people.pk2m, people.kevin_monserrat, `${i}0`);
+    }
   }
 };
