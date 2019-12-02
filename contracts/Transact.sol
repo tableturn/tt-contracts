@@ -41,12 +41,12 @@ contract Transact is Initializable, ITransact {
   /// Events.
 
   // Grant-related events.
-  event Granted(address indexed owner, address indexed recipient, bytes32 id);
+  event GrantedV2(address indexed owner, address indexed recipient, bytes32 id);
 
   // Transfer related events.
-  event Request(address indexed owner, address indexed recipient, bytes32 id);
-  event Approval(address indexed owner, address indexed recipient, bytes32 id);
-  event Rejection(address indexed owner, address indexed recipient, bytes32 id);
+  event RequestV2(address indexed owner, address indexed recipient, bytes32 id);
+  event ApprovalV2(address indexed owner, address indexed recipient, bytes32 id);
+  event RejectionV2(address indexed owner, address indexed recipient, bytes32 id);
 
   /**
    * @dev This is the ZOS constructor.
@@ -78,7 +78,7 @@ contract Transact is Initializable, ITransact {
       recipient,
       amount
     );
-    emit Request(owner, recipient, id);
+    emit RequestV2(owner, recipient, id);
   }
 
   /** @dev Counts all order for a given owner.
@@ -129,7 +129,7 @@ contract Transact is Initializable, ITransact {
   ) public governance isActor(owner) isActor(recipient)
   {
     bytes32 id = grantData.create(owner, recipient, maxAmount);
-    emit Granted(owner, recipient, id);
+    emit GrantedV2(owner, recipient, id);
   }
 
   /** @dev Counts all grant for a given owner.
@@ -202,7 +202,7 @@ contract Transact is Initializable, ITransact {
     // Make our token contract aware of the changes.
     reg.token().transferApproved(o.owner, o.recipient, o.amount);
     // Emit!
-    emit Approval(o.owner, o.recipient, orderId);
+    emit ApprovalV2(o.owner, o.recipient, orderId);
   }
 
   /**
@@ -218,7 +218,7 @@ contract Transact is Initializable, ITransact {
     // Make our token contract aware of the changes.
     reg.token().transferApproved(o.owner, o.recipient, o.amount);
     // Emit!
-    emit Approval(o.owner, o.recipient, orderId);
+    emit ApprovalV2(o.owner, o.recipient, orderId);
   }
 
   /**
@@ -234,7 +234,7 @@ contract Transact is Initializable, ITransact {
     // Make our token contract aware of the changes.
     reg.token().transferRejected(o.owner, o.spender, o.amount);
     // Emit!
-    emit Rejection(o.owner, o.recipient, orderId);
+    emit RejectionV2(o.owner, o.recipient, orderId);
   }
 
   // TODO: Remove after migration.
