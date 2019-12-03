@@ -69,9 +69,13 @@ contract Transact is Initializable, ITransact {
     address spender,
     address recipient,
     uint256 amount
-  ) public isActor(owner) isActor(recipient) fromToken
+  )
+  public
+    isActor(owner)
+    isActor(recipient)
+    isPositive(amount)
+    fromToken
   {
-    require(amount > 0, "Amount cannot be zero");
     // Create our new order id.
     bytes32 id = orderData.create(
       owner,
@@ -127,7 +131,11 @@ contract Transact is Initializable, ITransact {
     address owner,
     address recipient,
     uint256 maxAmount
-  ) public governance isActor(owner) isActor(recipient)
+  )
+  public
+    governance
+    isActor(owner)
+    isActor(recipient)
   {
     bytes32 id = grantData.create(owner, recipient, maxAmount);
     emit GrantedV2(owner, recipient, id);
@@ -177,7 +185,9 @@ contract Transact is Initializable, ITransact {
   function approveGranted(
     bytes32 orderId,
     bytes32 grantId
-  ) public isActor(msg.sender)
+  )
+  public
+    isActor(msg.sender)
   {
     // Get the order and grant.
     OrderLib.Order storage o = orderData.byId(orderId);
@@ -252,46 +262,39 @@ contract Transact is Initializable, ITransact {
     // Get a reference to our owner's old order book.
     OldV1XferOrderLib.Data[] storage v1Orders = oldV1OrderBook[owner];
     for (uint256 i = 0; i < v1Orders.length; ++i) {
-      migrateV1Order(owner, i);
-    }
-  }
-
-  // TODO: Remove after migration.
-  function migrateV1Order(address owner, uint256 i) public governance {
-    // Get a reference to our owner's old order book.
-    OldV1XferOrderLib.Data[] storage v1Orders = oldV1OrderBook[owner];
-    // Get a reference to the order itself.
-    OldV1XferOrderLib.Data storage v1Order = v1Orders[i];
-    address recipient = v1Order.recipient;
-    OldV1XferOrderLib.Status status = v1Order.status;
-    // Grab references to owner ids storages.
-    bytes32[] storage ownerIds = orderData.ids[owner];
-    // Generate an unique order id.
-    bytes32 id = XferOrderLib.generateId(owner, ownerIds.length);
-    // Create a new order mirroring the old one.
-    OrderLib.Order memory order = OrderLib.make(
-      id,
-      owner,
-      v1Order.spender,
-      recipient,
-      v1Order.amount
-    );
-    // Also copy hidden fields.
-    order.createdAt = v1Order.createdAt;
-    order.status = OrderLib.Status(uint(status));
-    // Add the order to both owner and recipient.
-    ownerIds.push(id);
-    orderData.ids[recipient].push(id);
-    // Add the order to our order database.
-    orderData.orders[id] = order;
-    // Emit!
-    emit RequestV2(owner, recipient, id);
-    if (status == OldV1XferOrderLib.Status.Pending) {
-      return;
-    } else if (status == OldV1XferOrderLib.Status.Approved) {
-      emit ApprovalV2(owner, recipient, id);
-    } else if (status == OldV1XferOrderLib.Status.Rejected) {
-      emit RejectionV2(owner, recipient, id);
+      // Get a reference to the order itself.
+      OldV1XferOrderLib.Data storage v1Order = v1Orders[i];
+      address recipient = v1Order.recipient;
+      OldV1XferOrderLib.Status status = v1Order.status;
+      // Grab references to owner ids storages.
+      bytes32[] storage ownerIds = orderData.ids[owner];
+      // Generate an unique order id.
+      bytes32 id = XferOrderLib.generateId(owner, ownerIds.length);
+      // Create a new order mirroring the old one.
+      OrderLib.Order memory order = OrderLib.make(
+        id,
+        owner,
+        v1Order.spender,
+        recipient,
+        v1Order.amount
+      );
+      // Also copy hidden fields.
+      order.createdAt = v1Order.createdAt;
+      order.status = OrderLib.Status(uint(status));
+      // Add the order to both owner and recipient.
+      ownerIds.push(id);
+      orderData.ids[recipient].push(id);
+      // Add the order to our order database.
+      orderData.orders[id] = order;
+      // Emit!
+      emit RequestV2(owner, recipient, id);
+      if (status == OldV1XferOrderLib.Status.Pending) {
+        return;
+      } else if (status == OldV1XferOrderLib.Status.Approved) {
+        emit ApprovalV2(owner, recipient, id);
+      } else if (status == OldV1XferOrderLib.Status.Rejected) {
+        emit RejectionV2(owner, recipient, id);
+      }
     }
   }
 
@@ -309,45 +312,41 @@ contract Transact is Initializable, ITransact {
     // Get a reference to our owner's old grant book.
     OldV1XferGrantLib.Data[] storage v1Grants = oldV1GrantBook[owner];
     for (uint256 i = 0; i < v1Grants.length; ++i) {
-      migrateV1Grant(owner, i);
+      // Get a reference to the grant itself.
+      OldV1XferGrantLib.Data storage v1Grant = v1Grants[i];
+      address recipient = v1Grant.recipient;
+      // Grab references to owner and recipient ids storages.
+      bytes32[] storage ownerIds = grantData.ids[owner];
+      // Generate an unique grant id.
+      bytes32 id = XferGrantLib.generateId(owner, ownerIds.length);
+      // Create a new grant mirroring the old one.
+      GrantLib.Grant memory grant = GrantLib.make(
+        id,
+        owner,
+        recipient,
+        v1Grant.maxAmount
+      );
+      // Also copy hidden fields.
+      grant.status = GrantLib.Status(uint(v1Grant.status));
+      // Add the grant to both owner and recipient.
+      ownerIds.push(id);
+      grantData.ids[recipient].push(id);
+      // Add the grant to our grant database.
+      grantData.grants[id] = grant;
+      // Emit!
+      emit GrantedV2(owner, recipient, id);
     }
   }
-
-  // TODO: Remove after migration.
-  function migrateV1Grant(address owner, uint256 i) public governance {
-    // Get a reference to our owner's old grant book.
-    OldV1XferGrantLib.Data[] storage v1Grants = oldV1GrantBook[owner];
-    // Get a reference to the grant itself.
-    OldV1XferGrantLib.Data storage v1Grant = v1Grants[i];
-    address recipient = v1Grant.recipient;
-    // Grab references to owner and recipient ids storages.
-    bytes32[] storage ownerIds = grantData.ids[owner];
-    // Generate an unique grant id.
-    bytes32 id = XferGrantLib.generateId(owner, ownerIds.length);
-    // Create a new grant mirroring the old one.
-    GrantLib.Grant memory grant = GrantLib.make(
-      id,
-      owner,
-      recipient,
-      v1Grant.maxAmount
-    );
-    // Also copy hidden fields.
-    grant.status = GrantLib.Status(uint(v1Grant.status));
-    // Add the grant to both owner and recipient.
-    ownerIds.push(id);
-    grantData.ids[recipient].push(id);
-    // Add the grant to our grant database.
-    grantData.grants[id] = grant;
-    // Emit!
-    emit GrantedV2(owner, recipient, id);
-  }
-
-  // Private / internal stuff.
 
   // Modifiers.
 
   modifier governance() {
     require(reg.access().isGovernor(msg.sender), "This function must be called by a governor");
+    _;
+  }
+
+  modifier isPositive(uint256 amount) {
+    require(amount > 0, "Amount cannot be zero");
     _;
   }
 

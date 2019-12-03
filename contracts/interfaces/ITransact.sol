@@ -15,5 +15,6 @@ interface ITransact {
     address owner,
     address spender,
     address recipient,
-    uint256 amount) external;
+    uint256 amount
+  ) external;
 }
