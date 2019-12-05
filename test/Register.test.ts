@@ -6,7 +6,7 @@ const Registry = artifacts.require('Registry');
 const Access = artifacts.require('Access');
 const Register = artifacts.require('Register');
 
-contract('Token', accounts => {
+contract('Register', accounts => {
   const [_, issuer, governor, actor1] = accounts;
   const governance = { from: governor };
   let registry: RegistryInstance;

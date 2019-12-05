@@ -8,24 +8,42 @@ contract XferGrantLibTester {
 
   XferGrantLib.Data private sample1;
 
-  /// @dev Proxy to the `XferGrantLib.make` function.
-  function make(address recipient, uint256 maxAmount) public pure returns(XferGrantLib.Data memory) {
-    return XferGrantLib.make(recipient, maxAmount);
+  /// @dev Proxy to the `XferGrantLib.create` function.
+  function create(
+    address owner,
+    address recipient,
+    uint256 maxAmount
+  ) public returns(bytes32)
+  {
+    return sample1.create(
+      owner,
+      recipient,
+      maxAmount
+    );
   }
 
-  /// @dev Proxy to the `XferGrantLib.redeem` function.
-  function redeem() public { sample1.redeem(); }
-
-  // ----------------------------------------------------------------------------- //
-
-  /// @dev Sample 1 getter.
-  function setSample1(address recipient, uint256 maxAmount, XferGrantLib.Status status) public {
-    sample1 = XferGrantLib.make(recipient, maxAmount);
-    sample1.status = status;
+  /// @dev Proxy to the `XferGrantLib.create` function.
+  function generateId(address owner, uint256 index) public pure returns(bytes32) {
+    return XferGrantLib.generateId(owner, index);
   }
 
-  /// @dev Sample 1 setter.
-  function getSample1() public view returns(XferGrantLib.Data memory) {
-    return sample1;
+  /// @dev Proxy to the `XferGrantLib.create` function.
+  function count(address owner) public view returns(uint256) {
+    return sample1.count(owner);
+  }
+
+  /// @dev Proxy to the `XferGrantLib.create` function.
+  function idByOwnerAndIndex(address owner, uint256 index) public view returns(bytes32) {
+    return sample1.idByOwnerAndIndex(owner, index);
+  }
+
+  /// @dev Proxy to the `XferGrantLib.create` function.
+  function byOwnerAndIndex(address owner, uint256 index) public view returns(GrantLib.Grant memory) {
+    return sample1.byOwnerAndIndex(owner, index);
+  }
+
+  /// @dev Proxy to the `XferGrantLib.create` function.
+  function byId(bytes32 id) public view returns(GrantLib.Grant memory) {
+    return sample1.byId(id);
   }
 }

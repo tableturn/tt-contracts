@@ -18,7 +18,8 @@ import {
   CANNOT_RETRIEVE_FROZEN,
   RECIPIENT_NOT_ACTOR,
   OWNER_NOT_ACTOR,
-  UNKNOWN_ERC1404_CODE
+  UNKNOWN_ERC1404_CODE,
+  INVALID_ZERO_AMOUNT
 } from './helpers/errors';
 
 const Registry = artifacts.require('Registry');
@@ -252,6 +253,9 @@ contract('Token', accounts => {
       await token.allocate(actor1, '100', governance);
       await token.transfer(actor1, '100', { from: actor1 });
     });
+    itThrows('amount is zero', INVALID_ZERO_AMOUNT, async () => {
+      await token.transfer(actor3, '0', { from: actor1 });
+    });
 
     describe('when successful', () => {
       beforeEach(async () => {
@@ -299,6 +303,9 @@ contract('Token', accounts => {
     });
     itThrows('allowance is insuficient', INSUFFICIENT_ALLOWANCE, async () => {
       await token.transferFrom(actor2, actor3, '100', { from: actor1 });
+    });
+    itThrows('amount is zero', INVALID_ZERO_AMOUNT, async () => {
+      await token.transfer(actor3, '0', { from: actor1 });
     });
 
     describe('when successful', () => {

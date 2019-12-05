@@ -6,9 +6,10 @@ import {
   ADDITION_OVERFLOW,
   INSUFFICIENT_FROZEN_FUNDS
 } from '../helpers/errors';
+import { ONE } from '../helpers/constants';
 
 const AccountLibTester = artifacts.require('AccountLibTester');
-const MAX_UINT256 = new BN(2).pow(new BN(256)).sub(new BN(1));
+const MAX_UINT256 = new BN(2).pow(new BN(256)).sub(ONE);
 
 contract('AccountLib', _accounts => {
   let mock: AccountLibTesterInstance;

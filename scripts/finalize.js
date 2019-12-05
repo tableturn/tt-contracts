@@ -86,8 +86,9 @@ const seed = async ({ utils, people, issuance, governance, token, transact }) =>
         return;
       }
       console.info(`Calling ${method} on transfer...`);
-      const index = (await transact.countOrders(from)).sub(new BN(1));
-      await transact[method](from, index, governance);
+      const index = (await transact.orderCount(from)).sub(new BN(1));
+      const orderId = await transact.orderIdByOwnerAndIndex(from, index);
+      await transact[method](orderId, governance);
     };
     // Make some transfers...
     await transfer(people.pk2m, people.pierre_martin, '6050', 'approve');

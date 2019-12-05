@@ -1,49 +1,77 @@
 pragma solidity ^0.5.9;
 pragma experimental ABIEncoderV2;
+import "./OrderLib.sol";
 
 
 library XferOrderLib {
   using XferOrderLib for Data;
+  using OrderLib for OrderLib.Order;
 
   enum Status { Pending, Approved, Rejected }
   /// @dev Represents a transfer order, either Pending, Approved or Rejected.
   struct Data {
-    address spender;
-    address recipient;
-    uint256 amount;
-    uint256 createdAt;
-    Status status;
+    mapping(bytes32 => OrderLib.Order) orders;
+    mapping(address => bytes32[]) ids;
   }
 
-  /// @dev Makes a new XferOrderLib.Data structure.
-  function make(address spender, address recipient, uint256 amount) internal view returns(Data memory) {
-    return Data({
-      spender: spender,
-      recipient: recipient,
-      amount: amount,
-      createdAt: block.number,
-      status: Status.Pending
-    });
+  function create(
+    Data storage data,
+    address owner,
+    address spender,
+    address recipient,
+    uint256 amount
+  ) internal returns(bytes32)
+  {
+    require(owner != recipient, "Recipient cannot be the same as owner");
+    // Get various order books.
+    bytes32[] storage ownerOrders = data.ids[owner];
+    // Create our new order and its id.
+    bytes32 id = generateId(owner, ownerOrders.length);
+    // Create a new order.
+    OrderLib.Order memory order = OrderLib.make(
+      id,
+      owner,
+      spender,
+      recipient,
+      amount
+    );
+    // Add the order id to the owner and recipient book.
+    ownerOrders.push(id);
+    data.ids[recipient].push(id);
+    // Add the order to the global order list.
+    data.orders[id] = order;
+    return id;
   }
 
-  /**
-   * @dev This function updates a transfer. The transfer must be in the `Status.Pending` status.
-   * @notice For this to work, `msg.sender` must be a governor.
-   * @param order is the order to be updated.
-   * @param status is the new status for the order.
-   */
-  function finalize(Data storage order, Status status) internal {
-    // Forbid operating on pending or 0 amount orders.
-    require(order.status == Status.Pending, "Cannot update a non-pending order");
-    // Update the order.
-    order.status = status;
+  /// @dev Creates an order id.
+  function generateId(address owner, uint256 index) internal pure returns(bytes32) {
+    return keccak256(abi.encodePacked("Order", owner, index));
   }
 
-  function approve(Data storage order) internal {
-    order.finalize(Status.Approved);
+  /// @dev Counts received and sent orders for a given account.
+  function count(Data storage data, address account) internal view returns(uint256) {
+    return data.ids[account].length;
   }
 
-  function reject(Data storage order) internal {
-    order.finalize(Status.Rejected);
+  /// @dev Retrieves an order id given its account and index.
+  function idByOwnerAndIndex(Data storage data, address account, uint256 index) internal view returns(bytes32) {
+    bytes32[] storage ids = data.ids[account];
+    require(
+      index < ids.length,
+      "The specified order index is invalid"
+    );
+    return ids[index];
+  }
+
+  /// @dev Retrieves an order given its owner and index.
+  function byOwnerAndIndex(Data storage data, address account, uint256 index) internal view returns(OrderLib.Order storage) {
+    return data.orders[data.idByOwnerAndIndex(account, index)];
+  }
+
+  /// @dev Retrieves an order given its id.
+  function byId(Data storage data, bytes32 id) internal view returns(OrderLib.Order storage) {
+    OrderLib.Order storage o = data.orders[id];
+    o.ensureValidStruct();
+    return o;
   }
 }

@@ -2,7 +2,7 @@ pragma solidity ^0.5.9;
 
 
 library HashSetLib {
-  /// @dev Internal data structure.
+  /// @dev Represents a list of hashes.
   struct Data {
     mapping(bytes32 => uint256) indices;
     bytes32[] values;

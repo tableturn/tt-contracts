@@ -51,7 +51,10 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @dev This is the ZOS constructor.
    * @param _reg is a valid Registry contract to use for other contract calls.
    */
-  function initialize(Registry _reg) public initializer {
+  function initialize(Registry _reg)
+  public
+    initializer
+  {
     reg = _reg;
   }
 
@@ -64,7 +67,10 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param account is the address to check the balance of.
    * @return The liquid balance of the given account.
    */
-  function balanceOf(address account) public view returns(uint256) {
+  function balanceOf(address account)
+  public view
+  returns(uint256)
+  {
     return accounts[account].liquid;
   }
 
@@ -73,7 +79,10 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param account is the address to check the balance of.
    * @return The frozen balance of the given account.
    */
-  function frozenOf(address account) public view returns(uint256) {
+  function frozenOf(address account)
+    public view
+    returns(uint256)
+  {
     return accounts[account].frozen;
   }
 
@@ -93,7 +102,8 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param recipient is the actor who will receive the funds.
    * @param amount is how many tokens should be allocated.
    */
-  function allocate(address recipient, uint256 amount) public governance isRecipientActor(recipient) {
+  function allocate(address recipient, uint256 amount) public governance isRecipientActor(recipient)
+  {
     totalSupply = totalSupply.add(amount);
     accounts[address(0)].debit(amount);
     accounts[recipient].credit(amount);
@@ -110,10 +120,12 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @return A bool value set to true signaling a successful operation.
    */
   function transfer(address recipient, uint256 amount)
-    public isOwnerActor(msg.sender)
-           isRecipientActor(recipient)
-           ownerAndRecipientDifferent(msg.sender, recipient)
-  returns(bool)
+    public
+      isOwnerActor(msg.sender)
+      isRecipientActor(recipient)
+      ownerAndRecipientDifferent(msg.sender, recipient)
+      isPositive(amount)
+    returns(bool)
   {
     address owner = msg.sender;
     accounts[owner].freeze(amount);
@@ -137,10 +149,12 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @return A bool value set to true signaling a successful operation.
    */
   function transferFrom(address owner, address recipient, uint256 amount)
-    public isOwnerActor(owner)
-           isRecipientActor(recipient)
-           ownerAndRecipientDifferent(owner, recipient)
-  returns(bool)
+    public
+      isOwnerActor(owner)
+      isRecipientActor(recipient)
+      ownerAndRecipientDifferent(owner, recipient)
+      isPositive(amount)
+    returns(bool)
   {
     // We're transacting on behalf of someone. The owner and spender should be different.
     require(msg.sender != owner, "Cannot perform a transfer using allowance on behalf of yourself");
@@ -183,7 +197,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
 
   /// --- ERC1404 functions.
 
-  function detectTransferRestriction (address owner, address recipient, uint256) public view returns (uint8) {
+  function detectTransferRestriction (address owner, address recipient, uint256) public view returns(uint8) {
     IAccess access = reg.access();
     if (!access.isActor(owner)) {
       return ERRC_OWNER_NOT_ACTOR;
@@ -311,6 +325,14 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     require(
       msg.sender == address(reg.transact()),
       "This function can only be called by the Transact contract"
+    );
+    _;
+  }
+
+  modifier isPositive(uint256 amount) {
+    require(
+      amount > 0,
+      "Amount cannot be zero"
     );
     _;
   }

@@ -13,7 +13,10 @@
   "compiler": {
     "manager": "truffle",
     "compilerSettings": {
-      "optimizer": {}
+      "optimizer": {
+        "enabled": false,
+        "runs": "200"
+      }
     }
   },
   "telemetryOptIn": false
