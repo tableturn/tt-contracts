@@ -38,11 +38,18 @@ contract Transact is Initializable, ITransact {
   XferOrderLib.Data orderData;
   XferGrantLib.Data grantData;
 
+  /// Old Events.
+
+  /// V1 Events.
+  event Granted(address indexed owner, uint256 grantId);
+  event Request(address indexed owner, uint256 orderId);
+  event Approval(address indexed owner, uint256 orderId);
+  event Rejection(address indexed owner, uint256 orderId);
+
   /// Events.
 
   // Grant-related events.
   event GrantedV2(address indexed owner, address indexed recipient, bytes32 id);
-
   // Transfer related events.
   event RequestV2(address indexed owner, address indexed recipient, bytes32 id);
   event ApprovalV2(address indexed owner, address indexed recipient, bytes32 id);
