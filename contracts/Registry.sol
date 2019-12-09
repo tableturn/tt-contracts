@@ -19,24 +19,24 @@ contract Registry is Initializable {
   /**
    * @dev ZOS constructor.
    */
-  function initialize(IAccess _access) public initializer {
-    access = _access;
+  function initialize(IAccess pAccess) external initializer {
+    access = pAccess;
   }
 
-  function setAccessContract(IAccess _access) public governance {
-    access = _access;
+  function setAccessContract(IAccess pAccess) external governance {
+    access = pAccess;
   }
 
-  function setRegisterContract(IRegister _register) public governance {
-    register = _register;
+  function setRegisterContract(IRegister pRegister) external governance {
+    register = pRegister;
   }
 
-  function setTransactContract(ITransact _transact) public governance {
-    transact = _transact;
+  function setTransactContract(ITransact pTransact) external governance {
+    transact = pTransact;
   }
 
-  function setTokenContract(IToken _token) public governance {
-    token = _token;
+  function setTokenContract(IToken pToken) external governance {
+    token = pToken;
   }
 
   // Modifiers.

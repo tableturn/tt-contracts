@@ -14,7 +14,7 @@ contract GrantLibTester {
     address owner,
     address recipient,
     uint256 maxAmount
-  ) public pure returns(GrantLib.Grant memory)
+  ) external pure returns(GrantLib.Grant memory)
   {
     return GrantLib.make(
       id,
@@ -25,21 +25,21 @@ contract GrantLibTester {
   }
 
   /// @dev Proxy to the `GrantLib.redeem` function.
-  function redeem() public { sample1.redeem(); }
+  function redeem() external { sample1.redeem(); }
 
   /// @dev Proxy to the `GrantLib.ensureValidStruct` function.
-  function ensureValidStruct() public view { sample1.ensureValidStruct(); }
+  function ensureValidStruct() external view { sample1.ensureValidStruct(); }
 
   // ----------------------------------------------------------------------------- //
 
-  /// @dev Sample 1 getter.
+  /// @dev Sample 1 setter.
   function setSample1(
     bytes32 id,
     address owner,
     address recipient,
     uint256 maxAmount,
     GrantLib.Status status
-  ) public
+  ) external
   {
     sample1 = GrantLib.make(
       id,
@@ -50,8 +50,8 @@ contract GrantLibTester {
     sample1.status = status;
   }
 
-  /// @dev Sample 1 setter.
-  function getSample1() public view returns(GrantLib.Grant memory) {
+  /// @dev Sample 1 getter.
+  function getSample1() external view returns(GrantLib.Grant memory) {
     return sample1;
   }
 }

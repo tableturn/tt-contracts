@@ -8,15 +8,20 @@ contract AddressSetLibTester {
 
   AddressSetLib.Data private sample1;
 
-  function add(address key) public { sample1.add(key); }
+  /// @dev Proxy to the `AddressSetLib.add` function.
+  function add(address key) external { sample1.add(key); }
 
-  function remove(address key) public { sample1.remove(key); }
+  /// @dev Proxy to the `AddressSetLib.remove` function.
+  function remove(address key) external { sample1.remove(key); }
 
-  function count() public view returns(uint256) { return sample1.count(); }
+  /// @dev Proxy to the `AddressSetLib.count` function.
+  function count() external view returns(uint256) { return sample1.count(); }
 
-  function contains(address key) public view returns(bool) { return sample1.contains(key); }
+  /// @dev Proxy to the `AddressSetLib.contains` function.
+  function contains(address key) external view returns(bool) { return sample1.contains(key); }
 
   // ----------------------------------------------------------------------------- //
 
-  function getSample1Values() public view returns(address[] memory) { return sample1.values; }
+  /// @dev Sample1 getter.
+  function getSample1Values() external view returns(address[] memory) { return sample1.values; }
 }

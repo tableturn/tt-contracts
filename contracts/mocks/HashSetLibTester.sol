@@ -8,15 +8,20 @@ contract HashSetLibTester {
 
   HashSetLib.Data private sample1;
 
-  function add(bytes32 key) public { sample1.add(key); }
+  /// @dev Proxy to the `HashSetLib.add` function.
+  function add(bytes32 key) external { sample1.add(key); }
 
-  function remove(bytes32 key) public { sample1.remove(key); }
+  /// @dev Proxy to the `HashSetLib.remove` function.
+  function remove(bytes32 key) external { sample1.remove(key); }
 
-  function count() public view returns(uint256) { return sample1.count(); }
+  /// @dev Proxy to the `HashSetLib.count` function.
+  function count() external view returns(uint256) { return sample1.count(); }
 
-  function contains(bytes32 key) public view returns(bool) { return sample1.contains(key); }
+  /// @dev Proxy to the `HashSetLib.contains` function.
+  function contains(bytes32 key) external view returns(bool) { return sample1.contains(key); }
 
   // ----------------------------------------------------------------------------- //
 
-  function getSample1Values() public view returns(bytes32[] memory) { return sample1.values; }
+  /// @dev Sample 1 getter.
+  function getSample1Values() external view returns(bytes32[] memory) { return sample1.values; }
 }

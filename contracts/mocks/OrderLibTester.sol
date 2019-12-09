@@ -15,8 +15,7 @@ contract OrderLibTester {
     address spender,
     address recipient,
     uint256 maxAmount
-  ) public view returns(OrderLib.Order memory)
-  {
+  ) external view returns(OrderLib.Order memory) {
     return OrderLib.make(
       id,
       owner,
@@ -27,16 +26,16 @@ contract OrderLibTester {
   }
 
   /// @dev Proxy to the `OrderLib.finalize` function.
-  function finalize(OrderLib.Status status) public { sample1.finalize(status); }
+  function finalize(OrderLib.Status status) external { sample1.finalize(status); }
 
   /// @dev Proxy to the `OrderLib.approve` function.
-  function approve() public { sample1.approve(); }
+  function approve() external { sample1.approve(); }
 
   /// @dev Proxy to the `OrderLib.reject` function.
-  function reject() public { sample1.reject(); }
+  function reject() external { sample1.reject(); }
 
   /// @dev Proxy to the `OrderLib.ensureValidStruct` function.
-  function ensureValidStruct() public view { sample1.ensureValidStruct(); }
+  function ensureValidStruct() external view { sample1.ensureValidStruct(); }
 
   // ----------------------------------------------------------------------------- //
 
@@ -48,7 +47,7 @@ contract OrderLibTester {
     address recipient,
     uint256 amount,
     uint256 createdAt,
-    OrderLib.Status status) public
+    OrderLib.Status status) external
   {
     sample1 = OrderLib.make(
       id,
@@ -62,7 +61,7 @@ contract OrderLibTester {
   }
 
   /// @dev Sample 1 getter.
-  function getSample1() public view returns(OrderLib.Order memory) {
+  function getSample1() external view returns(OrderLib.Order memory) {
     return sample1;
   }
 }

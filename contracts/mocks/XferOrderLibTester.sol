@@ -14,7 +14,7 @@ contract XferOrderLibTester {
     address spender,
     address recipient,
     uint256 amount
-  ) public returns(bytes32)
+  ) external returns(bytes32)
   {
     return sample1.create(
       owner,
@@ -24,28 +24,28 @@ contract XferOrderLibTester {
     );
   }
 
-  /// @dev Proxy to the `XferOrderLib.create` function.
-  function generateId(address owner, uint256 index) public pure returns(bytes32) {
+  /// @dev Proxy to the `XferOrderLib.generateId` function.
+  function generateId(address owner, uint256 index) external pure returns(bytes32) {
     return XferOrderLib.generateId(owner, index);
   }
 
-  /// @dev Proxy to the `XferOrderLib.create` function.
-  function count(address owner) public view returns(uint256) {
+  /// @dev Proxy to the `XferOrderLib.count` function.
+  function count(address owner) external view returns(uint256) {
     return sample1.count(owner);
   }
 
-  /// @dev Proxy to the `XferOrderLib.create` function.
-  function idByOwnerAndIndex(address owner, uint256 index) public view returns(bytes32) {
+  /// @dev Proxy to the `XferOrderLib.idByOwnerAndIndex` function.
+  function idByOwnerAndIndex(address owner, uint256 index) external view returns(bytes32) {
     return sample1.idByOwnerAndIndex(owner, index);
   }
 
-  /// @dev Proxy to the `XferOrderLib.create` function.
-  function byOwnerAndIndex(address owner, uint256 index) public view returns(OrderLib.Order memory) {
+  /// @dev Proxy to the `XferOrderLib.byOwnerAndIndex` function.
+  function byOwnerAndIndex(address owner, uint256 index) external view returns(OrderLib.Order memory) {
     return sample1.byOwnerAndIndex(owner, index);
   }
 
-  /// @dev Proxy to the `XferOrderLib.create` function.
-  function byId(bytes32 id) public view returns(OrderLib.Order memory) {
+  /// @dev Proxy to the `XferOrderLib.byId` function.
+  function byId(bytes32 id) external view returns(OrderLib.Order memory) {
     return sample1.byId(id);
   }
 }

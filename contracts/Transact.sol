@@ -57,10 +57,10 @@ contract Transact is Initializable, ITransact {
 
   /**
    * @dev This is the ZOS constructor.
-   * @param _reg is a valid Registry contract to use for other contract calls.
+   * @param pReg is a valid Registry contract to use for other contract calls.
    */
-  function initialize(Registry _reg) public initializer {
-    reg = _reg;
+  function initialize(Registry pReg) external initializer {
+    reg = pReg;
   }
 
   /**
@@ -77,7 +77,7 @@ contract Transact is Initializable, ITransact {
     address recipient,
     uint256 amount
   )
-  public
+  external
     isActor(owner)
     isActor(recipient)
     isPositive(amount)
@@ -97,7 +97,7 @@ contract Transact is Initializable, ITransact {
    * @param owner is the address for which to count orders.
    * @return The count of orders for the given owner, including sent and received orders.
    */
-  function orderCount(address owner) public isActor(owner) view returns(uint256) {
+  function orderCount(address owner) external isActor(owner) view returns(uint256) {
     return orderData.count(owner);
   }
 
@@ -106,7 +106,7 @@ contract Transact is Initializable, ITransact {
    * @param index is the index of the order id to be retrieved.
    * @return An order id when the call succeeds, otherwise throws.
    */
-  function orderIdByOwnerAndIndex(address owner, uint256 index) public isActor(owner) view returns(bytes32) {
+  function orderIdByOwnerAndIndex(address owner, uint256 index) external isActor(owner) view returns(bytes32) {
     return orderData.idByOwnerAndIndex(owner, index);
   }
 
@@ -115,7 +115,7 @@ contract Transact is Initializable, ITransact {
    * @param index is the index of the order to be retrieved.
    * @return An order when the call succeeds, otherwise throws.
    */
-  function orderByOwnerAndIndex(address owner, uint256 index) public isActor(owner) view returns(OrderLib.Order memory) {
+  function orderByOwnerAndIndex(address owner, uint256 index) external isActor(owner) view returns(OrderLib.Order memory) {
     return orderData.byOwnerAndIndex(owner, index);
   }
 
@@ -123,7 +123,7 @@ contract Transact is Initializable, ITransact {
    * @param orderId is the order id to look for.
    * @return An order when the call succeeds, otherwise throws.
    */
-  function orderById(bytes32 orderId) public view returns(OrderLib.Order memory) {
+  function orderById(bytes32 orderId) external view returns(OrderLib.Order memory) {
     return orderData.byId(orderId);
   }
 
@@ -139,7 +139,7 @@ contract Transact is Initializable, ITransact {
     address recipient,
     uint256 maxAmount
   )
-  public
+  external
     governance
     isActor(owner)
     isActor(recipient)
@@ -152,7 +152,7 @@ contract Transact is Initializable, ITransact {
    * @param owner is the address for which to count grants.
    * @return The count of grants for the given owner, including sent and received orders.
    */
-  function grantCount(address owner) public isActor(owner) view returns(uint256) {
+  function grantCount(address owner) external isActor(owner) view returns(uint256) {
     return grantData.count(owner);
   }
 
@@ -161,7 +161,7 @@ contract Transact is Initializable, ITransact {
    * @param index is the index of the grant id to be retrieved.
    * @return An grant id when the call succeeds, otherwise throws.
    */
-  function grantIdByOwnerAndIndex(address owner, uint256 index) public isActor(owner) view returns(bytes32) {
+  function grantIdByOwnerAndIndex(address owner, uint256 index) external isActor(owner) view returns(bytes32) {
     return grantData.idByOwnerAndIndex(owner, index);
   }
 
@@ -170,7 +170,7 @@ contract Transact is Initializable, ITransact {
    * @param index is the index of the grant to be retrieved.
    * @return An grant when the call succeeds, otherwise throws.
    */
-  function grantByOwnerAndIndex(address owner, uint256 index) public view isActor(owner) returns(GrantLib.Grant memory) {
+  function grantByOwnerAndIndex(address owner, uint256 index) external view isActor(owner) returns(GrantLib.Grant memory) {
     return grantData.byOwnerAndIndex(owner, index);
   }
 
@@ -178,7 +178,7 @@ contract Transact is Initializable, ITransact {
    * @param grantId is the grant id to look for.
    * @return An grant when the call succeeds, otherwise throws.
    */
-  function grantById(bytes32 grantId) public view returns(GrantLib.Grant memory) {
+  function grantById(bytes32 grantId) external view returns(GrantLib.Grant memory) {
     return grantData.byId(grantId);
   }
 
@@ -193,7 +193,7 @@ contract Transact is Initializable, ITransact {
     bytes32 orderId,
     bytes32 grantId
   )
-  public
+  external
     isActor(msg.sender)
   {
     // Get the order and grant.
@@ -228,7 +228,7 @@ contract Transact is Initializable, ITransact {
    * @notice For this to work, `msg.sender` must be a governor.
    * @param orderId is the order id that was returned by the `request` function to create the transfer order.
    */
-  function approve(bytes32 orderId) public governance {
+  function approve(bytes32 orderId) external governance {
     // Get the order.
     OrderLib.Order storage o = orderData.byId(orderId);
     // Update the order status.
@@ -245,7 +245,7 @@ contract Transact is Initializable, ITransact {
    * @notice For this to work, `msg.sender` must be a governor.
    * @param orderId is the order id that was returned by the `request` function to create the transfer order.
    */
-  function reject(bytes32 orderId) public governance {
+  function reject(bytes32 orderId) external governance {
     // Get the order and update it.
     OrderLib.Order storage o = orderData.byId(orderId);
     o.reject();
@@ -256,11 +256,20 @@ contract Transact is Initializable, ITransact {
   }
 
   // TODO: Remove after migration.
-  function migrateV1ActorsOrders() public governance {
+  function migrateV1ActorsOrders() external governance {
     IAccess access = reg.access();
     address[] memory owners = access.actors();
     for (uint256 i = 0; i < owners.length; ++i) {
       migrateV1Orders(owners[i]);
+    }
+  }
+
+  // TODO: Remove after migration.
+  function migrateV1ActorsGrants() external governance {
+    IAccess access = reg.access();
+    address[] memory owners = access.actors();
+    for (uint256 i = 0; i < owners.length; ++i) {
+      migrateV1Grants(owners[i]);
     }
   }
 
@@ -302,15 +311,6 @@ contract Transact is Initializable, ITransact {
       } else if (status == OldV1XferOrderLib.Status.Rejected) {
         emit RejectionV2(owner, recipient, id);
       }
-    }
-  }
-
-  // TODO: Remove after migration.
-  function migrateV1ActorsGrants() public governance {
-    IAccess access = reg.access();
-    address[] memory owners = access.actors();
-    for (uint256 i = 0; i < owners.length; ++i) {
-      migrateV1Grants(owners[i]);
     }
   }
 

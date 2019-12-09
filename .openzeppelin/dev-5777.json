@@ -67,7 +67,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4568,
+          "astId": 4561,
           "type": "t_bool",
           "src": "757:24:31"
         },
@@ -75,7 +75,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4570,
+          "astId": 4563,
           "type": "t_bool",
           "src": "876:25:31"
         },
@@ -83,7 +83,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4626,
+          "astId": 4619,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:31"
         },
@@ -155,7 +155,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4568,
+          "astId": 4561,
           "type": "t_bool",
           "src": "757:24:31"
         },
@@ -163,7 +163,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4570,
+          "astId": 4563,
           "type": "t_bool",
           "src": "876:25:31"
         },
@@ -171,7 +171,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4626,
+          "astId": 4619,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:31"
         },
@@ -218,10 +218,10 @@
     },
     "Register": {
       "address": "0x599f9CB451d27D2CeB7Da28F2d527fd7aC43024d",
-      "constructorCode": "608060405234801561001057600080fd5b50610a5c806100206000396000f3fe",
-      "bodyBytecodeHash": "aaf47aeff8618f30c49d87b4149396325bc3442b7769dec4377f837aba848753",
-      "localBytecodeHash": "2b27088a46713020ae405d8079c4fe27eab40b6a566ca8a179b317eb28d84aed",
-      "deployedBytecodeHash": "f4793086929219d43f5ae93144a131f8b1fb03378647b4d8ffb35ab083c4c218",
+      "constructorCode": "608060405234801561001057600080fd5b50610a08806100206000396000f3fe",
+      "bodyBytecodeHash": "ff7f6c1d7a4e5666361091e649d7a60c59debe30706d840b5e9973c4cca196af",
+      "localBytecodeHash": "5e8a95528828dff00cf6bb0fe7628b63b655dcf79b1e0f8531828bd5369edd7e",
+      "deployedBytecodeHash": "d6eaac5c606cceef22efffae9aa13978a262f3b2961e61651c13bd20da6daf60",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -288,7 +288,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4568,
+          "astId": 4561,
           "type": "t_bool",
           "src": "757:24:31"
         },
@@ -296,7 +296,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4570,
+          "astId": 4563,
           "type": "t_bool",
           "src": "876:25:31"
         },
@@ -304,7 +304,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4626,
+          "astId": 4619,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:31"
         },
@@ -335,10 +335,10 @@
     },
     "Token": {
       "address": "0x804AB8c111d08628Dcf335144818Eb5cB828c2D4",
-      "constructorCode": "608060405234801561001057600080fd5b50614051806100206000396000f3fe",
-      "bodyBytecodeHash": "01de2c28ea1077fce4d9291df81e8c4c648579e2b67d8dd2b81fe59ff5e2afbc",
-      "localBytecodeHash": "e2b6b509ec759927e07ff18545372620e69d29fe8ee042143b58ce9d678b39a9",
-      "deployedBytecodeHash": "e2b6b509ec759927e07ff18545372620e69d29fe8ee042143b58ce9d678b39a9",
+      "constructorCode": "608060405234801561001057600080fd5b50613fd7806100206000396000f3fe",
+      "bodyBytecodeHash": "5968aa03a959818ee49bcf2bd255c22b16e8af8d5fd483ae7b5f12327f1b6b3b",
+      "localBytecodeHash": "3d7f5b53b0055e4a232c0df52d76faf71d09e50e637af2df46878cce1983f786",
+      "deployedBytecodeHash": "3d7f5b53b0055e4a232c0df52d76faf71d09e50e637af2df46878cce1983f786",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -399,7 +399,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4568,
+          "astId": 4561,
           "type": "t_bool",
           "src": "757:24:31"
         },
@@ -407,7 +407,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4570,
+          "astId": 4563,
           "type": "t_bool",
           "src": "876:25:31"
         },
@@ -415,7 +415,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4626,
+          "astId": 4619,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:31"
         },
@@ -775,7 +775,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4568,
+          "astId": 4561,
           "type": "t_bool",
           "src": "757:24:31"
         },
@@ -783,7 +783,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4570,
+          "astId": 4563,
           "type": "t_bool",
           "src": "876:25:31"
         },
@@ -791,7 +791,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4626,
+          "astId": 4619,
           "type": "t_array:50<t_uint256>",
           "src": "1951:29:31"
         },

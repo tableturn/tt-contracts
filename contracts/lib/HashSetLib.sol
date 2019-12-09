@@ -43,7 +43,7 @@ library HashSetLib {
    * @param d is the internal data storage to use.
    * @return the number of elements in the set.
    */
-  function count(Data storage d) public view returns(uint256) {
+  function count(Data storage d) external view returns(uint256) {
     return d.values.length;
   }
 

@@ -4,33 +4,33 @@ import "../interfaces/IToken.sol";
 
 
 contract TokenMock is IToken {
-  struct ApprovalCall {
+  struct CallProof {
     address owner;
-    address recipient;
+    address target;
     uint256 amount;
   }
-  ApprovalCall[] private _approvedCalls;
+  CallProof[] private approvals;
+  CallProof[] private rejections;
 
-  function transferApproved(address owner, address recipient, uint256 amount) public {
-    _approvedCalls.push(ApprovalCall(owner, recipient, amount));
+  /// @dev Mocks to the `IToken.transferApproved` function.
+  function transferApproved(address owner, address recipient, uint256 amount) external {
+    approvals.push(CallProof(owner, recipient, amount));
   }
 
-  function approvedCalls() public view returns(ApprovalCall[] memory) {
-    return _approvedCalls;
+  /// @dev Mocks to the `IToken.transferRejected` function.
+  function transferRejected(address owner, address spender, uint256 amount) external {
+    rejections.push(CallProof(owner, spender, amount));
   }
 
-  struct RejectionCall {
-    address owner;
-    address spender;
-    uint256 amount;
-  }
-  RejectionCall[] private _rejectedCalls;
+  // ----------------------------------------------------------------------------- //
 
-  function transferRejected(address owner, address spender, uint256 amount) public {
-    _rejectedCalls.push(RejectionCall(owner, spender, amount));
+  /// @dev Approval call proofs getter.
+  function getApprovedCalls() external view returns(CallProof[] memory) {
+    return approvals;
   }
 
-  function rejectedCalls() public view returns(RejectionCall[] memory) {
-    return _rejectedCalls;
+  /// @dev Rejection call proofs getter.
+  function getRejectedCalls() external view returns(CallProof[] memory) {
+    return rejections;
   }
 }
