@@ -17,10 +17,10 @@ contract Register is Initializable, IRegister {
 
   /**
    * @dev This is the ZOS constructor.
-   * @param _reg is a valid Registry contract to use for other contract calls.
+   * @param pReg is a valid Registry contract to use for other contract calls.
    */
-  function initialize(Registry _reg) public initializer {
-    reg = _reg;
+  function initialize(Registry pReg) external initializer {
+    reg = pReg;
   }
 
   function hashAndAdd(bytes memory what) public governance {

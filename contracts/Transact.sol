@@ -57,10 +57,10 @@ contract Transact is Initializable, ITransact {
 
   /**
    * @dev This is the ZOS constructor.
-   * @param _reg is a valid Registry contract to use for other contract calls.
+   * @param pReg is a valid Registry contract to use for other contract calls.
    */
-  function initialize(Registry _reg) public initializer {
-    reg = _reg;
+  function initialize(Registry pReg) external initializer {
+    reg = pReg;
   }
 
   /**

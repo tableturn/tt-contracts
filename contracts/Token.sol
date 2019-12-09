@@ -49,13 +49,13 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
 
   /**
    * @dev This is the ZOS constructor.
-   * @param _reg is a valid Registry contract to use for other contract calls.
+   * @param pReg is a valid Registry contract to use for other contract calls.
    */
-  function initialize(Registry _reg)
-  public
+  function initialize(Registry pReg)
+  external
     initializer
   {
-    reg = _reg;
+    reg = pReg;
   }
 
   function symbol() public pure returns(string memory) { return "CVD"; }
