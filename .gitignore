@@ -1,22 +1,28 @@
+
+# Editor and OS related settings.
+.vscode/
+.node*
+.DS_Store
+
+# Build artifacts.
 node_modules/
 bower_components/
-.node*
-.tmp
-.DS_Store
+build/
+types/
+.tmp/
 *.log
 
-build
-types
+# Coverage artifacts.
 allFiredEvents/
 coverage/
 coverageEnv/
 scTopics
 coverage.json
 
+# Private data that should not be visible publicly.
 conf/keys.1802198*.js
 conf/addresses.private.1802198*.js
 
+# OpenZeppeling temporary files.
 .openzeppelin/.lock
 .openzeppelin/.session
-
-\.vscode/
