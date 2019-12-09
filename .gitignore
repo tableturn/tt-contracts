@@ -18,3 +18,5 @@ conf/addresses.private.1802198*.js
 
 .openzeppelin/.lock
 .openzeppelin/.session
+
+\.vscode/
