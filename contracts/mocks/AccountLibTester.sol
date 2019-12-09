@@ -6,8 +6,8 @@ import "../lib/AccountLib.sol";
 contract AccountLibTester {
   using AccountLib for AccountLib.Data;
 
-  AccountLib.Data public sample1;
-  AccountLib.Data public sample2;
+  AccountLib.Data private sample1;
+  AccountLib.Data private sample2;
 
   /// @dev Proxy to the `AccountLib.credit` function.
   function credit(uint256 value) public { sample1.credit(value); }
