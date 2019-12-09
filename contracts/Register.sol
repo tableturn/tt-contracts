@@ -23,20 +23,24 @@ contract Register is Initializable, IRegister {
     reg = pReg;
   }
 
-  function hashAndAdd(bytes memory what) public governance {
+  /// @dev Hashes and adds `what` to the table.
+  function hashAndAdd(bytes calldata what) external governance {
     addHash(keccak256(what));
   }
 
-  function addHash(bytes32 h) public governance {
-    hashList.add(h);
-  }
-
-  function containsHashOf(bytes memory what) public view returns(bool) {
+  /// @dev Checks the table for the presence of the hash of `what`.
+  function containsHashOf(bytes calldata what) external view returns(bool) {
     return containsHash(keccak256(what));
   }
 
+  /// @dev Checks the table for the presence of `what`.
   function containsHash(bytes32 h) public view returns(bool) {
     return hashList.contains(h);
+  }
+
+  /// @dev Adds `what` to the table.
+  function addHash(bytes32 h) public governance {
+    hashList.add(h);
   }
 
   // Modifiers.

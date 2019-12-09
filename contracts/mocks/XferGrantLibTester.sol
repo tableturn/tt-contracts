@@ -13,7 +13,7 @@ contract XferGrantLibTester {
     address owner,
     address recipient,
     uint256 maxAmount
-  ) public returns(bytes32)
+  ) external returns(bytes32)
   {
     return sample1.create(
       owner,
@@ -22,28 +22,28 @@ contract XferGrantLibTester {
     );
   }
 
-  /// @dev Proxy to the `XferGrantLib.create` function.
-  function generateId(address owner, uint256 index) public pure returns(bytes32) {
+  /// @dev Proxy to the `XferGrantLib.generateId` function.
+  function generateId(address owner, uint256 index) external pure returns(bytes32) {
     return XferGrantLib.generateId(owner, index);
   }
 
-  /// @dev Proxy to the `XferGrantLib.create` function.
-  function count(address owner) public view returns(uint256) {
+  /// @dev Proxy to the `XferGrantLib.count` function.
+  function count(address owner) external view returns(uint256) {
     return sample1.count(owner);
   }
 
-  /// @dev Proxy to the `XferGrantLib.create` function.
-  function idByOwnerAndIndex(address owner, uint256 index) public view returns(bytes32) {
+  /// @dev Proxy to the `XferGrantLib.idByOwnerAndIndex` function.
+  function idByOwnerAndIndex(address owner, uint256 index) external view returns(bytes32) {
     return sample1.idByOwnerAndIndex(owner, index);
   }
 
-  /// @dev Proxy to the `XferGrantLib.create` function.
-  function byOwnerAndIndex(address owner, uint256 index) public view returns(GrantLib.Grant memory) {
+  /// @dev Proxy to the `XferGrantLib.byOwnerAndIndex` function.
+  function byOwnerAndIndex(address owner, uint256 index) external view returns(GrantLib.Grant memory) {
     return sample1.byOwnerAndIndex(owner, index);
   }
 
-  /// @dev Proxy to the `XferGrantLib.create` function.
-  function byId(bytes32 id) public view returns(GrantLib.Grant memory) {
+  /// @dev Proxy to the `XferGrantLib.byId` function.
+  function byId(bytes32 id) external view returns(GrantLib.Grant memory) {
     return sample1.byId(id);
   }
 }

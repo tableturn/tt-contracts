@@ -58,9 +58,9 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     reg = pReg;
   }
 
-  function symbol() public pure returns(string memory) { return "CVD"; }
-  function name() public pure returns(string memory) { return "Consilience Ventures Digital Share"; }
-  function decimals() public pure returns(uint8) { return 6; }
+  function symbol() external pure returns(string memory) { return "CVD"; }
+  function name() external pure returns(string memory) { return "Consilience Ventures Digital Share"; }
+  function decimals() external pure returns(uint8) { return 6; }
 
   /**
    * @dev This function returns the liquid amount of tokens for a given account.
@@ -68,7 +68,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @return The liquid balance of the given account.
    */
   function balanceOf(address account)
-  public view
+  external view
   returns(uint256)
   {
     return accounts[account].liquid;
@@ -80,7 +80,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @return The frozen balance of the given account.
    */
   function frozenOf(address account)
-    public view
+    external view
     returns(uint256)
   {
     return accounts[account].frozen;
@@ -91,7 +91,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    *      to actors.
    * @param amount is how many tokens should be allocated.
    */
-  function issue(uint256 amount, string memory reason) public issuance {
+  function issue(uint256 amount, string calldata reason) external issuance {
     accounts[address(0)].credit(amount);
     emit Issuance(amount, reason);
   }
@@ -102,8 +102,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param recipient is the actor who will receive the funds.
    * @param amount is how many tokens should be allocated.
    */
-  function allocate(address recipient, uint256 amount) public governance isRecipientActor(recipient)
-  {
+  function allocate(address recipient, uint256 amount) external governance isRecipientActor(recipient) {
     totalSupply = totalSupply.add(amount);
     accounts[address(0)].debit(amount);
     accounts[recipient].credit(amount);
@@ -119,8 +118,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param amount is the quantity of tokens to transfer from the owner account.
    * @return A bool value set to true signaling a successful operation.
    */
-  function transfer(address recipient, uint256 amount)
-    public
+  function transfer(address recipient, uint256 amount) external
       isOwnerActor(msg.sender)
       isRecipientActor(recipient)
       ownerAndRecipientDifferent(msg.sender, recipient)
@@ -149,7 +147,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @return A bool value set to true signaling a successful operation.
    */
   function transferFrom(address owner, address recipient, uint256 amount)
-    public
+    external
       isOwnerActor(owner)
       isRecipientActor(recipient)
       ownerAndRecipientDifferent(owner, recipient)
@@ -179,7 +177,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param amount is the quantity of tokens to allow the spender to spend.
    * @return A bool value set to true signaling a successful operation.
    */
-  function approve(address spender, uint256 amount) public returns(bool) {
+  function approve(address spender, uint256 amount) external returns(bool) {
     address owner = msg.sender;
     _approve(owner, spender, amount);
     return true;
@@ -191,13 +189,13 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param spender is the account for which to check the allowance for..
    * @return A number representing the allowance from the owner account to the spender account.
    */
-  function allowance(address owner, address spender) public view returns(uint256) {
+  function allowance(address owner, address spender) external view returns(uint256) {
     return allowances[owner][spender];
   }
 
   /// --- ERC1404 functions.
 
-  function detectTransferRestriction (address owner, address recipient, uint256) public view returns(uint8) {
+  function detectTransferRestriction (address owner, address recipient, uint256) external view returns(uint8) {
     IAccess access = reg.access();
     if (!access.isActor(owner)) {
       return ERRC_OWNER_NOT_ACTOR;
@@ -210,7 +208,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     }
   }
 
-  function messageForTransferRestriction (uint8 errCode) public view returns (string memory) {
+  function messageForTransferRestriction (uint8 errCode) external view returns (string memory) {
     if (errCode == ERRC_OWNER_NOT_ACTOR)
       return ERR_OWNER_NOT_ACTOR;
     else if (errCode == ERRC_RECIPIENT_NOT_ACTOR)
@@ -230,7 +228,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param recipient is the account that shall receive the funds.
    * @param amount is the quantity of tokens to transfer from the owner account.
    */
-  function transferApproved(address owner, address recipient, uint256 amount) public fromTransact {
+  function transferApproved(address owner, address recipient, uint256 amount) external fromTransact {
     accounts[owner].unfreeze(accounts[recipient], amount);
     emit IERC20.Transfer(owner, recipient, amount);
   }
@@ -244,7 +242,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param spender is the account performing the operation. It could be the same as `owner`.
    * @param amount is the quantity of tokens to transfer from the owner account.
    */
-  function transferRejected(address owner, address spender, uint256 amount) public fromTransact {
+  function transferRejected(address owner, address spender, uint256 amount) external fromTransact {
     if (owner != spender) {
       _approve(owner, spender, allowances[owner][spender].add(amount));
     }
@@ -257,7 +255,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param owner is the account owning the funds.
    * @param target is the account that should be credited.
    */
-  function retrieveDeadTokens(address owner, address target) public governance() isOwnerActor(owner) isRecipientActor(target) {
+  function retrieveDeadTokens(address owner, address target) external governance() isOwnerActor(owner) isRecipientActor(target) {
     require(
       accounts[owner].frozen == 0,
       "Cannot retrieve dead tokens on an account with frozen funds"
