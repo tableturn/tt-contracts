@@ -4,23 +4,24 @@ import "../interfaces/ITransact.sol";
 
 
 contract TransactMock is ITransact {
-  struct RequestCall {
+  struct CallProof {
     address owner;
     address spender;
     address recipient;
     uint256 amount;
   }
-  RequestCall[] private _requestCalls;
+  CallProof[] private requests;
 
+  /// @dev Mocks to the `ITransact.request` function.
   function request(
     address owner,
     address spender,
     address recipient,
     uint256 amount
-  ) public
+  ) external
   {
-    _requestCalls.push(
-      RequestCall(
+    requests.push(
+      CallProof(
         owner,
         spender,
         recipient,
@@ -29,7 +30,10 @@ contract TransactMock is ITransact {
     );
   }
 
-  function requestCalls() public view returns(RequestCall[] memory) {
-    return _requestCalls;
+  // ----------------------------------------------------------------------------- //
+
+  /// @dev Request call proofs getter.
+  function getRequestCalls() external view returns(CallProof[] memory) {
+    return requests;
   }
 }

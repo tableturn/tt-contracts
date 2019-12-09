@@ -358,7 +358,7 @@ contract('Transact', accounts => {
       it('notifies the Token contract via callback', async () => {
         const id = await t.orderIdByOwnerAndIndex(owner, '0');
         await t.approve(id, governance);
-        const [{ owner: o, recipient: r, amount: a }] = await tokenMock.approvedCalls();
+        const [{ owner: o, target: r, amount: a }] = await tokenMock.getApprovedCalls();
         assert.equal(o, owner);
         assert.equal(r, recipient);
         assertNumberEquality(a, '1000');
@@ -388,7 +388,7 @@ contract('Transact', accounts => {
       it('notifies the Token contract via callback', async () => {
         const id = await t.orderIdByOwnerAndIndex(owner, '0');
         await t.reject(id, governance);
-        const [{ owner: o, spender: s, amount: a }] = await tokenMock.rejectedCalls();
+        const [{ owner: o, target: s, amount: a }] = await tokenMock.getRejectedCalls();
         assert.equal(o, owner);
         assert.equal(s, spender);
         assertNumberEquality(a, '1000');
@@ -442,7 +442,7 @@ contract('Transact', accounts => {
       });
       it('notifies the Token contract via callback', async () => {
         await t.approveGranted(orderId1, grantId1, { from: owner });
-        const [{ owner: o, recipient: r, amount: a }] = await tokenMock.approvedCalls();
+        const [{ owner: o, target: r, amount: a }] = await tokenMock.getApprovedCalls();
         assert.equal(o, owner);
         assert.equal(r, recipient);
         assertNumberEquality(a, '1000');

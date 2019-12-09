@@ -275,7 +275,7 @@ contract('Token', accounts => {
 
       it('calls a request on the Transact contract', async () => {
         await token.transfer(actor3, '100', { from: actor1 });
-        const [res] = (await transact.requestCalls()).slice(-1);
+        const [res] = (await transact.getRequestCalls()).slice(-1);
         assert.equal(res.owner, actor1);
         assert.equal(res.spender, actor1);
         assert.equal(res.recipient, actor3);
@@ -334,7 +334,7 @@ contract('Token', accounts => {
 
       it('calls a request on the Transact contract', async () => {
         await token.transferFrom(actor1, actor3, '100', { from: acc1 });
-        const [res] = (await transact.requestCalls()).slice(-1);
+        const [res] = (await transact.getRequestCalls()).slice(-1);
         assert.equal(res.owner, actor1);
         assert.equal(res.spender, acc1);
         assert.equal(res.recipient, actor3);
