@@ -6,7 +6,7 @@ import { BAD_ID, ONE } from '../helpers/constants';
 const XferOrderLibTester = artifacts.require('XferOrderLibTester');
 
 contract('XferOrderLib', accounts => {
-  const [_, acc1, acc2, acc3, acc4] = accounts;
+  const [, acc1, acc2, acc3, acc4] = accounts;
   let t: XferOrderLibTesterInstance;
   let id1: string, id2: string, id3: string, id4: string;
 

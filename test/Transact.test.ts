@@ -32,7 +32,7 @@ const Transact = artifacts.require('Transact');
 const TokenMock = artifacts.require('TokenMock');
 
 contract('Transact', accounts => {
-  const [_, governor, actor1, actor2, actor3, actor4, acc1, fakeToken] = accounts;
+  const [, governor, actor1, actor2, actor3, actor4, acc1, fakeToken] = accounts;
   const governance = { from: governor };
   var registry: RegistryInstance;
   var access: AccessInstance;
@@ -46,7 +46,9 @@ contract('Transact', accounts => {
     // Setup contracts in our registry.
     await registry.setAccessContract(access.address, governance);
     // Set up 3 accounts as actors.
-    Promise.all([actor1, actor2, actor3, actor4].map(actor => access.addActor(actor, governance)));
+    await Promise.all(
+      [actor1, actor2, actor3, actor4].map(actor => access.addActor(actor, governance))
+    );
   });
 
   beforeEach(async () => {
@@ -79,7 +81,6 @@ contract('Transact', accounts => {
 
     it('creates a new order that can be queried', async () => {
       await t.request(actor1, actor1, actor2, '1000', { from: fakeToken });
-      const count = await t.orderCount(actor1);
       const o = await t.orderByOwnerAndIndex(actor1, '0');
       // Check that all fields of the order are correctly filled.
       assert.equal(o.spender, actor1);
@@ -97,7 +98,7 @@ contract('Transact', accounts => {
         [count1, '1'],
         [count2, '0'],
         [count3, '1']
-      ].map(([count, exp]) => assertNumberEquality(count, exp));
+      ].forEach(([count, exp]) => assertNumberEquality(count, exp));
     });
 
     it('creates a new order id every time', async () => {
@@ -115,7 +116,7 @@ contract('Transact', accounts => {
 
     it('makes as many valid ids for as long as there are funds', async () => {
       const amounts = ['100', '200', '300', '400'];
-      Promise.all(
+      await Promise.all(
         amounts.map(async amount => {
           await t.request(actor1, actor1, actor2, amount, { from: fakeToken });
         })
@@ -139,7 +140,7 @@ contract('Transact', accounts => {
     ];
 
     beforeEach(async () => {
-      fixtures.map(async ({ o, s, r, a }) => {
+      fixtures.forEach(async ({ o, s, r, a }) => {
         await t.request(o, s, r, a, { from: fakeToken });
       });
     });
@@ -158,7 +159,7 @@ contract('Transact', accounts => {
           [count2, '2'],
           [count3, '0'],
           [count4, '2']
-        ].map(([count, exp]) => assertNumberEquality(count, exp));
+        ].forEach(([count, exp]) => assertNumberEquality(count, exp));
       });
     });
 
@@ -274,7 +275,7 @@ contract('Transact', accounts => {
           [count1, '2'],
           [count2, '1'],
           [count3, '0']
-        ].map(([count, exp]) => assertNumberEquality(count, exp));
+        ].forEach(([count, exp]) => assertNumberEquality(count, exp));
       });
     });
 
@@ -327,7 +328,7 @@ contract('Transact', accounts => {
 
     beforeEach(async () => {
       [owner, spender, recipient] = [actor1, actor2, actor3];
-      Promise.all(
+      await Promise.all(
         ['1000', '1500', '2000'].map(amount =>
           t.request(owner, spender, recipient, amount, { from: fakeToken })
         )

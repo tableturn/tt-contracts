@@ -6,7 +6,7 @@ import { XferOrderStatus } from '../helpers/constants';
 const OrderLibTester = artifacts.require('OrderLibTester');
 
 contract('OrderLib', accounts => {
-  const [_, owner, spender, recipient] = accounts;
+  const [, owner, spender, recipient] = accounts;
   let t: OrderLibTesterInstance;
 
   before(async () => {

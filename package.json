@@ -27,11 +27,8 @@
   "devDependencies": {
     "@truffle/contract": "^4.0.35",
     "@types/bn.js": "^4.11.5",
-    "@types/chai": "^4.1.7",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.0.8",
-    "@types/web3": "^1.0.18",
-    "bn-chai": "^1.0.1",
     "bn.js": "^4.11.8",
     "chai": "^4.2.0",
     "dotenv": "^8.0.0",
@@ -40,13 +37,13 @@
     "mocha": "^6.1.4",
     "solc": "^0.5.9",
     "solidity-coverage": "^0.6.7",
-    "truffle-flattener": "^1.4.2",
     "truffle-typings": "^1.0.7",
     "ts-generator": "^0.0.8",
     "ts-node": "^8.2.0",
+    "tslint": "^5.20.1",
     "typechain": "^0.3.14",
     "typescript": "^3.5.1",
     "typestrict": "^1.0.2",
-    "web3": "^1.0.0-beta.55"
+    "web3": "^1.2.4"
   }
 }

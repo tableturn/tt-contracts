@@ -6,7 +6,7 @@ import { BAD_ID, ONE } from '../helpers/constants';
 const XferGrantLibTester = artifacts.require('XferGrantLibTester');
 
 contract('XferGrantLib', accounts => {
-  const [_, acc1, acc2, acc3, acc4] = accounts;
+  const [, acc1, acc2, acc3, acc4] = accounts;
   let t: XferGrantLibTesterInstance;
   let id1: string, id2: string, id3: string, id4: string;
 
@@ -64,7 +64,7 @@ contract('XferGrantLib', accounts => {
         [c1, '2'],
         [c2, '0'],
         [c3, '2']
-      ].map(([count, exp]) => assertNumberEquality(count, exp));
+      ].forEach(([count, exp]) => assertNumberEquality(count, exp));
     });
   });
 
