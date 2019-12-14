@@ -6,7 +6,7 @@ import { XferGrantStatus } from '../helpers/constants';
 const GrantLibTester = artifacts.require('GrantLibTester');
 
 contract('GrantLib', accounts => {
-  const [_, owner, recipient] = accounts;
+  const [, owner, recipient] = accounts;
   let t: GrantLibTesterInstance;
 
   before(async () => {

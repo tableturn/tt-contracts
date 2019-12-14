@@ -25,7 +25,7 @@ const Transact = artifacts.require('Transact');
 const Token = artifacts.require('Token');
 
 contract('EndToEnd', accounts => {
-  const [_, issuer, governor, bob, marie, tom] = accounts;
+  const [, issuer, governor, bob, marie, tom] = accounts;
   const governance = { from: governor };
   const issuance = { from: issuer };
   let registry: RegistryInstance;
