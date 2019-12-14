@@ -16,9 +16,6 @@ import "./Registry.sol";
 
 
 contract Transact is Initializable, ITransact {
-  // Legacy stuff.
-  using OldV1XferOrderLib for OldV1XferOrderLib.Data;
-  using OldV1XferGrantLib for OldV1XferGrantLib.Data;
   // Libs and types.
   using SafeMath for uint256;
   using OrderLib for OrderLib.Order;
@@ -253,96 +250,6 @@ contract Transact is Initializable, ITransact {
     reg.token().transferRejected(o.owner, o.spender, o.amount);
     // Emit!
     emit RejectionV2(o.owner, o.recipient, orderId);
-  }
-
-  // TODO: Remove after migration.
-  function migrateV1ActorsOrders() external governance {
-    IAccess access = reg.access();
-    address[] memory owners = access.actors();
-    for (uint256 i = 0; i < owners.length; ++i) {
-      migrateV1Orders(owners[i]);
-    }
-  }
-
-  // TODO: Remove after migration.
-  function migrateV1ActorsGrants() external governance {
-    IAccess access = reg.access();
-    address[] memory owners = access.actors();
-    for (uint256 i = 0; i < owners.length; ++i) {
-      migrateV1Grants(owners[i]);
-    }
-  }
-
-  // TODO: Remove after migration.
-  function migrateV1Orders(address owner) public governance {
-    // Get a reference to our owner's old order book.
-    OldV1XferOrderLib.Data[] storage v1Orders = oldV1OrderBook[owner];
-    for (uint256 i = 0; i < v1Orders.length; ++i) {
-      // Get a reference to the order itself.
-      OldV1XferOrderLib.Data storage v1Order = v1Orders[i];
-      address recipient = v1Order.recipient;
-      OldV1XferOrderLib.Status status = v1Order.status;
-      // Grab references to owner ids storages.
-      bytes32[] storage ownerIds = orderData.ids[owner];
-      // Generate an unique order id.
-      bytes32 id = XferOrderLib.generateId(owner, ownerIds.length);
-      // Create a new order mirroring the old one.
-      OrderLib.Order memory order = OrderLib.make(
-        id,
-        owner,
-        v1Order.spender,
-        recipient,
-        v1Order.amount
-      );
-      // Also copy hidden fields.
-      order.createdAt = v1Order.createdAt;
-      order.status = OrderLib.Status(uint(status));
-      // Add the order to both owner and recipient.
-      ownerIds.push(id);
-      orderData.ids[recipient].push(id);
-      // Add the order to our order database.
-      orderData.orders[id] = order;
-      // Emit!
-      emit RequestV2(owner, recipient, id);
-      if (status == OldV1XferOrderLib.Status.Pending) {
-        return;
-      } else if (status == OldV1XferOrderLib.Status.Approved) {
-        emit ApprovalV2(owner, recipient, id);
-      } else if (status == OldV1XferOrderLib.Status.Rejected) {
-        emit RejectionV2(owner, recipient, id);
-      }
-    }
-  }
-
-  // TODO: Remove after migration.
-  function migrateV1Grants(address owner) public governance {
-    // Get a reference to our owner's old grant book.
-    OldV1XferGrantLib.Data[] storage v1Grants = oldV1GrantBook[owner];
-    for (uint256 i = 0; i < v1Grants.length; ++i) {
-      // Get a reference to the grant itself.
-      OldV1XferGrantLib.Data storage v1Grant = v1Grants[i];
-      address recipient = v1Grant.recipient;
-      // Grab references to owner and recipient ids storages.
-      bytes32[] storage ownerIds = grantData.ids[owner];
-      // Generate an unique grant id.
-      bytes32 id = XferGrantLib.generateId(owner, ownerIds.length);
-      // Create a new grant mirroring the old one.
-      GrantLib.Grant memory grant = GrantLib.make(
-        id,
-        owner,
-        recipient,
-        v1Grant.maxAmount
-      );
-      // Also copy hidden fields.
-      grant.status = GrantLib.Status(uint(v1Grant.status));
-      // Add the grant to both owner and recipient.
-      ownerIds.push(id);
-      grantData.ids[recipient].push(id);
-      // Add the grant to our grant database.
-      grantData.grants[id] = grant;
-      // Emit!
-      emit GrantedV2(owner, recipient, id);
-    }
   }
 
   // Modifiers.
