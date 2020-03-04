@@ -51,9 +51,9 @@ module.exports = (registry, access, register, transact, token) => {
     await promoteActor(to, { from });
     console.info(`Transfering ${amount} to ${to}...`);
     await token.transfer(to, convert(`${amount}`), { from });
-    const index = (await transact.countOrders(from)).sub(new BN(1));
+    const index = (await transact.orderCount(from)).sub(new BN(1));
     console.info(`Approving transfer with index ${index}...`);
-    const orderId = await transact.orderIdAt(from, index);
+    const orderId = await transact.orderIdByOwnerAndIndex(from, index);
     await transact.approve(orderId, { from });
   };
 
