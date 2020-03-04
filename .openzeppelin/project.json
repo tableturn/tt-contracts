@@ -9,7 +9,7 @@
   },
   "dependencies": {},
   "name": "TTContracts",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "compiler": {
     "manager": "truffle",
     "compilerSettings": {
