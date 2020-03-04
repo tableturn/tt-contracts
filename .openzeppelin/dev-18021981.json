@@ -1,11 +1,11 @@
 {
   "contracts": {
     "Access": {
-      "address": "0x76DF08668bc7089cEA16B0F0205Ae0906a0691F4",
-      "constructorCode": "608060405234801561001057600080fd5b5061192e806100206000396000f3fe",
-      "bodyBytecodeHash": "71be14d76516def86ff507ccc8360c5359a9a647466cd9c43a988f2548868ef3",
-      "localBytecodeHash": "e7ad46ca0cc47861f088dd7bc4ceb1411dfcb1e5fbc2c4823f6a6a0ee20eb2e6",
-      "deployedBytecodeHash": "f576b708d38b89676e670596ecb4699a6112d85452d446e577250ff529d82e02",
+      "address": "0xF4cA81a3ea8931989fdA715b4a87AfA352107E9a",
+      "constructorCode": "608060405234801561001057600080fd5b50611f79806100206000396000f3fe",
+      "bodyBytecodeHash": "50bd4336c5181dd4e09f5e37e471fd0384703192e349a74d6ad106290a2cf5ca",
+      "localBytecodeHash": "acb02e52b92d1bcd8676920c196ec9b372281ccb293b7f8661a781c1f1eb73c1",
+      "deployedBytecodeHash": "835f8687fc859282d34dbb7b3642f0be6bb98fd1148822b89ab81d40177fd591",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -31,15 +31,15 @@
           "members": [
             {
               "label": "indices",
-              "astId": 1826,
+              "astId": 2091,
               "type": "t_mapping<t_uint256>",
-              "src": "106:35:11"
+              "src": "113:35:12"
             },
             {
               "label": "values",
-              "astId": 1829,
+              "astId": 2094,
               "type": "t_array:dyn<t_address>",
-              "src": "147:16:11"
+              "src": "154:16:12"
             }
           ]
         },
@@ -67,49 +67,49 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 2747,
+          "astId": 4183,
           "type": "t_bool",
-          "src": "757:24:20"
+          "src": "757:24:31"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 2749,
+          "astId": 4185,
           "type": "t_bool",
-          "src": "876:25:20"
+          "src": "876:25:31"
         },
         {
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 2805,
+          "astId": 4241,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:20"
+          "src": "1951:29:31"
         },
         {
           "contract": "Access",
           "path": "contracts/Access.sol",
           "label": "issuerList",
-          "astId": 13,
+          "astId": 21,
           "type": "t_struct<AddressSetLib.Data>",
-          "src": "363:29:0"
+          "src": "477:29:0"
         },
         {
           "contract": "Access",
           "path": "contracts/Access.sol",
           "label": "governorList",
-          "astId": 15,
+          "astId": 23,
           "type": "t_struct<AddressSetLib.Data>",
-          "src": "396:31:0"
+          "src": "510:31:0"
         },
         {
           "contract": "Access",
           "path": "contracts/Access.sol",
           "label": "actorList",
-          "astId": 17,
+          "astId": 25,
           "type": "t_struct<AddressSetLib.Data>",
-          "src": "431:28:0"
+          "src": "545:28:0"
         }
       ],
       "warnings": {
@@ -118,7 +118,33 @@
         "hasDelegateCall": false,
         "hasInitialValuesInDeclarations": false,
         "uninitializedBaseContracts": [],
-        "storageUncheckedVars": []
+        "storageUncheckedVars": [
+          {
+            "contract": "Access",
+            "path": "contracts/Access.sol",
+            "label": "issuerList",
+            "astId": 21,
+            "type": "t_struct<AddressSetLib.Data>",
+            "src": "477:29:0"
+          },
+          {
+            "contract": "Access",
+            "path": "contracts/Access.sol",
+            "label": "governorList",
+            "astId": 23,
+            "type": "t_struct<AddressSetLib.Data>",
+            "src": "510:31:0"
+          },
+          {
+            "contract": "Access",
+            "path": "contracts/Access.sol",
+            "label": "actorList",
+            "astId": 25,
+            "type": "t_struct<AddressSetLib.Data>",
+            "src": "545:28:0"
+          }
+        ],
+        "storageDiff": []
       }
     },
     "Registry": {
@@ -923,8 +949,8 @@
     "TTContracts/Access": [
       {
         "address": "0xba2CC6707D46358ced394924BA587e4AfedeA576",
-        "version": "0.0.1",
-        "implementation": "0x76DF08668bc7089cEA16B0F0205Ae0906a0691F4",
+        "version": "0.0.2",
+        "implementation": "0xF4cA81a3ea8931989fdA715b4a87AfA352107E9a",
         "admin": "0x76b277aFfcA697c29dA8045C4C819f95b3308F43",
         "kind": "Upgradeable"
       }
@@ -932,7 +958,7 @@
     "TTContracts/Registry": [
       {
         "address": "0xC881cc4dA74d63EEe3aBDF17b0e124A2150801dB",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "implementation": "0x7491B398d56aB47389c01Bcd87Bfec3E83B95ab2",
         "admin": "0x76b277aFfcA697c29dA8045C4C819f95b3308F43",
         "kind": "Upgradeable"
@@ -941,7 +967,7 @@
     "TTContracts/Register": [
       {
         "address": "0xcd19Af4c2063BEA5826F892F6D49CEeb22979567",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "implementation": "0xd6e7FC8B596349ed4110F1012192184D877dBe05",
         "admin": "0x76b277aFfcA697c29dA8045C4C819f95b3308F43",
         "kind": "Upgradeable"
@@ -950,7 +976,7 @@
     "TTContracts/Transact": [
       {
         "address": "0x117d5fbEe148a375C99366E2D22b3FbECD9771A0",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "implementation": "0xBAa7BFbf9C630B6FF48A9a90599A1FD55291d020",
         "admin": "0x76b277aFfcA697c29dA8045C4C819f95b3308F43",
         "kind": "Upgradeable"
@@ -959,7 +985,7 @@
     "TTContracts/Token": [
       {
         "address": "0xD4d8f5eb143458f21495447901Aa8309cE92E947",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "implementation": "0x1e5bAdF266D38ebd6113EE0845BC8b3256af7295",
         "admin": "0x76b277aFfcA697c29dA8045C4C819f95b3308F43",
         "kind": "Upgradeable"
@@ -967,7 +993,7 @@
     ]
   },
   "manifestVersion": "2.2",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "proxyAdmin": {
     "address": "0x76b277aFfcA697c29dA8045C4C819f95b3308F43"
   }
