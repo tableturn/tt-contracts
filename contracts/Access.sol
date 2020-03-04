@@ -12,6 +12,12 @@ contract * @title Access
 contract Access is Initializable, IAccess {
   using AddressSetLib for AddressSetLib.Data;
 
+  struct Flags {
+    bool isIssuer;
+    bool isGovernor;
+    bool isActor;
+  }
+
   AddressSetLib.Data issuerList;
   AddressSetLib.Data governorList;
   AddressSetLib.Data actorList;
@@ -145,6 +151,33 @@ contract Access is Initializable, IAccess {
   function removeActor(address a) public governance {
     actorList.remove(a);
     emit ActorRemoved(a);
+  }
+
+  /**
+   * @dev Gets all flags at once.
+   * @param a is the address to be checked.
+   * @return a `Flags` structure.
+   */
+  function flags(address a) public view returns (Flags memory) {
+    return
+      Flags({isIssuer: this.isIssuer(a), isGovernor: this.isGovernor(a), isActor: this.isActor(a)});
+  }
+
+  /**
+   * @dev Sets all flags for a given address at once.
+   * @param a is the address to set flags for.
+   * @param newFlags is a `Flags` instance describing the new flags to be set.
+   */
+  function setFlags(address a, Flags calldata newFlags) external governance {
+    if (this.isIssuer(a) != newFlags.isIssuer) {
+      newFlags.isIssuer ? addIssuer(a) : removeIssuer(a);
+    }
+    if (this.isGovernor(a) != newFlags.isGovernor) {
+      newFlags.isGovernor ? addGovernor(a) : removeGovernor(a);
+    }
+    if (this.isActor(a) != newFlags.isActor) {
+      newFlags.isActor ? addActor(a) : removeActor(a);
+    }
   }
 
   // Modifiers.
