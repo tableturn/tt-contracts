@@ -1,19 +1,18 @@
 pragma solidity ^0.5.9;
 pragma experimental ABIEncoderV2;
 // Libraries.
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import '@openzeppelin/contracts/math/SafeMath.sol';
 // Legacy.
-import "./lib/OldV1XferOrderLib.sol";
-import "./lib/OldV1XferGrantLib.sol";
+import './lib/OldV1XferOrderLib.sol';
+import './lib/OldV1XferGrantLib.sol';
 // Interfaces and Contracts.
-import "@openzeppelin/upgrades/contracts/Initializable.sol";
-import "./interfaces/ITransact.sol";
-import "./lib/OrderLib.sol";
-import "./lib/GrantLib.sol";
-import "./lib/XferOrderLib.sol";
-import "./lib/XferGrantLib.sol";
-import "./Registry.sol";
-
+import '@openzeppelin/upgrades/contracts/Initializable.sol';
+import './interfaces/ITransact.sol';
+import './lib/OrderLib.sol';
+import './lib/GrantLib.sol';
+import './lib/XferOrderLib.sol';
+import './lib/XferGrantLib.sol';
+import './Registry.sol';
 
 contract Transact is Initializable, ITransact {
   // Libs and types.
@@ -68,25 +67,15 @@ contract Transact is Initializable, ITransact {
    * @param recipient is the account to which the funds would be transfered.
    * @param amount is the amount of tokens to include in the transfer.
    */
-  function request(
-    address owner,
-    address spender,
-    address recipient,
-    uint256 amount
-  )
-  external
+  function request(address owner, address spender, address recipient, uint256 amount)
+    external
     isActor(owner)
     isActor(recipient)
     isPositive(amount)
     fromToken
   {
     // Create our new order id.
-    bytes32 id = orderData.create(
-      owner,
-      spender,
-      recipient,
-      amount
-    );
+    bytes32 id = orderData.create(owner, spender, recipient, amount);
     emit RequestV2(owner, recipient, id);
   }
 
@@ -94,7 +83,7 @@ contract Transact is Initializable, ITransact {
    * @param owner is the address for which to count orders.
    * @return The count of orders for the given owner, including sent and received orders.
    */
-  function orderCount(address owner) external isActor(owner) view returns(uint256) {
+  function orderCount(address owner) external view isActor(owner) returns (uint256) {
     return orderData.count(owner);
   }
 
@@ -103,7 +92,12 @@ contract Transact is Initializable, ITransact {
    * @param index is the index of the order id to be retrieved.
    * @return An order id when the call succeeds, otherwise throws.
    */
-  function orderIdByOwnerAndIndex(address owner, uint256 index) external isActor(owner) view returns(bytes32) {
+  function orderIdByOwnerAndIndex(address owner, uint256 index)
+    external
+    view
+    isActor(owner)
+    returns (bytes32)
+  {
     return orderData.idByOwnerAndIndex(owner, index);
   }
 
@@ -112,7 +106,12 @@ contract Transact is Initializable, ITransact {
    * @param index is the index of the order to be retrieved.
    * @return An order when the call succeeds, otherwise throws.
    */
-  function orderByOwnerAndIndex(address owner, uint256 index) external isActor(owner) view returns(OrderLib.Order memory) {
+  function orderByOwnerAndIndex(address owner, uint256 index)
+    external
+    view
+    isActor(owner)
+    returns (OrderLib.Order memory)
+  {
     return orderData.byOwnerAndIndex(owner, index);
   }
 
@@ -120,7 +119,7 @@ contract Transact is Initializable, ITransact {
    * @param orderId is the order id to look for.
    * @return An order when the call succeeds, otherwise throws.
    */
-  function orderById(bytes32 orderId) external view returns(OrderLib.Order memory) {
+  function orderById(bytes32 orderId) external view returns (OrderLib.Order memory) {
     return orderData.byId(orderId);
   }
 
@@ -131,12 +130,8 @@ contract Transact is Initializable, ITransact {
    * @param recipient is the recipient for the pre-approved transfer.
    * @param maxAmount is how much the transfer can be up to.
    */
-  function preapprove(
-    address owner,
-    address recipient,
-    uint256 maxAmount
-  )
-  external
+  function preapprove(address owner, address recipient, uint256 maxAmount)
+    external
     governance
     isActor(owner)
     isActor(recipient)
@@ -149,7 +144,7 @@ contract Transact is Initializable, ITransact {
    * @param owner is the address for which to count grants.
    * @return The count of grants for the given owner, including sent and received orders.
    */
-  function grantCount(address owner) external isActor(owner) view returns(uint256) {
+  function grantCount(address owner) external view isActor(owner) returns (uint256) {
     return grantData.count(owner);
   }
 
@@ -158,7 +153,12 @@ contract Transact is Initializable, ITransact {
    * @param index is the index of the grant id to be retrieved.
    * @return An grant id when the call succeeds, otherwise throws.
    */
-  function grantIdByOwnerAndIndex(address owner, uint256 index) external isActor(owner) view returns(bytes32) {
+  function grantIdByOwnerAndIndex(address owner, uint256 index)
+    external
+    view
+    isActor(owner)
+    returns (bytes32)
+  {
     return grantData.idByOwnerAndIndex(owner, index);
   }
 
@@ -167,7 +167,12 @@ contract Transact is Initializable, ITransact {
    * @param index is the index of the grant to be retrieved.
    * @return An grant when the call succeeds, otherwise throws.
    */
-  function grantByOwnerAndIndex(address owner, uint256 index) external view isActor(owner) returns(GrantLib.Grant memory) {
+  function grantByOwnerAndIndex(address owner, uint256 index)
+    external
+    view
+    isActor(owner)
+    returns (GrantLib.Grant memory)
+  {
     return grantData.byOwnerAndIndex(owner, index);
   }
 
@@ -175,7 +180,7 @@ contract Transact is Initializable, ITransact {
    * @param grantId is the grant id to look for.
    * @return An grant when the call succeeds, otherwise throws.
    */
-  function grantById(bytes32 grantId) external view returns(GrantLib.Grant memory) {
+  function grantById(bytes32 grantId) external view returns (GrantLib.Grant memory) {
     return grantData.byId(grantId);
   }
 
@@ -186,30 +191,18 @@ contract Transact is Initializable, ITransact {
   * @param orderId is the order id that was returned by the `request` function to create the transfer order.
   * @param orderId is the grant id to use to self-approve.
   */
-  function approveGranted(
-    bytes32 orderId,
-    bytes32 grantId
-  )
-  external
-    isActor(msg.sender)
-  {
+  function approveGranted(bytes32 orderId, bytes32 grantId) external isActor(msg.sender) {
     // Get the order and grant.
     OrderLib.Order storage o = orderData.byId(orderId);
     GrantLib.Grant storage g = grantData.byId(grantId);
     // Ensure that the order belongs to the message sender.
     require(
       msg.sender == o.owner && msg.sender == g.owner,
-      "The specified order and grant must belong to you"
+      'The specified order and grant must belong to you'
     );
     // Ensure that the pre-approval matches the order.
-    require(
-      o.recipient == g.recipient,
-      "The specified pre-approval doesn't cover this recipient"
-    );
-    require(
-      o.amount <= g.maxAmount,
-      "The specified pre-approval doesn't cover for this amount"
-    );
+    require(o.recipient == g.recipient, "The specified pre-approval doesn't cover this recipient");
+    require(o.amount <= g.maxAmount, "The specified pre-approval doesn't cover for this amount");
     // Update the order status.
     o.approve();
     // Make sure the used grant cannot be used again.
@@ -255,24 +248,24 @@ contract Transact is Initializable, ITransact {
   // Modifiers.
 
   modifier governance() {
-    require(reg.access().isGovernor(msg.sender), "This function must be called by a governor");
+    require(reg.access().isGovernor(msg.sender), 'This function must be called by a governor');
     _;
   }
 
   modifier isPositive(uint256 amount) {
-    require(amount > 0, "Amount cannot be zero");
+    require(amount > 0, 'Amount cannot be zero');
     _;
   }
 
   modifier isActor(address c) {
-    require(reg.access().isActor(c), "Provided account is not an actor");
+    require(reg.access().isActor(c), 'Provided account is not an actor');
     _;
   }
 
   modifier fromToken() {
     require(
       msg.sender == address(reg.token()),
-      "This function can only be called by the Token contract"
+      'This function can only be called by the Token contract'
     );
     _;
   }

@@ -10,7 +10,7 @@ import {
 const Access = artifacts.require('Access');
 
 contract('Access', accounts => {
-  const [, issuer, governor, actor, acc1, acc2] = accounts;
+  const [, issuer, governor, actor, acc1, acc2, acc3] = accounts;
   const governance = { from: governor };
   var access: AccessInstance;
 
@@ -174,7 +174,28 @@ contract('Access', accounts => {
         assert.notInclude(await access.actors(), acc1);
       });
     });
-  });
 
-  describe('end-to-end', () => {});
+    describe('flags and setFlags', () => {
+      itThrows('setter is called from an non-governor account', MUST_BE_GOVERNOR, async () => {
+        await access.setFlags(acc1, { isActor: false, isGovernor: false, isIssuer: false }, { from: actor })
+      });
+
+      [
+        [false, false, false],
+        [true, false, false],
+        [false, true, false],
+        [false, false, true],
+        [true, true, false],
+        [true, false, true],
+        [false, true, true]
+      ].forEach(([i, g, a]) => {
+        it(`works for combination issuer=${i}, governor=${g}, actor=${a}`, async () => {
+          const expFlags = { isIssuer: i, isGovernor: g, isActor: a };
+          await access.setFlags(acc3, expFlags, governance);
+          const f = await access.flags(acc3);
+          assert.deepEqual(expFlags, { isIssuer: f.isIssuer, isGovernor: f.isGovernor, isActor: f.isActor });
+        })
+      })
+    })
+  });
 });
