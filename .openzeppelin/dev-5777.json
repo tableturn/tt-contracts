@@ -865,7 +865,7 @@
     "TTContracts/Access": [
       {
         "address": "0xEEa8741195d3d07D5062fb8d849318b3F8f7F609",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "implementation": "0xDDE21356C4eDD4072390E7FE3E8EC63a2eefd1DE",
         "admin": "0x998F9D0Cf29c110D5DAE6D30E9E845a4153F20d4",
         "kind": "Upgradeable"
@@ -874,7 +874,7 @@
     "TTContracts/Registry": [
       {
         "address": "0xE9E34F3EeFa7d0f8D4052284C0852E027B339717",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "implementation": "0xa68D88E52B66c17a282956fE0EAa65C83Dc919c6",
         "admin": "0x998F9D0Cf29c110D5DAE6D30E9E845a4153F20d4",
         "kind": "Upgradeable"
@@ -883,7 +883,7 @@
     "TTContracts/Register": [
       {
         "address": "0xf619e855EF0FCF44476Dd442245cCaDCBe8CeC5E",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "implementation": "0x599f9CB451d27D2CeB7Da28F2d527fd7aC43024d",
         "admin": "0x998F9D0Cf29c110D5DAE6D30E9E845a4153F20d4",
         "kind": "Upgradeable"
@@ -892,7 +892,7 @@
     "TTContracts/Transact": [
       {
         "address": "0x68D266B3848D9ea0d896E81b6b96F7A6f525D90c",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "implementation": "0x9B035CF432a692D2E30993682dDD49CFe48B0E6E",
         "admin": "0x998F9D0Cf29c110D5DAE6D30E9E845a4153F20d4",
         "kind": "Upgradeable"
@@ -901,7 +901,7 @@
     "TTContracts/Token": [
       {
         "address": "0xb24ff6887BC32F900Fe820d97570F36D63E9d000",
-        "version": "0.0.1",
+        "version": "0.0.2",
         "implementation": "0x804AB8c111d08628Dcf335144818Eb5cB828c2D4",
         "admin": "0x998F9D0Cf29c110D5DAE6D30E9E845a4153F20d4",
         "kind": "Upgradeable"
@@ -909,7 +909,7 @@
     ]
   },
   "manifestVersion": "2.2",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "proxyAdmin": {
     "address": "0x998F9D0Cf29c110D5DAE6D30E9E845a4153F20d4"
   }
