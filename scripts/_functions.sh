@@ -27,4 +27,4 @@ echo "  Version: $version"
 
 # Make a session.
 rm -f .zos.session
-yarn oz session --timeout 30 --expires 7200 --from $DEPLOYER $zosArgs
+yarn oz session --timeout 30 --blockTimeout 50 --expires 7200 --from $DEPLOYER $zosArgs

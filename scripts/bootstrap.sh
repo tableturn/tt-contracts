@@ -13,19 +13,19 @@ yarn build
 yarn oz push $zosArgs --skip-compile
 
 # Instanciate the access contract.
-yarn oz create Access --skip-compile --init initialize $zosArgs --args "$GOVERNOR"
+yarn oz deploy Access --skip-compile --kind upgradeable --network $NETWORK # --no-interactive
 access=$(cat $zosArtifacts | jq ".proxies[\"TTContracts/Access\"][0].address")
 
 register=$(cat $zosArtifacts | jq ".proxies[\"TTContracts/Register\"][0].address")
 # Instanciate the registry contract.
-yarn oz create Registry --skip-compile --init initialize $zosArgs --args "$access"
+yarn oz deploy Registry --skip-compile --init initialize $zosArgs --args "$access"
 registry=$(cat $zosArtifacts | jq ".proxies[\"TTContracts/Registry\"][0].address")
 
 # Instanciate the register contract.
-yarn oz create Register --skip-compile --init initialize $zosArgs --args "$registry"
+yarn oz deploy Register --skip-compile --init initialize $zosArgs --args "$registry"
 # Instanciate the transact contract.
-yarn oz create Transact --skip-compile --init initialize $zosArgs --args "$registry"
+yarn oz deploy Transact --skip-compile --init initialize $zosArgs --args "$registry"
 # Instanciate the token contract.
-yarn oz create Token --skip-compile --init initialize $zosArgs --args "$registry"
+yarn oz deploy Token --skip-compile --init initialize $zosArgs --args "$registry"
 
 yarn truffle exec scripts/finalize.js --network $NETWORK
