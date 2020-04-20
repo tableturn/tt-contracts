@@ -1,7 +1,7 @@
 pragma solidity ^0.5.9;
 pragma experimental ABIEncoderV2;
 // Libraries.
-import '@openzeppelin/contracts/math/SafeMath.sol';
+import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
 // Legacy.
 import './lib/OldV1XferOrderLib.sol';
 import './lib/OldV1XferGrantLib.sol';
@@ -13,6 +13,7 @@ import './lib/GrantLib.sol';
 import './lib/XferOrderLib.sol';
 import './lib/XferGrantLib.sol';
 import './Registry.sol';
+
 
 contract Transact is Initializable, ITransact {
   // Libs and types.
@@ -185,12 +186,12 @@ contract Transact is Initializable, ITransact {
   }
 
   /**
-  * @dev This function approves a transfer using a pre-approved grant which should still be valid.
-  *      The transfer must be in the `ITransact.Status.Pending` status.
-  * @notice For this to work, `msg.sender` must be a governor.
-  * @param orderId is the order id that was returned by the `request` function to create the transfer order.
-  * @param orderId is the grant id to use to self-approve.
-  */
+   * @dev This function approves a transfer using a pre-approved grant which should still be valid.
+   *      The transfer must be in the `ITransact.Status.Pending` status.
+   * @notice For this to work, `msg.sender` must be a governor.
+   * @param orderId is the order id that was returned by the `request` function to create the transfer order.
+   * @param orderId is the grant id to use to self-approve.
+   */
   function approveGranted(bytes32 orderId, bytes32 grantId) external isActor(msg.sender) {
     // Get the order and grant.
     OrderLib.Order storage o = orderData.byId(orderId);

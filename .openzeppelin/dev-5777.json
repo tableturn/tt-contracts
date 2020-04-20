@@ -1,11 +1,11 @@
 {
   "contracts": {
     "Access": {
-      "address": "0xDDE21356C4eDD4072390E7FE3E8EC63a2eefd1DE",
-      "constructorCode": "608060405234801561001057600080fd5b50611f79806100206000396000f3fe",
-      "bodyBytecodeHash": "3527501c11914e161efc0d20c1d943e05683a135f364ffb4b60a92e8e90b362a",
-      "localBytecodeHash": "acb02e52b92d1bcd8676920c196ec9b372281ccb293b7f8661a781c1f1eb73c1",
-      "deployedBytecodeHash": "07e26e7fcb084662a8a20d6d098c5cdf9ec51fbaf1963cfa652f436837ac7b82",
+      "address": "0x494e10CD66db923D2d6228F300dbCaA3Fa3c6404",
+      "constructorCode": "608060405234801561001057600080fd5b50611f7f806100206000396000f3fe",
+      "bodyBytecodeHash": "c5cb7b1be4291f647e58c50a4464acdc1cb9f9c31081a27e1b95a151f47ed6d7",
+      "localBytecodeHash": "072f42fa6800d47d701062cb14c3a6e9ede7ba17bdd62c54976e50570437d4b2",
+      "deployedBytecodeHash": "6d22c3ac403ebc625ecd723db5ba5cd1752feabe507cb7d06c5d15acf9525031",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -83,9 +83,9 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4241,
+          "astId": 4247,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:31"
+          "src": "1982:29:31"
         },
         {
           "contract": "Access",
@@ -121,11 +121,11 @@
       }
     },
     "Registry": {
-      "address": "0xa68D88E52B66c17a282956fE0EAa65C83Dc919c6",
-      "constructorCode": "608060405234801561001057600080fd5b50610b57806100206000396000f3fe",
-      "bodyBytecodeHash": "d7e7b7c1f2ee19f77066186b3cf83bbf783729f44de688076acf5c1ab515d77c",
-      "localBytecodeHash": "63431e9de21df58204841080a1688717b5cd931db9cb3347046255b84b0b9ec0",
-      "deployedBytecodeHash": "63431e9de21df58204841080a1688717b5cd931db9cb3347046255b84b0b9ec0",
+      "address": "0xEe6f297a20f9BFA379EfCcd9A7Fdb214A2FF60c5",
+      "constructorCode": "608060405234801561001057600080fd5b50610b5d806100206000396000f3fe",
+      "bodyBytecodeHash": "e991945439f1372db0dfb11193ac212a3eb4bcc660cd8497bb5a3c658b0ffc7f",
+      "localBytecodeHash": "65a839172087a4db77b4d58fad9ddaa5becc69ac8d5908d0453269215c5a062a",
+      "deployedBytecodeHash": "65a839172087a4db77b4d58fad9ddaa5becc69ac8d5908d0453269215c5a062a",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -171,9 +171,9 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4241,
+          "astId": 4247,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:31"
+          "src": "1982:29:31"
         },
         {
           "contract": "Registry",
@@ -217,11 +217,11 @@
       }
     },
     "Register": {
-      "address": "0x599f9CB451d27D2CeB7Da28F2d527fd7aC43024d",
-      "constructorCode": "608060405234801561001057600080fd5b50610a08806100206000396000f3fe",
-      "bodyBytecodeHash": "ff7f6c1d7a4e5666361091e649d7a60c59debe30706d840b5e9973c4cca196af",
-      "localBytecodeHash": "5e8a95528828dff00cf6bb0fe7628b63b655dcf79b1e0f8531828bd5369edd7e",
-      "deployedBytecodeHash": "d6eaac5c606cceef22efffae9aa13978a262f3b2961e61651c13bd20da6daf60",
+      "address": "0x33f56295A0C5b74bbABD09a4c8F4f03E06225794",
+      "constructorCode": "608060405234801561001057600080fd5b50610a0e806100206000396000f3fe",
+      "bodyBytecodeHash": "de1b082a912132781372679503eaf17736f9ff60878c72101529ea706f023eba",
+      "localBytecodeHash": "d6ff14be0ff6f71f30972a04c09dcd3a9d5c252d2b023bf2f0f7bc9b14d2836e",
+      "deployedBytecodeHash": "8015aff7166a856417158bfb5c39d096404975c2d5c10bd786e4dcf731f46db3",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -304,9 +304,9 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4241,
+          "astId": 4247,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:31"
+          "src": "1982:29:31"
         },
         {
           "contract": "Register",
@@ -334,11 +334,11 @@
       }
     },
     "Token": {
-      "address": "0x804AB8c111d08628Dcf335144818Eb5cB828c2D4",
-      "constructorCode": "608060405234801561001057600080fd5b50613fd7806100206000396000f3fe",
-      "bodyBytecodeHash": "5968aa03a959818ee49bcf2bd255c22b16e8af8d5fd483ae7b5f12327f1b6b3b",
-      "localBytecodeHash": "3d7f5b53b0055e4a232c0df52d76faf71d09e50e637af2df46878cce1983f786",
-      "deployedBytecodeHash": "3d7f5b53b0055e4a232c0df52d76faf71d09e50e637af2df46878cce1983f786",
+      "address": "0xE8b4B09e642EeBF1f1C81dE7c282ab7B5b5a809B",
+      "constructorCode": "608060405234801561001057600080fd5b50613fdd806100206000396000f3fe",
+      "bodyBytecodeHash": "5b163e3d1857bdaef601614f09a0cc8f06a2c5fa5b264ebc689cf63711048aa7",
+      "localBytecodeHash": "72ff43aabeecaeadae2b21c486c74ad16c3d186f16eb1663707466607e2d4483",
+      "deployedBytecodeHash": "72ff43aabeecaeadae2b21c486c74ad16c3d186f16eb1663707466607e2d4483",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -371,13 +371,13 @@
               "label": "liquid",
               "astId": 1949,
               "type": "t_uint256",
-              "src": "193:14:11"
+              "src": "220:14:11"
             },
             {
               "label": "frozen",
               "astId": 1951,
               "type": "t_uint256",
-              "src": "213:14:11"
+              "src": "240:14:11"
             }
           ]
         },
@@ -415,9 +415,9 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4241,
+          "astId": 4247,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:31"
+          "src": "1982:29:31"
         },
         {
           "contract": "Token",
@@ -425,7 +425,7 @@
           "label": "reg",
           "astId": 638,
           "type": "t_address",
-          "src": "654:19:4"
+          "src": "708:19:4"
         },
         {
           "contract": "Token",
@@ -433,7 +433,7 @@
           "label": "totalSupply",
           "astId": 640,
           "type": "t_uint256",
-          "src": "756:26:4"
+          "src": "810:26:4"
         },
         {
           "contract": "Token",
@@ -441,7 +441,7 @@
           "label": "accounts",
           "astId": 644,
           "type": "t_mapping<t_struct<AccountLib.Data>>",
-          "src": "837:45:4"
+          "src": "891:44:4"
         },
         {
           "contract": "Token",
@@ -449,7 +449,7 @@
           "label": "allowances",
           "astId": 650,
           "type": "t_mapping<t_uint256>",
-          "src": "886:60:4"
+          "src": "939:58:4"
         }
       ],
       "warnings": {
@@ -461,11 +461,11 @@
       }
     },
     "Transact": {
-      "address": "0x9B035CF432a692D2E30993682dDD49CFe48B0E6E",
-      "constructorCode": "608060405234801561001057600080fd5b50614628806100206000396000f3fe",
-      "bodyBytecodeHash": "caeaf568565f43b13a98808b4683a24ddb302d8901339bfa011ae88d2001d7af",
-      "localBytecodeHash": "f27911082f70df4c7fc6ec8ddd973fa789310945891aef75b257b78ef6803157",
-      "deployedBytecodeHash": "f27911082f70df4c7fc6ec8ddd973fa789310945891aef75b257b78ef6803157",
+      "address": "0xd2CFa1384986c6659D7c95A1a3ead4c301005D6a",
+      "constructorCode": "608060405234801561001057600080fd5b5061462e806100206000396000f3fe",
+      "bodyBytecodeHash": "85fd19185b573fcdaacf47f018b269177d01efbd3c87f4cb59d72282816dff4f",
+      "localBytecodeHash": "385b66206a0acb03383619e64d6ee5e8f21c22a74957d7d4ccae3b3f3eb14403",
+      "deployedBytecodeHash": "385b66206a0acb03383619e64d6ee5e8f21c22a74957d7d4ccae3b3f3eb14403",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -791,9 +791,9 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4241,
+          "astId": 4247,
           "type": "t_array:50<t_uint256>",
-          "src": "1951:29:31"
+          "src": "1982:29:31"
         },
         {
           "contract": "Transact",
@@ -801,7 +801,7 @@
           "label": "reg",
           "astId": 1326,
           "type": "t_address",
-          "src": "781:19:5"
+          "src": "809:19:5"
         },
         {
           "contract": "Transact",
@@ -809,7 +809,7 @@
           "label": "oldV1OrderBook",
           "astId": 1331,
           "type": "t_mapping<t_array:dyn<t_struct<OldV1XferOrderLib.Data>>>",
-          "src": "857:59:5"
+          "src": "885:59:5"
         },
         {
           "contract": "Transact",
@@ -817,7 +817,7 @@
           "label": "oldV1GrantBook",
           "astId": 1336,
           "type": "t_mapping<t_array:dyn<t_struct<OldV1XferGrantLib.Data>>>",
-          "src": "986:59:5"
+          "src": "1014:59:5"
         },
         {
           "contract": "Transact",
@@ -825,7 +825,7 @@
           "label": "orderData",
           "astId": 1338,
           "type": "t_struct<XferOrderLib.Data>",
-          "src": "1103:27:5"
+          "src": "1131:27:5"
         },
         {
           "contract": "Transact",
@@ -833,7 +833,7 @@
           "label": "grantData",
           "astId": 1340,
           "type": "t_struct<XferGrantLib.Data>",
-          "src": "1134:27:5"
+          "src": "1162:27:5"
         }
       ],
       "warnings": {
@@ -846,64 +846,64 @@
     }
   },
   "solidityLibs": {
-    "AddressSetLib": {
-      "address": "0xc4b7C54215FcCb72Fa9968E2fF17E4406C6Bc72E",
-      "constructorCode": "6101fc610026600b82828239805160001a60731461001957fe5b30600052607381538281f3fe",
-      "bodyBytecodeHash": "57d79ee9bf0d812aa889e4d62f6576ea803b975b8437ef8c72503a0f8f78eec7",
-      "localBytecodeHash": "1b9167616a0812a786b7697a223d7e294e092c226420f32711f1d3cb4945d48d",
-      "deployedBytecodeHash": "1b9167616a0812a786b7697a223d7e294e092c226420f32711f1d3cb4945d48d"
-    },
     "HashSetLib": {
-      "address": "0xFC855165A5332D0b5f8B46c7BE9fcBD5ed4534eC",
+      "address": "0xb24ff6887BC32F900Fe820d97570F36D63E9d000",
       "constructorCode": "61016e610026600b82828239805160001a60731461001957fe5b30600052607381538281f3fe",
       "bodyBytecodeHash": "13e0b7195e406e0fe2b7b7026c2aa70a2ba6cef035561da40a7a86569a8f3b09",
       "localBytecodeHash": "53fc5b9b276a39c1e9a18106c9f2ae8ce3bb81eeeb273d54a1e14f6f4cad586d",
       "deployedBytecodeHash": "53fc5b9b276a39c1e9a18106c9f2ae8ce3bb81eeeb273d54a1e14f6f4cad586d"
+    },
+    "AddressSetLib": {
+      "address": "0xB1350e1d74C928E9Fe1D32BF9461f2508D71f4A7",
+      "constructorCode": "6101fc610026600b82828239805160001a60731461001957fe5b30600052607381538281f3fe",
+      "bodyBytecodeHash": "57d79ee9bf0d812aa889e4d62f6576ea803b975b8437ef8c72503a0f8f78eec7",
+      "localBytecodeHash": "1b9167616a0812a786b7697a223d7e294e092c226420f32711f1d3cb4945d48d",
+      "deployedBytecodeHash": "1b9167616a0812a786b7697a223d7e294e092c226420f32711f1d3cb4945d48d"
     }
   },
   "proxies": {
     "TTContracts/Access": [
       {
-        "address": "0xEEa8741195d3d07D5062fb8d849318b3F8f7F609",
+        "address": "0xd92ce9dc81794F204c870C017aC0c06f4337969a",
         "version": "0.0.2",
-        "implementation": "0xDDE21356C4eDD4072390E7FE3E8EC63a2eefd1DE",
-        "admin": "0x998F9D0Cf29c110D5DAE6D30E9E845a4153F20d4",
+        "implementation": "0x494e10CD66db923D2d6228F300dbCaA3Fa3c6404",
+        "admin": "0xa5603598f1D4169E241A168B9898F5EAe4cAA85a",
         "kind": "Upgradeable"
       }
     ],
     "TTContracts/Registry": [
       {
-        "address": "0xE9E34F3EeFa7d0f8D4052284C0852E027B339717",
+        "address": "0x373D94CB73bF308660A5b9ceac50b0BC0a22b53D",
         "version": "0.0.2",
-        "implementation": "0xa68D88E52B66c17a282956fE0EAa65C83Dc919c6",
-        "admin": "0x998F9D0Cf29c110D5DAE6D30E9E845a4153F20d4",
+        "implementation": "0xEe6f297a20f9BFA379EfCcd9A7Fdb214A2FF60c5",
+        "admin": "0xa5603598f1D4169E241A168B9898F5EAe4cAA85a",
         "kind": "Upgradeable"
       }
     ],
     "TTContracts/Register": [
       {
-        "address": "0xf619e855EF0FCF44476Dd442245cCaDCBe8CeC5E",
+        "address": "0x7438e07E962EaFf1a029aEe77B29A0d4D39d3A4d",
         "version": "0.0.2",
-        "implementation": "0x599f9CB451d27D2CeB7Da28F2d527fd7aC43024d",
-        "admin": "0x998F9D0Cf29c110D5DAE6D30E9E845a4153F20d4",
+        "implementation": "0x33f56295A0C5b74bbABD09a4c8F4f03E06225794",
+        "admin": "0xa5603598f1D4169E241A168B9898F5EAe4cAA85a",
         "kind": "Upgradeable"
       }
     ],
     "TTContracts/Transact": [
       {
-        "address": "0x68D266B3848D9ea0d896E81b6b96F7A6f525D90c",
+        "address": "0xDf2523cDCe0Ad5153427a38a0778330c4B8DC2D9",
         "version": "0.0.2",
-        "implementation": "0x9B035CF432a692D2E30993682dDD49CFe48B0E6E",
-        "admin": "0x998F9D0Cf29c110D5DAE6D30E9E845a4153F20d4",
+        "implementation": "0xd2CFa1384986c6659D7c95A1a3ead4c301005D6a",
+        "admin": "0xa5603598f1D4169E241A168B9898F5EAe4cAA85a",
         "kind": "Upgradeable"
       }
     ],
     "TTContracts/Token": [
       {
-        "address": "0xb24ff6887BC32F900Fe820d97570F36D63E9d000",
+        "address": "0x57ae96D6fFDf50e506966F53770772A675358ce1",
         "version": "0.0.2",
-        "implementation": "0x804AB8c111d08628Dcf335144818Eb5cB828c2D4",
-        "admin": "0x998F9D0Cf29c110D5DAE6D30E9E845a4153F20d4",
+        "implementation": "0xE8b4B09e642EeBF1f1C81dE7c282ab7B5b5a809B",
+        "admin": "0xa5603598f1D4169E241A168B9898F5EAe4cAA85a",
         "kind": "Upgradeable"
       }
     ]
@@ -911,6 +911,6 @@
   "manifestVersion": "2.2",
   "version": "0.0.2",
   "proxyAdmin": {
-    "address": "0x998F9D0Cf29c110D5DAE6D30E9E845a4153F20d4"
+    "address": "0xa5603598f1D4169E241A168B9898F5EAe4cAA85a"
   }
 }

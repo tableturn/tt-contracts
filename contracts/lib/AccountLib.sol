@@ -1,6 +1,6 @@
 pragma solidity ^0.5.9;
 // Libraries.
-import "@openzeppelin/contracts/math/SafeMath.sol";
+import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
 
 
 library AccountLib {
@@ -29,7 +29,7 @@ library AccountLib {
    * @param amount is the number of tokens to subtract.
    */
   function debit(Data storage account, uint256 amount) internal {
-    require(amount <= account.liquid, "Insufficient funds");
+    require(amount <= account.liquid, 'Insufficient funds');
     account.liquid = account.liquid.sub(amount);
   }
 
@@ -40,7 +40,7 @@ library AccountLib {
    * @param amount is the number of tokens to freeze.
    */
   function freeze(Data storage account, uint256 amount) internal {
-    require(amount <= account.liquid, "Insufficient funds");
+    require(amount <= account.liquid, 'Insufficient funds');
     account.debit(amount);
     account.frozen = account.frozen.add(amount);
   }
@@ -55,7 +55,7 @@ library AccountLib {
    * @param amount is the number of tokens to un-freeze.
    */
   function unfreeze(Data storage account, Data storage recipient, uint256 amount) internal {
-    require(amount <= account.frozen, "Insufficient frozen funds");
+    require(amount <= account.frozen, 'Insufficient frozen funds');
     account.frozen = account.frozen.sub(amount);
     recipient.credit(amount);
   }
