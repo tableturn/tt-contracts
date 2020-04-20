@@ -13,7 +13,8 @@ function bump {
 }
 
 # Change these based on the accounts at hand.
-zosArgs="--network $NETWORK"
+zosArgs="--no-interactive --network $NETWORK"
+zosDeployArgs="$zosArgs --skip-compile --kind upgradeable"
 zosArtifacts=".openzeppelin/dev-${NETWORK_ID}.json"
 version=$(cat .openzeppelin/project.json | jq -r ".version")
 
