@@ -20,13 +20,13 @@
   "dependencies": {
     "@openzeppelin/cli": "^2.5.2",
     "@openzeppelin/contracts": "^2.4.0",
+    "@openzeppelin/contracts-ethereum-package": "^2.5.0",
     "@openzeppelin/upgrades": "^2.5.2",
+    "@truffle/contract": "^4.0.35",
     "truffle": "^5.0.34",
     "truffle-hdwallet-provider": "1.0.17"
   },
   "devDependencies": {
-    "@openzeppelin/contracts-ethereum-package": "^2.5.0",
-    "@truffle/contract": "^4.0.35",
     "@types/bn.js": "^4.11.5",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.0.8",
