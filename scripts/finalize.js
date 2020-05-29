@@ -92,9 +92,6 @@ const seed = async ({ utils, people, issuance, governance, token, transact }) =>
     };
     // Make some transfers...
     await transfer(people.pk2m, people.pierre_martin, '6050', 'approve');
-    await transfer(people.pierre_martin, people.kevin_monserrat, '50', 'approve');
-    await transfer(people.pierre_martin, people.kevin_monserrat, '40', 'reject');
-    await transfer(people.pierre_martin, people.kevin_monserrat, '30');
     // Make 20 more fake transfers.
     for (let i = 1; i <= 20; ++i) {
       await transfer(people.pk2m, people.kevin_monserrat, `${i}0`);
