@@ -13,14 +13,15 @@ interface IERC1404 {
    * @param amount is the amount to be transfered.
    * @return a uint8 error code if a problem was detected, otherwise zero.
    */
-  function detectTransferRestriction (address owner, address recipient, uint256 amount)
-    external view returns (uint8);
+  function detectTransferRestriction(address owner, address recipient, uint256 amount)
+    external
+    view
+    returns (uint8);
 
   /**
    * @dev Maps a transfer restriction error code into a human-readable string.
    * @param code is the code that should be transformed into a string.
    * @return A string that describes the given error code.
    */
-  function messageForTransferRestriction (uint8 code)
-    external view returns (string memory);
+  function messageForTransferRestriction(uint8 code) external view returns (string memory);
 }

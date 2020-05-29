@@ -1,10 +1,10 @@
 pragma solidity ^0.5.9;
 // Libraries.
-import "./lib/HashSetLib.sol";
+import './lib/HashSetLib.sol';
 // Interfaces and Contracts.
-import "@openzeppelin/upgrades/contracts/Initializable.sol";
-import "./interfaces/IRegister.sol";
-import "./Registry.sol";
+import '@openzeppelin/upgrades/contracts/Initializable.sol';
+import './interfaces/IRegister.sol';
+import './Registry.sol';
 
 
 contract Register is Initializable, IRegister {
@@ -29,12 +29,12 @@ contract Register is Initializable, IRegister {
   }
 
   /// @dev Checks the table for the presence of the hash of `what`.
-  function containsHashOf(bytes calldata what) external view returns(bool) {
+  function containsHashOf(bytes calldata what) external view returns (bool) {
     return containsHash(keccak256(what));
   }
 
   /// @dev Checks the table for the presence of `what`.
-  function containsHash(bytes32 h) public view returns(bool) {
+  function containsHash(bytes32 h) public view returns (bool) {
     return hashList.contains(h);
   }
 
@@ -46,10 +46,7 @@ contract Register is Initializable, IRegister {
   // Modifiers.
 
   modifier governance() {
-    require(
-      reg.access().isGovernor(msg.sender),
-      "This function must be called by a governor"
-    );
+    require(reg.access().isGovernor(msg.sender), 'This function must be called by a governor');
     _;
   }
 }

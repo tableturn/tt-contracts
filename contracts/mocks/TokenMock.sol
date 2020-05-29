@@ -1,6 +1,6 @@
 pragma solidity ^0.5.9;
 pragma experimental ABIEncoderV2;
-import "../interfaces/IToken.sol";
+import '../interfaces/IToken.sol';
 
 
 contract TokenMock is IToken {
@@ -25,12 +25,12 @@ contract TokenMock is IToken {
   // ----------------------------------------------------------------------------- //
 
   /// @dev Approval call proofs getter.
-  function getApprovedCalls() external view returns(CallProof[] memory) {
+  function getApprovedCalls() external view returns (CallProof[] memory) {
     return approvals;
   }
 
   /// @dev Rejection call proofs getter.
-  function getRejectedCalls() external view returns(CallProof[] memory) {
+  function getRejectedCalls() external view returns (CallProof[] memory) {
     return rejections;
   }
 }

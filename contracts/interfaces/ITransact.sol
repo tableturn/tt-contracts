@@ -11,10 +11,5 @@ interface ITransact {
    * @param amount is the amount of tokens to include in the transfer.
    * @return The transfer id that was created.
    */
-  function request(
-    address owner,
-    address spender,
-    address recipient,
-    uint256 amount
-  ) external;
+  function request(address owner, address spender, address recipient, uint256 amount) external;
 }

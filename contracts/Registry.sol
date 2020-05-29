@@ -1,9 +1,9 @@
 pragma solidity ^0.5.9;
-import "@openzeppelin/upgrades/contracts/Initializable.sol";
-import "./interfaces/IAccess.sol";
-import "./interfaces/IRegister.sol";
-import "./interfaces/ITransact.sol";
-import "./interfaces/IToken.sol";
+import '@openzeppelin/upgrades/contracts/Initializable.sol';
+import './interfaces/IAccess.sol';
+import './interfaces/IRegister.sol';
+import './interfaces/ITransact.sol';
+import './interfaces/IToken.sol';
 
 
 /**
@@ -42,10 +42,7 @@ contract Registry is Initializable {
   // Modifiers.
 
   modifier governance {
-    require(
-      access.isGovernor(msg.sender),
-      "This function must be called by a governor"
-    );
+    require(access.isGovernor(msg.sender), 'This function must be called by a governor');
     _;
   }
 }

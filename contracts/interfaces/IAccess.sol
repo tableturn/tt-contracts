@@ -1,5 +1,6 @@
 pragma solidity ^0.5.9;
 
+
 interface IAccess {
   /**
    * @dev Determines whether a given address is an issuer or not.
