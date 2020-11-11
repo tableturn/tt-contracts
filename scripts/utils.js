@@ -1,3 +1,4 @@
+const { fail } = require('assert');
 const BN = require('bn.js');
 
 module.exports = (registry, access, register, transact, token) => {
@@ -57,12 +58,22 @@ module.exports = (registry, access, register, transact, token) => {
     await transact.approve(orderId, { from });
   };
 
-  const accountancy = async people => {
-    return Object.keys(people).map(async k => [
-      k,
-      (await token.balanceOf(people[k])).toString().slice(0, -6)
-    ]);
-  };
+  const voteAllActors = async (from) => {
+    const actors = []
+
+    for (let i = 0; i < actors.length; ++i) {
+      const actor = actors[i];
+      console.log(`--> Processing "${actor}"...`);
+      if (await access.isActor(actor)) {
+        console.log('  > Already an actor, skipping.')
+        continue;
+      }
+      console.log('  > Adding...');
+      await access.addActor(actor, { from })
+        .then(() => console.log('  > Done!'))
+        .catch(() => console.log('  > FAILED.'));
+    }
+  }
 
   return {
     convert,
@@ -72,6 +83,6 @@ module.exports = (registry, access, register, transact, token) => {
     promoteGovernor,
     promoteIssuer,
     registerContract,
-    accountancy
+    voteAllActors
   };
 };

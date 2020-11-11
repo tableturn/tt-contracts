@@ -30,7 +30,7 @@
     "@types/bn.js": "^4.11.5",
     "@types/mocha": "^5.2.7",
     "@types/node": "^12.0.8",
-    "bn.js": "^4.11.8",
+    "bn.js": "^5.1.3",
     "chai": "^4.2.0",
     "dotenv": "^8.0.0",
     "eth-gas-reporter": "^0.2.12",
@@ -45,6 +45,6 @@
     "typechain": "^0.3.14",
     "typescript": "^3.5.1",
     "typestrict": "^1.0.2",
-    "web3": "^1.2.4"
+    "web3": "^1.3.0"
   }
 }
