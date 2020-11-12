@@ -10,10 +10,21 @@
     "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": true,
     "esModuleInterop": true,
-    "lib": ["es2015", "esnext.asynciterable"],
+    "lib": [
+      "es2015",
+      "esnext.asynciterable"
+    ],
     "sourceMap": true,
-    "typeRoots": ["../node_modules/@types", "./@types"],
-    "types": ["node", "@types/bn.js", "@types/chai", "@types/mocha", "@types/node"]
+    "typeRoots": [
+      "../node_modules/@types",
+      "./types"
+    ],
+    "types": [
+      "node",
+      "truffle-typings"
+    ]
   },
-  "include": ["**/*.ts"]
+  "include": [
+    "**/*.ts"
+  ]
 }
