@@ -167,17 +167,17 @@ contract Access is Initializable, IAccess {
   /**
    * @dev Sets all flags for a given address at once.
    * @param a is the address to set flags for.
-   * @param flags is a `Flags` instance describing the new flags to be set.
+   * @param _flags is a `Flags` instance describing the new flags to be set.
    */
-  function setFlags(address a, Flags calldata flags) external governance {
-    if (this.isIssuer(a) != flags.isIssuer) {
-      flags.isIssuer ? addIssuer(a) : removeIssuer(a);
+  function setFlags(address a, Flags calldata _flags) external governance {
+    if (isIssuer(a) != _flags.isIssuer) {
+      _flags.isIssuer ? addIssuer(a) : removeIssuer(a);
     }
-    if (this.isGovernor(a) != flags.isGovernor) {
-      flags.isGovernor ? addGovernor(a) : removeGovernor(a);
+    if (isGovernor(a) != _flags.isGovernor) {
+      _flags.isGovernor ? addGovernor(a) : removeGovernor(a);
     }
-    if (this.isActor(a) != flags.isActor) {
-      flags.isActor ? addActor(a) : removeActor(a);
+    if (isActor(a) != _flags.isActor) {
+      _flags.isActor ? addActor(a) : removeActor(a);
     }
   }
 
