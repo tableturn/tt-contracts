@@ -14,7 +14,7 @@
     "console": "truffle console --network $NETWORK",
     "pretest": "yarn build && yarn build:types",
     "test": "truffle test",
-    "coverage": "solidity-coverage"
+    "coverage": "truffle run coverage --network coverage"
   },
   "dependencies": {
     "@openzeppelin/cli": "^2.5.2",

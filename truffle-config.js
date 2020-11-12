@@ -7,6 +7,7 @@ const hdWallet = host => {
 };
 
 module.exports = {
+  plugins: ["solidity-coverage"],
   // All the networks we use.
   networks: {
     development: {
@@ -40,13 +41,6 @@ module.exports = {
     }
   },
 
-  // Mocha configuration.
-  mocha: {
-    reporter: 'eth-gas-reporter',
-    reporterOptions: {
-      excludeContracts: ['Migrations.sol']
-    }
-  },
   // Configure your compilers
   compilers: {
     solc: {
