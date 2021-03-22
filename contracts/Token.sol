@@ -6,6 +6,7 @@ import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.so
 import '@openzeppelin/upgrades/contracts/Initializable.sol';
 import './interfaces/IERC1404.sol';
 import './interfaces/IToken.sol';
+import './interfaces/ITransact.sol';
 import './lib/AccountLib.sol';
 import './Registry.sol';
 import './Transact.sol';
@@ -44,6 +45,9 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
   string public constant ERR_OWNER_NOT_ACTOR = 'Owner of funds must be an actor';
   string public constant ERR_RECIPIENT_NOT_ACTOR = 'Recipient of funds must be an actor';
   string public constant ERR_OWNER_SAME_AS_RECIPIENT = 'Recipient cannot be the same as owner';
+
+  address private constant ZERO_ADDRESS = address(0);
+  address private constant RESERVE_ADDRESS = ZERO_ADDRESS;
 
   /// --- Public functions, mostly ERC20 related.
 
@@ -104,12 +108,13 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
   function allocate(address recipient, uint256 amount)
     external
     governance
-    isRecipientActor(recipient)
-  {
+    isRecipientActor(recipient) {
     totalSupply = totalSupply.add(amount);
-    accounts[address(0)].debit(amount);
-    accounts[recipient].credit(amount);
-    emit IERC20.Transfer(address(0), recipient, amount);
+    // We perform the same operation as a regular transfer, except that the
+    // owner is the reserve.
+    accounts[RESERVE_ADDRESS].freeze(amount);
+    // That this request is performed by the governor on behalf of the reserve.
+    reg.transact().request(RESERVE_ADDRESS, msg.sender, recipient, amount, 'Allocation from Reserve');
   }
 
   /// --- ERC20 functions.
@@ -122,21 +127,36 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @return A bool value set to true signaling a successful operation.
    */
   function transfer(address recipient, uint256 amount)
+    public
+    isOwnerActor(msg.sender)
+    isRecipientActor(recipient)
+    ownerAndRecipientDifferent(msg.sender, recipient)
+    isPositive(amount)
+    returns (bool) {
+    address owner = msg.sender;
+    accounts[owner].freeze(amount);
+    reg.transact().request(owner, owner, recipient, amount, '');
+    return true;
+  }
+
+  /**
+   * @dev Same as `transfer` but with an additional reference.
+   */
+  function transferWithReference(address recipient, uint256 amount, string calldata ref)
     external
     isOwnerActor(msg.sender)
     isRecipientActor(recipient)
     ownerAndRecipientDifferent(msg.sender, recipient)
     isPositive(amount)
-    returns (bool)
-  {
+    returns (bool) {
     address owner = msg.sender;
     accounts[owner].freeze(amount);
-    reg.transact().request(owner, owner, recipient, amount);
+    reg.transact().request(owner, owner, recipient, amount, ref);
     return true;
   }
 
   /**
-   * @dev Immediatelly transfers tokens between two accounts using an allowance, eg the
+   * @dev Immediatelly transfers tokens between two accounts using an allowance, eg
    *      when the spender isn't the owner of the tokens. This method requires that an allowance
    *      was set using the `approve` function.
    * @notice To work, `msg.sender` must be the allowed spender.
@@ -151,16 +171,34 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     isRecipientActor(recipient)
     ownerAndRecipientDifferent(owner, recipient)
     isPositive(amount)
-    returns (bool)
-  {
+    returns (bool) {
     // We're transacting on behalf of someone. The owner and spender should be different.
     require(msg.sender != owner, 'Cannot perform a transfer using allowance on behalf of yourself');
-    address spender = msg.sender;
-    uint256 allowed = allowances[owner][spender];
+    uint256 allowed = allowances[owner][msg.sender];
     require(amount <= allowed, 'Insufficient allowance from owner');
-    _approve(owner, spender, allowed.sub(amount));
+    _approve(owner, msg.sender, allowed.sub(amount));
     accounts[owner].freeze(amount);
-    reg.transact().request(owner, spender, recipient, amount);
+    reg.transact().request(owner, msg.sender, recipient, amount, '');
+    return true;
+  }
+
+  /**
+   * @dev The same as `transferFrom` but with an additional reference.
+   */
+  function transferFromWithReference(address owner, address recipient, uint256 amount, string calldata ref)
+    external
+    isOwnerActor(owner)
+    isRecipientActor(recipient)
+    ownerAndRecipientDifferent(owner, recipient)
+    isPositive(amount)
+    returns (bool) {
+    // We're transacting on behalf of someone. The owner and spender should be different.
+    require(msg.sender != owner, 'Cannot perform a transfer using allowance on behalf of yourself');
+    uint256 allowed = allowances[owner][msg.sender];
+    require(amount <= allowed, 'Insufficient allowance from owner');
+    _approve(owner, msg.sender, allowed.sub(amount));
+    accounts[owner].freeze(amount);
+    reg.transact().request(owner, msg.sender, recipient, amount, ref);
     return true;
   }
 
@@ -172,8 +210,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @return A bool value set to true signaling a successful operation.
    */
   function approve(address spender, uint256 amount) external returns (bool) {
-    address owner = msg.sender;
-    _approve(owner, spender, amount);
+    _approve(msg.sender, spender, amount);
     return true;
   }
 
@@ -192,8 +229,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
   function detectTransferRestriction(address owner, address recipient, uint256)
     external
     view
-    returns (uint8)
-  {
+    returns (uint8) {
     IAccess access = reg.access();
     if (!access.isActor(owner)) {
       return ERRC_OWNER_NOT_ACTOR;
@@ -256,8 +292,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     external
     governance()
     isOwnerActor(owner)
-    isRecipientActor(target)
-  {
+    isRecipientActor(target) {
     require(
       accounts[owner].frozen == 0,
       'Cannot retrieve dead tokens on an account with frozen funds'
