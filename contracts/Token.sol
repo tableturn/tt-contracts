@@ -95,7 +95,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param amount is how many tokens should be allocated.
    */
   function issue(uint256 amount, string calldata reason) external issuance {
-    accounts[address(0)].credit(amount);
+    accounts[RESERVE_ADDRESS].credit(amount);
     emit Issuance(amount, reason);
   }
 
@@ -260,8 +260,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    */
   function transferApproved(address owner, address recipient, uint256 amount)
     external
-    fromTransact
-  {
+    fromTransact {
     accounts[owner].unfreeze(accounts[recipient], amount);
     emit IERC20.Transfer(owner, recipient, amount);
   }

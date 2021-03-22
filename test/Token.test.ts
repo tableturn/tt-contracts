@@ -2,7 +2,7 @@ import {
   AccessInstance,
   TokenInstance,
   RegistryInstance,
-  TransactMockInstance
+  TransactInstance
 } from '../types/truffle-contracts';
 import { itThrows, assertNumberEquality } from './helpers/helpers';
 import {
@@ -21,40 +21,42 @@ import {
   UNKNOWN_ERC1404_CODE,
   INVALID_ZERO_AMOUNT
 } from './helpers/errors';
+import { XferOrderStatus, ZERO } from './helpers/constants';
+import BN from 'bn.js';
 
 const Registry = artifacts.require('Registry');
 const Access = artifacts.require('Access');
-const TransactMock = artifacts.require('TransactMock');
+const Transact = artifacts.require('Transact');
 const Token = artifacts.require('Token');
 
 contract('Token', accounts => {
   const [, issuer, governor, actor1, actor2, actor3, acc1, acc2, fakeTransact] = accounts;
-  const [governance, issuance] = [governor, issuer].map(v => ({
-    from: v
-  }));
+  const [governance, issuance] = [governor, issuer].map(v => ({ from: v }));
   var registry: RegistryInstance,
     access: AccessInstance,
-    transact: TransactMockInstance,
+    transact: TransactInstance,
     token: TokenInstance;
 
   before(async () => {
-    // Instanciate a few contracts.
-    [registry, access] = await Promise.all([Registry.new(), Access.new()]);
     // Initialize various things.
-    await Promise.all([access.initialize(governor), registry.initialize(access.address)]);
-    // Setup contracts in our registry.
-    await Promise.all([
-      access.addIssuer(issuer, governance),
-      registry.setAccessContract(access.address, governance)
+    [registry, access] = await Promise.all([
+      Registry.new(),
+      Access.new()
     ]);
+    await Promise.all([
+      access.initialize(governor),
+      registry.initialize(access.address)
+    ]);
+    await access.addIssuer(issuer, governance);
     // Set up 3 accounts as actors.
-    Promise.all([actor1, actor2, actor3].map(async actor => access.addActor(actor, governance)));
+    Promise.all([governor, actor1, actor2, actor3, acc1].map(async actor => access.addActor(actor, governance)));
   });
 
   beforeEach(async () => {
-    [token, transact] = await Promise.all([Token.new(), TransactMock.new()]);
-    await token.initialize(registry.address);
+    [token, transact] = await Promise.all([Token.new(), Transact.new()]);
     await Promise.all([
+      token.initialize(registry.address),
+      transact.initialize(registry.address),
       registry.setTokenContract(token.address, governance),
       registry.setTransactContract(transact.address, governance)
     ]);
@@ -95,7 +97,7 @@ contract('Token', accounts => {
         assertNumberEquality(code, '0');
       });
       it('detects when owner is not an actor', async () => {
-        const code = await token.detectTransferRestriction(acc1, actor2, '100');
+        const code = await token.detectTransferRestriction(acc2, actor2, '100');
         assert.notEqual(code.toString(), '0');
         assertNumberEquality(code, await token.ERRC_OWNER_NOT_ACTOR());
       });
@@ -186,16 +188,20 @@ contract('Token', accounts => {
       await token.allocate(actor1, '500', issuance);
     });
     itThrows('recipient is not an actor', RECIPIENT_NOT_ACTOR, async () => {
-      await token.allocate(acc1, '500', governance);
+      await token.allocate(acc2, '500', governance);
     });
 
-    it('credits the recipients of the specified amount', async () => {
-      var total = 0;
-      [100, 200, 300, 400].forEach(async amount => {
-        total += amount;
-        await token.allocate(actor1, amount, governance);
-      });
-      assertNumberEquality(await token.balanceOf(actor1), total);
+    it('creates a matching order with the transact contract', async () => {
+      await token.allocate(actor1, '100', governance);
+      const orderIdx = (await transact.orderCount(ZERO_ADDRESS)).sub(new BN(1));
+      const orderId = await transact.orderIdByOwnerAndIndex(ZERO_ADDRESS, orderIdx);
+      const order = await transact.orderById(orderId);
+
+      assert.equal(ZERO_ADDRESS, order.owner);
+      assert.equal(governor, order.spender);
+      assert.equal(actor1, order.recipient);
+      assert.equal('100', order.amount.toString());
+      assert.equal(order.status, XferOrderStatus.Pending);
     });
 
     it('carries over to totalSupply', async () => {
@@ -241,16 +247,19 @@ contract('Token', accounts => {
     });
 
     itThrows('sender is not an actor', OWNER_NOT_ACTOR, async () => {
-      await token.transfer(actor1, '500', { from: acc1 });
+      await token.transfer(actor1, '500', { from: acc2 });
     });
     itThrows('recipient is not an actor', RECIPIENT_NOT_ACTOR, async () => {
-      await token.transfer(acc1, '500', { from: actor1 });
+      await token.transfer(acc2, '500', { from: actor1 });
     });
     itThrows('there are not enough funds', INSUFFICIENT_FUNDS, async () => {
       await token.transfer(actor2, '100', { from: actor1 });
     });
     itThrows('sender is the same as recipient', OWNER_SAME_AS_RECIPIENT, async () => {
       await token.allocate(actor1, '100', governance);
+      const orderIdx = (await transact.orderCount(ZERO_ADDRESS)).sub(new BN(1));
+      const orderId = await transact.orderIdByOwnerAndIndex(ZERO_ADDRESS, orderIdx);
+      await transact.approve(orderId, governance);
       await token.transfer(actor1, '100', { from: actor1 });
     });
     itThrows('amount is zero', INVALID_ZERO_AMOUNT, async () => {
@@ -260,6 +269,9 @@ contract('Token', accounts => {
     describe('when successful', () => {
       beforeEach(async () => {
         await token.allocate(actor1, '2000', governance);
+        const orderIdx = (await transact.orderCount(ZERO_ADDRESS)).sub(new BN(1));
+        const orderId = await transact.orderIdByOwnerAndIndex(ZERO_ADDRESS, orderIdx);
+        await transact.approve(orderId, governance);
       });
 
       it('freezes the funds from the owner account', async () => {
@@ -275,11 +287,12 @@ contract('Token', accounts => {
 
       it('calls a request on the Transact contract', async () => {
         await token.transfer(actor3, '100', { from: actor1 });
-        const [res] = (await transact.getRequestCalls()).slice(-1);
-        assert.equal(res.owner, actor1);
-        assert.equal(res.spender, actor1);
-        assert.equal(res.recipient, actor3);
-        assertNumberEquality(res.amount, '100');
+        const orderIdx = (await transact.orderCount(actor3)).sub(new BN(1));
+        const order = await transact.orderByOwnerAndIndex(actor3, orderIdx);
+        assert.equal(order.owner, actor1);
+        assert.equal(order.spender, actor1);
+        assert.equal(order.recipient, actor3);
+        assertNumberEquality(order.amount, '100');
       });
     });
   });
@@ -290,7 +303,7 @@ contract('Token', accounts => {
     });
 
     itThrows('owner is not an actor', OWNER_NOT_ACTOR, async () => {
-      await token.transferFrom(acc1, actor3, '100', { from: actor1 });
+      await token.transferFrom(acc2, actor3, '100', { from: actor1 });
     });
     itThrows('recipient is not an actor', RECIPIENT_NOT_ACTOR, async () => {
       await token.transferFrom(actor2, acc2, '100', { from: actor1 });
@@ -310,10 +323,11 @@ contract('Token', accounts => {
 
     describe('when successful', () => {
       beforeEach(async () => {
-        await Promise.all([
-          token.allocate(actor1, '2000', governance),
-          token.approve(acc1, '300', { from: actor1 })
-        ]);
+        await token.allocate(actor1, '2000', governance);
+        const orderIdx = (await transact.orderCount(ZERO_ADDRESS)).sub(new BN(1));
+        const orderId = await transact.orderIdByOwnerAndIndex(ZERO_ADDRESS, orderIdx);
+        await transact.approve(orderId, governance);
+        await token.approve(acc1, '300', { from: actor1 })
       });
 
       it('freezes the funds from the owner account', async () => {
@@ -334,11 +348,12 @@ contract('Token', accounts => {
 
       it('calls a request on the Transact contract', async () => {
         await token.transferFrom(actor1, actor3, '100', { from: acc1 });
-        const [res] = (await transact.getRequestCalls()).slice(-1);
-        assert.equal(res.owner, actor1);
-        assert.equal(res.spender, acc1);
-        assert.equal(res.recipient, actor3);
-        assertNumberEquality(res.amount, '100');
+        const orderIdx = (await transact.orderCount(actor1)).sub(new BN(1));
+        const order = await transact.orderByOwnerAndIndex(actor1, orderIdx);
+        assert.equal(order.owner, actor1);
+        assert.equal(order.spender, acc1);
+        assert.equal(order.recipient, actor3);
+        assertNumberEquality(order.amount, '100');
       });
     });
   });
@@ -366,8 +381,12 @@ contract('Token', accounts => {
       // This mocks an account and replaces the transact contract by
       // an address we have the keys for, allowing to simulate calls using
       // that address later on.
+      await registry.setTransactContract(transact.address, governance);
       await token.issue('1000', 'Test Issuance', issuance);
       await token.allocate(actor1, '1000', governance);
+      const orderIdx = (await transact.orderCount(actor1)).sub(new BN(1));
+      const orderId = await transact.orderIdByOwnerAndIndex(actor1, orderIdx);
+      await transact.approve(orderId, governance);
       await token.transfer(actor2, '300', { from: actor1 });
       await registry.setTransactContract(fakeTransact, governance);
     });
@@ -429,15 +448,18 @@ contract('Token', accounts => {
       await token.retrieveDeadTokens(actor1, actor2, issuance);
     });
     itThrows('recipient is not an actor', RECIPIENT_NOT_ACTOR, async () => {
-      await token.retrieveDeadTokens(actor1, acc1, governance);
+      await token.retrieveDeadTokens(actor1, acc2, governance);
     });
     itThrows('owner is not an actor', OWNER_NOT_ACTOR, async () => {
-      await token.retrieveDeadTokens(acc1, actor2, governance);
+      await token.retrieveDeadTokens(acc2, actor2, governance);
     });
     describe('when there are tokens to retrieve', () => {
       beforeEach(async () => {
         await token.issue('1000', 'Test issuance', issuance);
         await token.allocate(actor1, '1000', governance);
+        const orderIdx = (await transact.orderCount(ZERO_ADDRESS)).sub(new BN(1));
+        const orderId = await transact.orderIdByOwnerAndIndex(ZERO_ADDRESS, orderIdx);
+        await transact.approve(orderId, governance);
       });
 
       itThrows('owner still has frozen funds', CANNOT_RETRIEVE_FROZEN, async () => {
