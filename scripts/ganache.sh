@@ -8,5 +8,5 @@ yarn ganache-cli \
   -i 5777 \
   --gasLimit 0x59A5380 \
   --gasPrice 1 \
-  --defaultBalanceEther 10000 \
+  --defaultBalanceEther 10000000000000 \
   --mnemonic "$MNEMONIC"
