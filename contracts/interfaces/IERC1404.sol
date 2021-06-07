@@ -24,5 +24,5 @@ interface IERC1404 {
    * @param code is the code that should be transformed into a string.
    * @return A string that describes the given error code.
    */
-  function messageForTransferRestriction(uint8 code) external view returns (string memory);
+  function messageForTransferRestriction(uint8 code) external pure returns (string memory);
 }
