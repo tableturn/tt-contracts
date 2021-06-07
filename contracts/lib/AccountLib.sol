@@ -1,5 +1,5 @@
-pragma solidity ^0.5.9;
-// Libraries.
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
 import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
 
 

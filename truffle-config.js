@@ -44,10 +44,10 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: '0.5.9',
+      version: '0.8.4',
       optimizer: {
         enabled: true,
-        runs: 200
+        runs: 500
       }
     }
   }
