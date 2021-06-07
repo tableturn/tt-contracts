@@ -35,6 +35,9 @@ contract Transact is Initializable, ITransact {
   XferOrderLib.Data orderData;
   XferGrantLib.Data grantData;
 
+  // Transfer references are stored separately.
+  mapping(bytes32 => string) orderRefs;
+
   /// Old Events.
 
   /// V1 Events.
@@ -67,16 +70,18 @@ contract Transact is Initializable, ITransact {
    * @param spender is the account that is actually spending the funds.
    * @param recipient is the account to which the funds would be transfered.
    * @param amount is the amount of tokens to include in the transfer.
+   * @param ref is the reference to associate with the order.
    */
-  function request(address owner, address spender, address recipient, uint256 amount)
+  function request(address owner, address spender, address recipient, uint256 amount, string calldata ref)
     external
-    isActor(owner)
+    isActorOrReserve(owner)
+    isActor(spender)
     isActor(recipient)
     isPositive(amount)
-    fromToken
-  {
+    fromToken {
     // Create our new order id.
     bytes32 id = orderData.create(owner, spender, recipient, amount);
+    orderRefs[id] = ref;
     emit RequestV2(owner, recipient, id);
   }
 
@@ -87,6 +92,16 @@ contract Transact is Initializable, ITransact {
   function orderCount(address owner) external view isActor(owner) returns (uint256) {
     return orderData.count(owner);
   }
+
+  /**
+   * @dev Allows to retrieve the reference associated with an order.
+   * @param orderId is the order for which to retrieve the string reference.
+   * @return The reference associated with the order, of any.
+   */
+  function orderReference(bytes32 orderId) public view returns(string memory) {
+    return orderRefs[orderId];
+  }
+
 
   /** @dev Gets an order id given its owner and index.
    * @param owner is the address for which to get the order id.
@@ -219,7 +234,7 @@ contract Transact is Initializable, ITransact {
    * @notice For this to work, `msg.sender` must be a governor.
    * @param orderId is the order id that was returned by the `request` function to create the transfer order.
    */
-  function approve(bytes32 orderId) external governance {
+  function approve(bytes32 orderId) external fromTokenOrGovernance {
     // Get the order.
     OrderLib.Order storage o = orderData.byId(orderId);
     // Update the order status.
@@ -253,6 +268,14 @@ contract Transact is Initializable, ITransact {
     _;
   }
 
+  modifier fromTokenOrGovernance() {
+    require(
+      reg.access().isGovernor(msg.sender) || msg.sender == address(reg.token()),
+      'This function must be called by a governor or by the token contract'
+    );
+    _;
+  }
+
   modifier isPositive(uint256 amount) {
     require(amount > 0, 'Amount cannot be zero');
     _;
@@ -260,6 +283,11 @@ contract Transact is Initializable, ITransact {
 
   modifier isActor(address c) {
     require(reg.access().isActor(c), 'Provided account is not an actor');
+    _;
+  }
+
+  modifier isActorOrReserve(address c) {
+    require(reg.access().isActor(c) || c == address(0), 'Provided account is not an actor or the reserve');
     _;
   }
 
