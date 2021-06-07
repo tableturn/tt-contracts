@@ -7,13 +7,13 @@ steps:
     image: node:dubnium-alpine
     commands: [./scripts/ci-build.sh]
 
-  - name: coverage
-    image: plugins/codecov
-    settings:
-      files:
-        - 'coverage.json'
-      token:
-        from_secret: codecov_token
+  # - name: coverage
+  #   image: plugins/codecov
+  #   settings:
+  #     files:
+  #       - 'coverage.json'
+  #     token:
+  #       from_secret: codecov_token
 
   - name: slack-notify
     image: plugins/slack
