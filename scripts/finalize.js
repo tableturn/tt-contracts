@@ -8,6 +8,8 @@ const Register = artifacts.require('Register');
 const Transact = artifacts.require('Transact');
 const Token = artifacts.require('Token');
 
+const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000';
+
 module.exports = async done => {
   try {
     // Load ZOS ABI.
@@ -75,9 +77,17 @@ const seed = async ({ utils, people, issuance, governance, token, transact }) =>
   const balance = await token.balanceOf(people.pk2m);
   console.info(`PK2M Balance: ${balance.toString()}.`);
   if (balance.eq(new BN(0))) {
+    // This whole chink is about allocating for PK2M.
+    const amount = '1_121_010'
     console.info(`Allocating tokens to ${people.pk2m} for Year 1 of operational costs.`);
-    await utils.issue('1_121_010', 'Operational costs for 2019', issuance);
-    await token.allocate(people.pk2m, utils.convert('1_121_010'), governance);
+    await utils.issue(amount, 'Operational costs for 2019', issuance);
+    console.info(`  Now allocating tokens to PK2M...`);
+    await token.allocate(people.pk2m, utils.convert(amount), governance);
+    console.info('  Approving allocation transfer to PK2M...');
+    const orderIdx = await transact.orderCount(ZERO_ADDRESS);
+    const orderId = await transact.orderIdByOwnerAndIndex(ZERO_ADDRESS, orderIdx - 1);
+    await transact.approve(orderId, governance);
+    console.info(`  PK2M now has a balance of ${(await token.balanceOf(people.pk2m)).toString()} tokens.`)
 
     const transfer = async (from, to, amount, method) => {
       console.info(`Transfering from ${from} to ${to}.`);
@@ -91,6 +101,7 @@ const seed = async ({ utils, people, issuance, governance, token, transact }) =>
       await transact[method](orderId, governance);
     };
     // Make some transfers...
+    console.info("Performing a few transfers...")
     await transfer(people.pk2m, people.pierre_martin, '6050', 'approve');
     // Make 20 more fake transfers.
     for (let i = 1; i <= 20; ++i) {
