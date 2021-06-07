@@ -7,7 +7,8 @@
   "main": "truffle-config.js",
   "scripts": {
     "postinstall": "yarn build",
-    "build": "yarn build:contracts",
+    "build": "yarn build:patch-deps && yarn build:contracts",
+    "build:patch-deps": "./scripts/patch-deps.sh",
     "build:contracts": "truffle compile",
     "postbuild:contracts": "./scripts/exportABIs.js",
     "build:types": "typechain --target truffle-v5 --out-dir 'types/truffle-contracts' './build/**/*.json'",
