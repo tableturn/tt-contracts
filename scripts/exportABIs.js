@@ -15,7 +15,7 @@ const write = (name, ext, data) => {
 
 try {
   fs.mkdirSync(OUTPUT_DIR);
-} catch {}
+} catch { }
 
 console.log('Extracting contracts ABIs and bytecode to a separate folder...');
 for (let name of fs.readdirSync(INPUT_DIR)) {

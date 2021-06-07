@@ -12,7 +12,6 @@ interface ITransact {
    * @param recipient is the account to which the funds would be transfered.
    * @param amount is the amount of tokens to include in the transfer.
    * @param ref is the reference to keep along with the order.
-   * @return The transfer id that was created.
    */
   function request(address owner, address spender, address recipient, uint256 amount, string calldata ref) external;
 }
