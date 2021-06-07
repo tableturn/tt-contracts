@@ -17,7 +17,8 @@ contract TransactMock is ITransact {
   bytes32 private constant ZERO_ORDER_ID = "00000000000000000000000000000000";
 
   /// @dev Mocks to the `ITransact.request` function.
-  function request(address owner, address spender, address recipient, uint256 amount, string calldata ref) external {
+  function request(address owner, address spender, address recipient, uint256 amount, string calldata ref)
+  external override {
     requests.push(CallProof(owner, spender, recipient, amount, ref));
   }
 
