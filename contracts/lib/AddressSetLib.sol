@@ -15,7 +15,6 @@ library AddressSetLib {
    * @param key is the address to be added.
    */
   function add(Data storage d, address key) internal {
-    require(key != address(0), "Address cannot be 0x0");
     require(!contains(d, key), "Address already in set");
     d.indices[key] = d.values.length;
     d.values.push(key);

@@ -2,7 +2,6 @@ import { AddressSetLibTesterInstance } from '../../types/truffle-contracts';
 import { itThrows, assertNumberEquality } from '../helpers/helpers';
 import {
   ZERO_ADDRESS,
-  INVALID_ZERO_ADDRESS,
   ADDRESS_ALREADY_IN_SET,
   NONEXISTENT_ADDRESS
 } from '../helpers/errors';
@@ -18,10 +17,6 @@ contract('AddressSetLib', accounts => {
   });
 
   describe('add', async () => {
-    itThrows('adding the zero address', INVALID_ZERO_ADDRESS, async () => {
-      await mock.add(ZERO_ADDRESS);
-    });
-
     itThrows('already added', ADDRESS_ALREADY_IN_SET, async () => {
       await Promise.all([1, 2].map(() => mock.add(acc1)));
     });
@@ -30,6 +25,11 @@ contract('AddressSetLib', accounts => {
       await Promise.all([acc1, acc2, acc3].map(v => mock.add(v)));
       assert.includeMembers(await mock.getSample1Values(), [acc1, acc2, acc3]);
     });
+
+    it('allows the zero address to be added', async () => {
+      await mock.add(ZERO_ADDRESS);
+      assert.includeMembers(await mock.getSample1Values(), [ZERO_ADDRESS]);
+    })
   });
 
   describe('remove', async () => {
