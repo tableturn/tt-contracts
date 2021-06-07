@@ -1,5 +1,5 @@
-pragma solidity ^0.5.9;
-pragma experimental ABIEncoderV2;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
 
 
 library OrderLib {
@@ -48,7 +48,6 @@ library OrderLib {
    */
   function ensureValidStruct(Order storage order) internal view {
     require(
-      order.owner != address(0) &&
       order.spender != address(0) &&
       order.recipient != address(0) &&
       order.amount != 0 &&

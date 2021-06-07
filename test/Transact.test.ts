@@ -8,6 +8,7 @@ import { assertNumberEquality } from './helpers/helpers';
 import {
   DOUBLE_INIT,
   MUST_BE_GOVERNOR,
+  MUST_BE_GOVERNOR_OR_TOKEN,
   INVALID_ORDER_INDEX,
   INVALID_ORDER,
   INVALID_ORDER_STATUS,
@@ -19,10 +20,12 @@ import {
   GRANT_RECIPIENT_MISMATCH,
   MUST_BE_TOKEN,
   MUST_BE_ACTOR,
+  MUST_BE_ACTOR_OR_RESERVE,
   GRANT_OWNER_MISMATCH,
   INVALID_ZERO_AMOUNT
 } from './helpers/errors';
 import { XferGrantStatus, XferOrderStatus, ONE, BAD_ID } from './helpers/constants';
+import BN from 'bn.js';
 
 const { itThrows } = require('./helpers/helpers');
 
@@ -66,21 +69,21 @@ contract('Transact', accounts => {
   });
 
   describe('request', async () => {
-    itThrows('the owner is not an actor', MUST_BE_ACTOR, async () => {
-      await t.request(acc1, actor1, actor2, '1000', { from: fakeToken });
+    itThrows('the owner is not an actor', MUST_BE_ACTOR_OR_RESERVE, async () => {
+      await t.request(acc1, actor1, actor2, '1000', 'Why not?', { from: fakeToken });
     });
     itThrows('the recipient is not an actor', MUST_BE_ACTOR, async () => {
-      await t.request(actor1, actor2, acc1, '1000', { from: fakeToken });
+      await t.request(actor1, actor2, acc1, '1000', 'Why not?', { from: fakeToken });
     });
     itThrows('the caller is not the Token contract', MUST_BE_TOKEN, async () => {
-      await t.request(actor1, actor1, actor2, '1000', governance);
+      await t.request(actor1, actor1, actor2, '1000', 'Why not?', governance);
     });
     itThrows('amount is zero', INVALID_ZERO_AMOUNT, async () => {
-      await t.request(actor1, actor1, actor2, '0', { from: fakeToken });
+      await t.request(actor1, actor1, actor2, '0', 'Why not?', { from: fakeToken });
     });
 
     it('creates a new order that can be queried', async () => {
-      await t.request(actor1, actor1, actor2, '1000', { from: fakeToken });
+      await t.request(actor1, actor1, actor2, '1000', 'Why not?', { from: fakeToken });
       const o = await t.orderByOwnerAndIndex(actor1, '0');
       // Check that all fields of the order are correctly filled.
       assert.equal(o.spender, actor1);
@@ -89,8 +92,16 @@ contract('Transact', accounts => {
       assertNumberEquality(o.status, XferOrderStatus.Pending);
     });
 
+    it('keeps track of the reference why the order was created', async () => {
+      await t.request(actor1, actor1, actor2, '1', 'Why not?', { from: fakeToken });
+      const orderCount = await t.orderCount(actor1);
+      const orderId = await t.orderIdByOwnerAndIndex(actor1, orderCount.sub(new BN(1)));
+      const reason = await t.orderReference(orderId);
+      assert.equal(reason, 'Why not?');
+    })
+
     it('adds the created order in both the owner and recipient books', async () => {
-      await t.request(actor1, actor2, actor3, '1000', { from: fakeToken });
+      await t.request(actor1, actor2, actor3, '1000', 'Why not?', { from: fakeToken });
       const [count1, count2, count3] = await Promise.all(
         [actor1, actor2, actor3].map(actor => t.orderCount(actor))
       );
@@ -103,7 +114,7 @@ contract('Transact', accounts => {
 
     it('creates a new order id every time', async () => {
       await Promise.all(
-        ['300', '700'].map(amount => t.request(actor1, actor1, actor2, amount, { from: fakeToken }))
+        ['300', '700'].map(amount => t.request(actor1, actor1, actor2, amount, 'Why not?', { from: fakeToken }))
       );
       const count = await t.orderCount(actor1);
       assertNumberEquality(count, '2');
@@ -118,7 +129,7 @@ contract('Transact', accounts => {
       const amounts = ['100', '200', '300', '400'];
       await Promise.all(
         amounts.map(async amount => {
-          await t.request(actor1, actor1, actor2, amount, { from: fakeToken });
+          await t.request(actor1, actor1, actor2, amount, 'Why not?', { from: fakeToken });
         })
       );
       // Check that 4 orders were made.
@@ -132,6 +143,18 @@ contract('Transact', accounts => {
     });
   });
 
+  describe('orderReference', async () => {
+    it('keeps track of order references', async () => {
+      // Issue a transfer order with a given reference.
+      const ref = 'Sample reference';
+      await t.request(actor1, actor1, actor2, '100', 'Sample reference', { from: fakeToken })
+      // Simply check that the reference matches.
+      const orderIdx = (await t.orderCount(actor1)).sub(new BN(1));
+      const orderId = await t.orderIdByOwnerAndIndex(actor1, orderIdx);
+      assert.equal(ref, await t.orderReference(orderId));
+    });
+  });
+
   describe('order related methods', async () => {
     const fixtures = [
       { o: actor1, s: actor1, r: actor2, a: '100' },
@@ -140,9 +163,10 @@ contract('Transact', accounts => {
     ];
 
     beforeEach(async () => {
-      fixtures.forEach(async ({ o, s, r, a }) => {
-        await t.request(o, s, r, a, { from: fakeToken });
-      });
+      await Promise.all(
+        fixtures.map(async ({ o, s, r, a }) => {
+          await t.request(o, s, r, a, 'Why not?', { from: fakeToken });
+        }));
     });
 
     describe('orderCount', async () => {
@@ -330,7 +354,7 @@ contract('Transact', accounts => {
       [owner, spender, recipient] = [actor1, actor2, actor3];
       await Promise.all(
         ['1000', '1500', '2000'].map(amount =>
-          t.request(owner, spender, recipient, amount, { from: fakeToken })
+          t.request(owner, spender, recipient, amount, 'Why not?', { from: fakeToken })
         )
       );
       [orderId1, orderId2, orderId3] = await Promise.all(
@@ -341,7 +365,7 @@ contract('Transact', accounts => {
     });
 
     describe('approve', async () => {
-      itThrows('unauthorized', MUST_BE_GOVERNOR, async () => {
+      itThrows('unauthorized', MUST_BE_GOVERNOR_OR_TOKEN, async () => {
         await t.approve(orderId1);
       });
       itThrows('order id is invalid', INVALID_ORDER, async () => {

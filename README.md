@@ -16,7 +16,7 @@ It will also run [`yarn truffle exec scripts/finalize.js --network $NETWORK`](sc
 
 To get all the required stuff available in the console, copy-paste the following snippet:
 
-```code
+```js
 const BN = require('bn.js');
 const generateUtils = require('./scripts/utils.js')
 const netId = process.env.NETWORK_ID
@@ -34,24 +34,24 @@ const token = await Token.at(zosAbi.proxies[`TTContracts/Token`][0].address)
 
 Once done and after all promises are fullfilled, simply run this line:
 
-```code
+```js
 const utils = generateUtils(registry, access, register, transact, token)
 ```
 
 You should now be able to issue transactions. For example, to initiate a transfer of 20 CVDS from PK2M to someone, you can:
 
-```code
+```js
 token.transfer(people.pierre_martin, utils.convert('20'), { from: people.pk2m })
 ```
 
 Once this is done and the transaction yields a receipt, you can inspect how many pending transfer orders exist for PK2M:
 
-```code
+```js
 const count = await transact.countOrders(people.pk2m)
 ```
 
 At this point, `count` will be a `BigNumber` and you can infer what transfer is the one that needs approval. For example, if `count` came back equal to `3`, then the latest transfer has an identifier of `2`. To approve it, you can run:
 
-```code
+```js
 transact.approve(people.pk2m, count.sub(new BN(1)), { from: people.pk2m })
 ```

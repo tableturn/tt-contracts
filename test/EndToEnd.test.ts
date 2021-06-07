@@ -17,12 +17,15 @@ import {
   GRANT_RECIPIENT_MISMATCH,
   INVALID_GRANT_STATUS
 } from './helpers/errors';
-import { BAD_ID, ONE } from './helpers/constants';
+import { BAD_ID, ONE, ZERO } from './helpers/constants';
+import BN from 'bn.js';
 
 const Registry = artifacts.require('Registry');
 const Access = artifacts.require('Access');
 const Transact = artifacts.require('Transact');
 const Token = artifacts.require('Token');
+
+const ISSUANCE_REASON = 'Test Issuance.';
 
 contract('EndToEnd', accounts => {
   const [, issuer, governor, bob, marie, tom] = accounts;
@@ -68,13 +71,18 @@ contract('EndToEnd', accounts => {
     // # Random Account Issuance
     // Ensures that a random account cannot issue tokens.
     itThrows('a random account issues tokens', MUST_BE_ISSUER, async () => {
-      await token.issue('1000', 'Test issuance', { from: marie });
+      await token.issue('1000', ISSUANCE_REASON, { from: marie });
+    });
+
+    it('lets our governor account be an actor', async () => {
+      await access.addActor(governor, governance);
+      assert.deepEqual(await access.actors(), [ZERO_ADDRESS, governor])
     });
 
     // # Governor Issuance
     // Ensures that the governor cannot issue tokens.
     itThrows('a governor issues tokens', MUST_BE_ISSUER, async () => {
-      await token.issue('1000', 'Test issuance', { from: bob });
+      await token.issue('1000', ISSUANCE_REASON, { from: bob });
     });
 
     // # Random Account Adds Issuer
@@ -91,22 +99,31 @@ contract('EndToEnd', accounts => {
 
     // # Issuer Token Issuance
     // Verifies that an issuer can issue token.
-    it('lets the issuer create some tokens in the reserve', async () => {
-      await token.issue('150', 'Test issuance', issuance);
-      assertNumberEquality(await token.totalSupply(), '0');
+    it('lets the issuer create some tokens in the reserve, while not counting it as total supply', async () => {
+      await token.issue('150', ISSUANCE_REASON, issuance);
       assertNumberEquality(await token.balanceOf(ZERO_ADDRESS), '150');
+      assertNumberEquality(await token.totalSupply(), '0');
     });
 
     it('adds Bob as an actor', async () => {
       await access.addActor(bob, governance);
-      assert.deepEqual(await access.actors(), [bob]);
+      assert.deepEqual(await access.actors(), [ZERO_ADDRESS, governor, bob]);
     });
 
     // # Token Allocation
     // Verifies that a governor can allocate tokens.
     // Balances: Bob = 100, Marie = 0
     it('allocates 100 tokens for Bob', async () => {
+      // Allocate funds from the reserve into Bob's account.
       await token.allocate(bob, '100', governance);
+      // Get order ID for the allocation.
+      const orderIdx = (await transact.orderCount(ZERO_ADDRESS)).sub(new BN(1));
+      const orderId = await transact.orderIdByOwnerAndIndex(ZERO_ADDRESS, orderIdx);
+      const orderRef = await transact.orderReference(orderId);
+      assert.equal('Allocation from Reserve', orderRef);
+      // Accept the transfer order.
+      await transact.approve(orderId, governance)
+
       assertNumberEquality(await token.balanceOf(bob), '100');
       assertNumberEquality(await token.balanceOf(marie), '0');
     });
@@ -126,13 +143,13 @@ contract('EndToEnd', accounts => {
     // # Random Account Token Issuance
     // Ensures that a random account cannot issue tokens.
     itThrows('a random account issues tokens', MUST_BE_ISSUER, async () => {
-      await token.issue('1000', 'Test issuance', { from: marie });
+      await token.issue('1000', ISSUANCE_REASON, { from: marie });
     });
 
     // # Governor Token Issuance
     // Ensures that a governor cannot issue tokens.
     itThrows('Bob tries to issue tokens', MUST_BE_ISSUER, async () => {
-      await token.issue('1000', 'Test issuance', { from: bob });
+      await token.issue('1000', ISSUANCE_REASON, { from: bob });
     });
 
     // # Random Account Token Allocation
@@ -143,11 +160,11 @@ contract('EndToEnd', accounts => {
 
     it('adds Marie as an actor from Bob account', async () => {
       await access.addActor(marie, { from: bob });
-      assert.deepEqual(await access.actors(), [bob, marie]);
+      assert.deepEqual(await access.actors(), [ZERO_ADDRESS, governor, bob, marie]);
     });
 
     itThrows('Marie tries to issue tokens', MUST_BE_ISSUER, async () => {
-      await token.issue('1000', 'Test issuance', { from: marie });
+      await token.issue('1000', ISSUANCE_REASON, { from: marie });
     });
 
     // Balances: Bob = 101, Marie = 0
@@ -158,7 +175,7 @@ contract('EndToEnd', accounts => {
     // Balances: Bob = 95+5, Marie = 0
     it('orders a transfer of 5 tokens from Bob to Marie', async () => {
       await token.transfer(marie, '5', { from: bob });
-      assertNumberEquality(await transact.orderCount(bob), '1');
+      assertNumberEquality(await transact.orderCount(bob), '2');
       assertNumberEquality(await token.balanceOf(bob), '95');
       assertNumberEquality(await token.frozenOf(bob), '5');
       assertNumberEquality(await token.balanceOf(marie), '0');
@@ -171,7 +188,7 @@ contract('EndToEnd', accounts => {
 
     // Balances: Bob = 95, Marie = 5
     it('approves the transfer', async () => {
-      const orderId = await transact.orderIdByOwnerAndIndex(bob, '0');
+      const orderId = await transact.orderIdByOwnerAndIndex(bob, '1');
       await transact.approve(orderId, governance);
       assertNumberEquality(await token.balanceOf(bob), '95');
       assertNumberEquality(await token.frozenOf(bob), '0');
@@ -180,13 +197,13 @@ contract('EndToEnd', accounts => {
 
     // Balances: Bob = 95, Marie = 5
     itThrows('approving a transfer twice', INVALID_ORDER_STATUS, async () => {
-      const orderId = await transact.orderIdByOwnerAndIndex(bob, '0');
+      const orderId = await transact.orderIdByOwnerAndIndex(bob, '1');
       await transact.approve(orderId, governance);
     });
 
     it("adds Tom as an actor using Bob's account", async () => {
       await access.addActor(tom, { from: bob });
-      assert.deepEqual(await access.actors(), [bob, marie, tom]);
+      assert.deepEqual(await access.actors(), [ZERO_ADDRESS, governor, bob, marie, tom]);
     });
 
     // Balances: Bob = 95, Marie = 5
@@ -206,7 +223,7 @@ contract('EndToEnd', accounts => {
     // Allowances: Tom = 6
     it('lets Tom perform a transfer using their allowance', async () => {
       await token.transferFrom(bob, marie, '4', { from: tom });
-      assertNumberEquality(await transact.orderCount(bob), '2');
+      assertNumberEquality(await transact.orderCount(bob), '3');
       assertNumberEquality(await token.allowance(bob, tom), '6');
       assertNumberEquality(await token.balanceOf(bob), '91');
       assertNumberEquality(await token.frozenOf(bob), '4');
@@ -216,7 +233,7 @@ contract('EndToEnd', accounts => {
     // Balances: Bob = 91, Marie = 9
     // Allowances: Tom = 6
     it("approves the transfer using Bob's account", async () => {
-      const orderId = await transact.orderIdByOwnerAndIndex(bob, '1');
+      const orderId = await transact.orderIdByOwnerAndIndex(bob, '2');
       await transact.approve(orderId, governance);
       assertNumberEquality(await token.balanceOf(bob), '91');
       assertNumberEquality(await token.frozenOf(bob), '0');
@@ -227,14 +244,14 @@ contract('EndToEnd', accounts => {
     // Allowances: Tom = 0
     it('lets Tom perform a transfer using their allowance', async () => {
       await token.transferFrom(bob, marie, '6', { from: tom });
-      assertNumberEquality(await transact.orderCount(bob), '3');
+      assertNumberEquality(await transact.orderCount(bob), '4');
       assertNumberEquality(await token.allowance(bob, tom), '0');
     });
 
     // Balances: Bob = 91, Marie = 9
     // Allowances: Tom = 6
     it('rejects the transfer', async () => {
-      const orderId = await transact.orderIdByOwnerAndIndex(bob, '2');
+      const orderId = await transact.orderIdByOwnerAndIndex(bob, '3');
       await transact.reject(orderId, governance);
       assertNumberEquality(await token.balanceOf(bob), '91');
       assertNumberEquality(await token.frozenOf(bob), '0');

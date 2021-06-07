@@ -1,10 +1,8 @@
-pragma solidity ^0.5.9;
-// Libraries.
-import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
 
 
 library AccountLib {
-  using SafeMath for uint256;
   using AccountLib for Data;
 
   struct Data {
@@ -19,7 +17,7 @@ library AccountLib {
    * @param amount is the number of tokens to add.
    */
   function credit(Data storage account, uint256 amount) internal {
-    account.liquid = account.liquid.add(amount);
+    account.liquid += amount;
   }
 
   /**
@@ -30,7 +28,7 @@ library AccountLib {
    */
   function debit(Data storage account, uint256 amount) internal {
     require(amount <= account.liquid, 'Insufficient funds');
-    account.liquid = account.liquid.sub(amount);
+    account.liquid -= amount;
   }
 
   /**
@@ -42,7 +40,7 @@ library AccountLib {
   function freeze(Data storage account, uint256 amount) internal {
     require(amount <= account.liquid, 'Insufficient funds');
     account.debit(amount);
-    account.frozen = account.frozen.add(amount);
+    account.frozen += amount;
   }
 
   /**
@@ -56,7 +54,7 @@ library AccountLib {
    */
   function unfreeze(Data storage account, Data storage recipient, uint256 amount) internal {
     require(amount <= account.frozen, 'Insufficient frozen funds');
-    account.frozen = account.frozen.sub(amount);
+    account.frozen -= amount;
     recipient.credit(amount);
   }
 

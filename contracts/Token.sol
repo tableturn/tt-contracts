@@ -1,18 +1,17 @@
-pragma solidity ^0.5.9;
-// Libraries.
-import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
 // Interfaces and Contracts.
 import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/upgrades/contracts/Initializable.sol';
 import './interfaces/IERC1404.sol';
 import './interfaces/IToken.sol';
+import './interfaces/ITransact.sol';
 import './lib/AccountLib.sol';
 import './Registry.sol';
 import './Transact.sol';
 
 
 contract Token is Initializable, IToken, IERC20, IERC1404 {
-  using SafeMath for uint256;
   using AccountLib for AccountLib.Data;
 
   /// --- Events.
@@ -25,7 +24,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
   Registry public reg;
 
   /// @dev The total amount of tokens owned by actors, excluding the reserve.
-  uint256 public totalSupply;
+  uint256 public override totalSupply;
 
   /// @dev Our accounts are held in this mapping.
   mapping(address => AccountLib.Data) accounts;
@@ -44,6 +43,9 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
   string public constant ERR_OWNER_NOT_ACTOR = 'Owner of funds must be an actor';
   string public constant ERR_RECIPIENT_NOT_ACTOR = 'Recipient of funds must be an actor';
   string public constant ERR_OWNER_SAME_AS_RECIPIENT = 'Recipient cannot be the same as owner';
+
+  address private constant ZERO_ADDRESS = address(0);
+  address private constant RESERVE_ADDRESS = ZERO_ADDRESS;
 
   /// --- Public functions, mostly ERC20 related.
 
@@ -72,7 +74,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param account is the address to check the balance of.
    * @return The liquid balance of the given account.
    */
-  function balanceOf(address account) external view returns (uint256) {
+  function balanceOf(address account) external view override returns (uint256) {
     return accounts[account].liquid;
   }
 
@@ -91,7 +93,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param amount is how many tokens should be allocated.
    */
   function issue(uint256 amount, string calldata reason) external issuance {
-    accounts[address(0)].credit(amount);
+    accounts[RESERVE_ADDRESS].credit(amount);
     emit Issuance(amount, reason);
   }
 
@@ -104,12 +106,12 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
   function allocate(address recipient, uint256 amount)
     external
     governance
-    isRecipientActor(recipient)
-  {
-    totalSupply = totalSupply.add(amount);
-    accounts[address(0)].debit(amount);
-    accounts[recipient].credit(amount);
-    emit IERC20.Transfer(address(0), recipient, amount);
+    isRecipientActor(recipient) {
+    totalSupply += amount;
+    // We perform the same operation as a regular transfer, except that the owner is the reserve.
+    accounts[RESERVE_ADDRESS].freeze(amount);
+    // This request is performed by the governor on behalf of the reserve.
+    reg.transact().request(RESERVE_ADDRESS, msg.sender, recipient, amount, 'Allocation from Reserve');
   }
 
   /// --- ERC20 functions.
@@ -122,21 +124,36 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @return A bool value set to true signaling a successful operation.
    */
   function transfer(address recipient, uint256 amount)
+    public override
+    isOwnerActor(msg.sender)
+    isRecipientActor(recipient)
+    ownerAndRecipientDifferent(msg.sender, recipient)
+    isPositive(amount)
+    returns (bool) {
+    address owner = msg.sender;
+    accounts[owner].freeze(amount);
+    reg.transact().request(owner, owner, recipient, amount, 'Unspecified');
+    return true;
+  }
+
+  /**
+   * @dev Same as `transfer` but with an additional reference.
+   */
+  function transferWithReference(address recipient, uint256 amount, string calldata ref)
     external
     isOwnerActor(msg.sender)
     isRecipientActor(recipient)
     ownerAndRecipientDifferent(msg.sender, recipient)
     isPositive(amount)
-    returns (bool)
-  {
+    returns (bool) {
     address owner = msg.sender;
     accounts[owner].freeze(amount);
-    reg.transact().request(owner, owner, recipient, amount);
+    reg.transact().request(owner, owner, recipient, amount, ref);
     return true;
   }
 
   /**
-   * @dev Immediatelly transfers tokens between two accounts using an allowance, eg the
+   * @dev Immediatelly transfers tokens between two accounts using an allowance, eg
    *      when the spender isn't the owner of the tokens. This method requires that an allowance
    *      was set using the `approve` function.
    * @notice To work, `msg.sender` must be the allowed spender.
@@ -146,21 +163,39 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @return A bool value set to true signaling a successful operation.
    */
   function transferFrom(address owner, address recipient, uint256 amount)
+    external override
+    isOwnerActor(owner)
+    isRecipientActor(recipient)
+    ownerAndRecipientDifferent(owner, recipient)
+    isPositive(amount)
+    returns (bool) {
+    // We're transacting on behalf of someone. The owner and spender should be different.
+    require(msg.sender != owner, 'Cannot perform a transfer using allowance on behalf of yourself');
+    uint256 allowed = allowances[owner][msg.sender];
+    require(amount <= allowed, 'Insufficient allowance from owner');
+    _approve(owner, msg.sender, allowed - amount);
+    accounts[owner].freeze(amount);
+    reg.transact().request(owner, msg.sender, recipient, amount, '');
+    return true;
+  }
+
+  /**
+   * @dev The same as `transferFrom` but with an additional reference.
+   */
+  function transferFromWithReference(address owner, address recipient, uint256 amount, string calldata ref)
     external
     isOwnerActor(owner)
     isRecipientActor(recipient)
     ownerAndRecipientDifferent(owner, recipient)
     isPositive(amount)
-    returns (bool)
-  {
+    returns (bool) {
     // We're transacting on behalf of someone. The owner and spender should be different.
     require(msg.sender != owner, 'Cannot perform a transfer using allowance on behalf of yourself');
-    address spender = msg.sender;
-    uint256 allowed = allowances[owner][spender];
+    uint256 allowed = allowances[owner][msg.sender];
     require(amount <= allowed, 'Insufficient allowance from owner');
-    _approve(owner, spender, allowed.sub(amount));
+    _approve(owner, msg.sender, allowed - amount);
     accounts[owner].freeze(amount);
-    reg.transact().request(owner, spender, recipient, amount);
+    reg.transact().request(owner, msg.sender, recipient, amount, ref);
     return true;
   }
 
@@ -171,9 +206,8 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param amount is the quantity of tokens to allow the spender to spend.
    * @return A bool value set to true signaling a successful operation.
    */
-  function approve(address spender, uint256 amount) external returns (bool) {
-    address owner = msg.sender;
-    _approve(owner, spender, amount);
+  function approve(address spender, uint256 amount) external override returns (bool) {
+    _approve(msg.sender, spender, amount);
     return true;
   }
 
@@ -183,17 +217,14 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param spender is the account for which to check the allowance for..
    * @return A number representing the allowance from the owner account to the spender account.
    */
-  function allowance(address owner, address spender) external view returns (uint256) {
+  function allowance(address owner, address spender) external view override returns (uint256) {
     return allowances[owner][spender];
   }
 
   /// --- ERC1404 functions.
 
   function detectTransferRestriction(address owner, address recipient, uint256)
-    external
-    view
-    returns (uint8)
-  {
+    external view override returns (uint8) {
     IAccess access = reg.access();
     if (!access.isActor(owner)) {
       return ERRC_OWNER_NOT_ACTOR;
@@ -206,7 +237,8 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     }
   }
 
-  function messageForTransferRestriction(uint8 errCode) external view returns (string memory) {
+  function messageForTransferRestriction(uint8 errCode)
+    external pure override returns (string memory) {
     if (errCode == ERRC_OWNER_NOT_ACTOR) return ERR_OWNER_NOT_ACTOR;
     else if (errCode == ERRC_RECIPIENT_NOT_ACTOR) return ERR_RECIPIENT_NOT_ACTOR;
     else if (errCode == ERRC_OWNER_SAME_AS_RECIPIENT) return ERR_OWNER_SAME_AS_RECIPIENT;
@@ -223,9 +255,8 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param amount is the quantity of tokens to transfer from the owner account.
    */
   function transferApproved(address owner, address recipient, uint256 amount)
-    external
-    fromTransact
-  {
+    external override
+    fromTransact {
     accounts[owner].unfreeze(accounts[recipient], amount);
     emit IERC20.Transfer(owner, recipient, amount);
   }
@@ -239,9 +270,11 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param spender is the account performing the operation. It could be the same as `owner`.
    * @param amount is the quantity of tokens to transfer from the owner account.
    */
-  function transferRejected(address owner, address spender, uint256 amount) external fromTransact {
+  function transferRejected(address owner, address spender, uint256 amount)
+  external override
+  fromTransact {
     if (owner != spender) {
-      _approve(owner, spender, allowances[owner][spender].add(amount));
+      _approve(owner, spender, allowances[owner][spender] + amount);
     }
     accounts[owner].unfreeze(accounts[owner], amount);
   }
@@ -256,8 +289,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     external
     governance()
     isOwnerActor(owner)
-    isRecipientActor(target)
-  {
+    isRecipientActor(target) {
     require(
       accounts[owner].frozen == 0,
       'Cannot retrieve dead tokens on an account with frozen funds'

@@ -1,4 +1,5 @@
-pragma solidity ^0.5.9;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
 
 
 library AddressSetLib {
@@ -15,7 +16,6 @@ library AddressSetLib {
    * @param key is the address to be added.
    */
   function add(Data storage d, address key) internal {
-    require(key != address(0), "Address cannot be 0x0");
     require(!contains(d, key), "Address already in set");
     d.indices[key] = d.values.length;
     d.values.push(key);
@@ -35,8 +35,7 @@ library AddressSetLib {
     d.indices[keyToMove] = idxToReplace;
     d.values[idxToReplace] = keyToMove;
     delete d.indices[key];
-    delete d.values[lastIndex];
-    d.values.length -= 1;
+    d.values.pop();
   }
 
   /**

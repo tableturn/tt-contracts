@@ -1,4 +1,5 @@
-pragma solidity ^0.5.9;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
 
 
 library HashSetLib {
@@ -34,8 +35,7 @@ library HashSetLib {
     d.indices[keyToMove] = idxToReplace;
     d.values[idxToReplace] = keyToMove;
     delete d.indices[key];
-    delete d.values[lastIndex];
-    d.values.length -= 1;
+    d.values.pop();
   }
 
   /**

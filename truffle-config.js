@@ -1,6 +1,6 @@
 require('ts-node/register');
 require('dotenv').config();
-const HDWalletProvider = require('truffle-hdwallet-provider');
+const HDWalletProvider = require('@truffle/hdwallet-provider');
 
 const hdWallet = host => {
   return new HDWalletProvider(require(`./conf/keys.${process.env.NETWORK_ID}`), host, 0, 4);
@@ -44,10 +44,10 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: '0.5.9',
+      version: '0.8.4',
       optimizer: {
         enabled: true,
-        runs: 200
+        runs: 500
       }
     }
   }

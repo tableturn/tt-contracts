@@ -1,5 +1,5 @@
-pragma solidity ^0.5.9;
-pragma experimental ABIEncoderV2;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
 
 import '@openzeppelin/upgrades/contracts/Initializable.sol';
 import './interfaces/IAccess.sol';
@@ -39,6 +39,7 @@ contract Access is Initializable, IAccess {
    * @param governor is the initial governor over the system.
    */
   function initialize(address governor) external initializer {
+    actorList.add(address(0));
     governorList.add(governor);
   }
 
@@ -57,7 +58,7 @@ contract Access is Initializable, IAccess {
    * @param c is an address to test for issuance belonging.
    * @return a boolean.
    */
-  function isIssuer(address c) public view returns (bool) {
+  function isIssuer(address c) public view override returns (bool) {
     return issuerList.contains(c);
   }
 
@@ -94,7 +95,7 @@ contract Access is Initializable, IAccess {
    * @param c is an address to test for governance belonging.
    * @return a boolean.
    */
-  function isGovernor(address c) public view returns (bool) {
+  function isGovernor(address c) public view override returns (bool) {
     return governorList.contains(c);
   }
 
@@ -132,7 +133,7 @@ contract Access is Initializable, IAccess {
    * @param c is an address to test for acting belonging.
    * @return a boolean.
    */
-  function isActor(address c) public view returns (bool) {
+  function isActor(address c) public view override returns (bool) {
     return actorList.contains(c);
   }
 

@@ -93,18 +93,12 @@ contract('OrderLib', accounts => {
   });
 
   describe('ensureValidStruct', async () => {
-    itThrows('the owner is invalid', INVALID_ORDER, async () => {
+    itThrows('the spender is the zero address', INVALID_ORDER, async () => {
       const id = makeId();
-      const ZERO = ZERO_ADDRESS;
-      await t.setSample1(id, ZERO, spender, recipient, '50', '42', XferOrderStatus.Approved);
+      await t.setSample1(id, owner, ZERO_ADDRESS, recipient, '50', '42', XferOrderStatus.Approved);
       await t.ensureValidStruct();
     });
-    itThrows('the spender is invalid', INVALID_ORDER, async () => {
-      const id = makeId();
-      await t.setSample1(id, owner, ZERO_ADDRESS, recipient, '50', '42', XferOrderStatus.Pending);
-      await t.ensureValidStruct();
-    });
-    itThrows('the recipient is invalid', INVALID_ORDER, async () => {
+    itThrows('the recipient is the zero address', INVALID_ORDER, async () => {
       const id = makeId();
       await t.setSample1(id, owner, spender, ZERO_ADDRESS, '50', '42', XferOrderStatus.Approved);
       await t.ensureValidStruct();
@@ -115,7 +109,13 @@ contract('OrderLib', accounts => {
       await t.ensureValidStruct();
     });
 
-    it('succeeds when the grant is valid', async () => {
+    it('allows the owner to be the zero address', async () => {
+      const id = makeId();
+      await t.setSample1(id, ZERO_ADDRESS, spender, recipient, '50', '42', XferOrderStatus.Approved);
+      await t.ensureValidStruct();
+    })
+
+    it('succeeds when the order is valid', async () => {
       const id = makeId();
       await t.setSample1(id, owner, spender, recipient, '50', '42', XferOrderStatus.Rejected);
       await t.ensureValidStruct();
