@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
-import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
 // Interfaces and Contracts.
 import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/upgrades/contracts/Initializable.sol';
@@ -13,7 +12,6 @@ import './Transact.sol';
 
 
 contract Token is Initializable, IToken, IERC20, IERC1404 {
-  using SafeMath for uint256;
   using AccountLib for AccountLib.Data;
 
   /// --- Events.
@@ -109,7 +107,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     external
     governance
     isRecipientActor(recipient) {
-    totalSupply = totalSupply.add(amount);
+    totalSupply += amount;
     // We perform the same operation as a regular transfer, except that the owner is the reserve.
     accounts[RESERVE_ADDRESS].freeze(amount);
     // This request is performed by the governor on behalf of the reserve.
@@ -175,7 +173,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     require(msg.sender != owner, 'Cannot perform a transfer using allowance on behalf of yourself');
     uint256 allowed = allowances[owner][msg.sender];
     require(amount <= allowed, 'Insufficient allowance from owner');
-    _approve(owner, msg.sender, allowed.sub(amount));
+    _approve(owner, msg.sender, allowed - amount);
     accounts[owner].freeze(amount);
     reg.transact().request(owner, msg.sender, recipient, amount, '');
     return true;
@@ -195,7 +193,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     require(msg.sender != owner, 'Cannot perform a transfer using allowance on behalf of yourself');
     uint256 allowed = allowances[owner][msg.sender];
     require(amount <= allowed, 'Insufficient allowance from owner');
-    _approve(owner, msg.sender, allowed.sub(amount));
+    _approve(owner, msg.sender, allowed - amount);
     accounts[owner].freeze(amount);
     reg.transact().request(owner, msg.sender, recipient, amount, ref);
     return true;
@@ -276,7 +274,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
   external override
   fromTransact {
     if (owner != spender) {
-      _approve(owner, spender, allowances[owner][spender].add(amount));
+      _approve(owner, spender, allowances[owner][spender] + amount);
     }
     accounts[owner].unfreeze(accounts[owner], amount);
   }

@@ -32,6 +32,5 @@ export const SELF_ALLOWANCE = 'Cannot perform a transfer using allowance on beha
 export const DUPLICATED_ADDRESS = 'Address already in set';
 export const DUPLICATED_HASH = 'Hash already in set';
 export const SELF_TERMINATION = 'Cannot self-destruct as a governor';
-export const ADDITION_OVERFLOW = 'SafeMath: addition overflow';
 export const CANNOT_RETRIEVE_FROZEN = 'Cannot retrieve dead tokens on an account with frozen funds';
 export const UNKNOWN_ERC1404_CODE = 'Unknown transfer restriction error code';
