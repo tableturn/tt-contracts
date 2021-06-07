@@ -1,5 +1,7 @@
 pragma solidity ^0.5.9;
-
+pragma experimental ABIEncoderV2;
+// Libraries.
+import '../lib/OrderLib.sol';
 
 interface ITransact {
   /**
@@ -9,7 +11,8 @@ interface ITransact {
    * @param spender is the account who is spending the funds - often equal to `owner`.
    * @param recipient is the account to which the funds would be transfered.
    * @param amount is the amount of tokens to include in the transfer.
+   * @param ref is the reference to keep along with the order.
    * @return The transfer id that was created.
    */
-  function request(address owner, address spender, address recipient, uint256 amount) external;
+  function request(address owner, address spender, address recipient, uint256 amount, string calldata ref) external;
 }
