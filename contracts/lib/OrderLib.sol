@@ -48,7 +48,6 @@ library OrderLib {
    */
   function ensureValidStruct(Order storage order) internal view {
     require(
-      order.owner != address(0) &&
       order.spender != address(0) &&
       order.recipient != address(0) &&
       order.amount != 0 &&
