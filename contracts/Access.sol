@@ -1,5 +1,5 @@
-pragma solidity ^0.5.9;
-pragma experimental ABIEncoderV2;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
 
 import '@openzeppelin/upgrades/contracts/Initializable.sol';
 import './interfaces/IAccess.sol';
