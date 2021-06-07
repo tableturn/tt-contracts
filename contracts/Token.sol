@@ -147,8 +147,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     isRecipientActor(recipient)
     ownerAndRecipientDifferent(msg.sender, recipient)
     isPositive(amount)
-    returns (bool)
-  {
+    returns (bool) {
     address owner = msg.sender;
     accounts[owner].freeze(amount);
     reg.transact().request(owner, owner, recipient, amount, ref);
@@ -171,7 +170,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     isRecipientActor(recipient)
     ownerAndRecipientDifferent(owner, recipient)
     isPositive(amount)
-    returns (bool)
+    returns (bool) {
     // We're transacting on behalf of someone. The owner and spender should be different.
     require(msg.sender != owner, 'Cannot perform a transfer using allowance on behalf of yourself');
     uint256 allowed = allowances[owner][msg.sender];
@@ -210,8 +209,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @return A bool value set to true signaling a successful operation.
    */
   function approve(address spender, uint256 amount) external returns (bool) {
-    address owner = msg.sender;
-    _approve(owner, spender, amount);
+    _approve(msg.sender, spender, amount);
     return true;
   }
 
@@ -230,8 +228,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
   function detectTransferRestriction(address owner, address recipient, uint256)
     external
     view
-    returns (uint8)
-  {
+    returns (uint8) {
     IAccess access = reg.access();
     if (!access.isActor(owner)) {
       return ERRC_OWNER_NOT_ACTOR;
@@ -262,8 +259,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    */
   function transferApproved(address owner, address recipient, uint256 amount)
     external
-    fromTransact
-  {
+    fromTransact {
     accounts[owner].unfreeze(accounts[recipient], amount);
     emit IERC20.Transfer(owner, recipient, amount);
   }
@@ -294,8 +290,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     external
     governance()
     isOwnerActor(owner)
-    isRecipientActor(target)
-  {
+    isRecipientActor(target) {
     require(
       accounts[owner].frozen == 0,
       'Cannot retrieve dead tokens on an account with frozen funds'

@@ -112,8 +112,7 @@ contract Transact is Initializable, ITransact {
     external
     view
     isActor(owner)
-    returns (bytes32)
-  {
+    returns (bytes32) {
     return orderData.idByOwnerAndIndex(owner, index);
   }
 
@@ -126,8 +125,7 @@ contract Transact is Initializable, ITransact {
     external
     view
     isActor(owner)
-    returns (OrderLib.Order memory)
-  {
+    returns (OrderLib.Order memory) {
     return orderData.byOwnerAndIndex(owner, index);
   }
 
@@ -150,8 +148,7 @@ contract Transact is Initializable, ITransact {
     external
     governance
     isActor(owner)
-    isActor(recipient)
-  {
+    isActor(recipient) {
     bytes32 id = grantData.create(owner, recipient, maxAmount);
     emit GrantedV2(owner, recipient, id);
   }
@@ -173,8 +170,7 @@ contract Transact is Initializable, ITransact {
     external
     view
     isActor(owner)
-    returns (bytes32)
-  {
+    returns (bytes32) {
     return grantData.idByOwnerAndIndex(owner, index);
   }
 
@@ -187,8 +183,7 @@ contract Transact is Initializable, ITransact {
     external
     view
     isActor(owner)
-    returns (GrantLib.Grant memory)
-  {
+    returns (GrantLib.Grant memory) {
     return grantData.byOwnerAndIndex(owner, index);
   }
 
