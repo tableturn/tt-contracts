@@ -4,8 +4,10 @@ import {
   MUST_BE_GOVERNOR,
   DUPLICATED_ADDRESS,
   DOUBLE_INIT,
-  SELF_TERMINATION
+  SELF_TERMINATION,
+  ZERO_ADDRESS
 } from './helpers/errors';
+import { assert } from 'chai';
 
 const Access = artifacts.require('Access');
 
@@ -25,6 +27,10 @@ contract('Access', accounts => {
     itThrows('called more than once', DOUBLE_INIT, async () => {
       await access.initialize(governor);
     });
+
+    it('should add the zero address so that transfers can be made internally from the reserve', async () => {
+      assert.include(await access.actors(), ZERO_ADDRESS);
+    })
 
     it('should keep track of the governor passed during initialization', async () => {
       assert.deepEqual(await access.governors(), [governor]);

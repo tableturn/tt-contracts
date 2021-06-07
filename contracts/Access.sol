@@ -39,6 +39,7 @@ contract Access is Initializable, IAccess {
    * @param governor is the initial governor over the system.
    */
   function initialize(address governor) external initializer {
+    actorList.add(address(0));
     governorList.add(governor);
   }
 
