@@ -1,11 +1,7 @@
 import { AccountLibTesterInstance } from '../../types/truffle-contracts';
 import { itThrows, assertNumberEquality } from '../helpers/helpers';
 import BN from 'bn.js';
-import {
-  INSUFFICIENT_FUNDS,
-  ADDITION_OVERFLOW,
-  INSUFFICIENT_FROZEN_FUNDS
-} from '../helpers/errors';
+import { INSUFFICIENT_FUNDS, INSUFFICIENT_FROZEN_FUNDS } from '../helpers/errors';
 import { ONE } from '../helpers/constants';
 
 const AccountLibTester = artifacts.require('AccountLibTester');
@@ -19,7 +15,7 @@ contract('AccountLib', _accounts => {
   });
 
   describe('credit', () => {
-    itThrows('overflowing', ADDITION_OVERFLOW, async () => {
+    itThrows('overflowing', '', async () => {
       await mock.setSample1(MAX_UINT256, '0');
       await mock.credit('5');
     });
@@ -53,7 +49,7 @@ contract('AccountLib', _accounts => {
       await mock.setSample1('5000', '0');
       await mock.freeze('5001');
     });
-    itThrows('the frozen balance would have overflown', ADDITION_OVERFLOW, async () => {
+    itThrows('the frozen balance would have overflown', '', async () => {
       await mock.setSample1('5000', MAX_UINT256);
       await mock.freeze('1');
     });
@@ -72,7 +68,7 @@ contract('AccountLib', _accounts => {
       await mock.setSample1('0', '50');
       await mock.unfreezeSelf('51');
     });
-    itThrows('the liquid balance would have overflown (self)', ADDITION_OVERFLOW, async () => {
+    itThrows('the liquid balance would have overflown (self)', '', async () => {
       await mock.setSample1(MAX_UINT256, '1');
       await mock.unfreezeSelf('1');
     });
@@ -82,7 +78,7 @@ contract('AccountLib', _accounts => {
       await mock.setSample2('0', '5000');
       await mock.unfreezeOther('51');
     });
-    itThrows('the liquid balance would have overflown (other)', ADDITION_OVERFLOW, async () => {
+    itThrows('the liquid balance would have overflown (other)', '', async () => {
       await mock.setSample1('0', '10');
       await mock.setSample2(MAX_UINT256, '0');
       await mock.unfreezeOther('1');
@@ -113,7 +109,7 @@ contract('AccountLib', _accounts => {
       await mock.setSample2('5000', '5000');
       await mock.transfer('51');
     });
-    itThrows('the liquid balance would have overflown', ADDITION_OVERFLOW, async () => {
+    itThrows('the liquid balance would have overflown', '', async () => {
       await mock.setSample1('1', '5000');
       await mock.setSample2(MAX_UINT256, '5000');
       await mock.transfer('1');

@@ -1,7 +1,5 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
-// Libraries.
-import '@openzeppelin/contracts-ethereum-package/contracts/math/SafeMath.sol';
 // Legacy.
 import './lib/OldV1XferOrderLib.sol';
 import './lib/OldV1XferGrantLib.sol';
@@ -17,7 +15,6 @@ import './Registry.sol';
 
 contract Transact is Initializable, ITransact {
   // Libs and types.
-  using SafeMath for uint256;
   using OrderLib for OrderLib.Order;
   using GrantLib for GrantLib.Grant;
   using XferOrderLib for XferOrderLib.Data;
