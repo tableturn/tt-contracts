@@ -58,7 +58,7 @@ contract Access is Initializable, IAccess {
    * @param c is an address to test for issuance belonging.
    * @return a boolean.
    */
-  function isIssuer(address c) public view returns (bool) {
+  function isIssuer(address c) public view override returns (bool) {
     return issuerList.contains(c);
   }
 
@@ -95,7 +95,7 @@ contract Access is Initializable, IAccess {
    * @param c is an address to test for governance belonging.
    * @return a boolean.
    */
-  function isGovernor(address c) public view returns (bool) {
+  function isGovernor(address c) public view override returns (bool) {
     return governorList.contains(c);
   }
 
@@ -133,7 +133,7 @@ contract Access is Initializable, IAccess {
    * @param c is an address to test for acting belonging.
    * @return a boolean.
    */
-  function isActor(address c) public view returns (bool) {
+  function isActor(address c) public view override returns (bool) {
     return actorList.contains(c);
   }
 

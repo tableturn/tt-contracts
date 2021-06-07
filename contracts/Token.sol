@@ -26,7 +26,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
   Registry public reg;
 
   /// @dev The total amount of tokens owned by actors, excluding the reserve.
-  uint256 public totalSupply;
+  uint256 public override totalSupply;
 
   /// @dev Our accounts are held in this mapping.
   mapping(address => AccountLib.Data) accounts;
@@ -76,7 +76,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param account is the address to check the balance of.
    * @return The liquid balance of the given account.
    */
-  function balanceOf(address account) external view returns (uint256) {
+  function balanceOf(address account) external view override returns (uint256) {
     return accounts[account].liquid;
   }
 
@@ -126,7 +126,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @return A bool value set to true signaling a successful operation.
    */
   function transfer(address recipient, uint256 amount)
-    public
+    public override
     isOwnerActor(msg.sender)
     isRecipientActor(recipient)
     ownerAndRecipientDifferent(msg.sender, recipient)
@@ -165,7 +165,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @return A bool value set to true signaling a successful operation.
    */
   function transferFrom(address owner, address recipient, uint256 amount)
-    external
+    external override
     isOwnerActor(owner)
     isRecipientActor(recipient)
     ownerAndRecipientDifferent(owner, recipient)
@@ -208,7 +208,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param amount is the quantity of tokens to allow the spender to spend.
    * @return A bool value set to true signaling a successful operation.
    */
-  function approve(address spender, uint256 amount) external returns (bool) {
+  function approve(address spender, uint256 amount) external override returns (bool) {
     _approve(msg.sender, spender, amount);
     return true;
   }
@@ -219,16 +219,14 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param spender is the account for which to check the allowance for..
    * @return A number representing the allowance from the owner account to the spender account.
    */
-  function allowance(address owner, address spender) external view returns (uint256) {
+  function allowance(address owner, address spender) external view override returns (uint256) {
     return allowances[owner][spender];
   }
 
   /// --- ERC1404 functions.
 
   function detectTransferRestriction(address owner, address recipient, uint256)
-    external
-    view
-    returns (uint8) {
+    external view override returns (uint8) {
     IAccess access = reg.access();
     if (!access.isActor(owner)) {
       return ERRC_OWNER_NOT_ACTOR;
@@ -241,7 +239,8 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     }
   }
 
-  function messageForTransferRestriction(uint8 errCode) external view returns (string memory) {
+  function messageForTransferRestriction(uint8 errCode)
+    external pure override returns (string memory) {
     if (errCode == ERRC_OWNER_NOT_ACTOR) return ERR_OWNER_NOT_ACTOR;
     else if (errCode == ERRC_RECIPIENT_NOT_ACTOR) return ERR_RECIPIENT_NOT_ACTOR;
     else if (errCode == ERRC_OWNER_SAME_AS_RECIPIENT) return ERR_OWNER_SAME_AS_RECIPIENT;
@@ -258,7 +257,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param amount is the quantity of tokens to transfer from the owner account.
    */
   function transferApproved(address owner, address recipient, uint256 amount)
-    external
+    external override
     fromTransact {
     accounts[owner].unfreeze(accounts[recipient], amount);
     emit IERC20.Transfer(owner, recipient, amount);
@@ -273,7 +272,9 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
    * @param spender is the account performing the operation. It could be the same as `owner`.
    * @param amount is the quantity of tokens to transfer from the owner account.
    */
-  function transferRejected(address owner, address spender, uint256 amount) external fromTransact {
+  function transferRejected(address owner, address spender, uint256 amount)
+  external override
+  fromTransact {
     if (owner != spender) {
       _approve(owner, spender, allowances[owner][spender].add(amount));
     }

@@ -13,12 +13,12 @@ contract TokenMock is IToken {
   CallProof[] private rejections;
 
   /// @dev Mocks to the `IToken.transferApproved` function.
-  function transferApproved(address owner, address recipient, uint256 amount) external {
+  function transferApproved(address owner, address recipient, uint256 amount) external override {
     approvals.push(CallProof(owner, recipient, amount));
   }
 
   /// @dev Mocks to the `IToken.transferRejected` function.
-  function transferRejected(address owner, address spender, uint256 amount) external {
+  function transferRejected(address owner, address spender, uint256 amount) external override {
     rejections.push(CallProof(owner, spender, amount));
   }
 
