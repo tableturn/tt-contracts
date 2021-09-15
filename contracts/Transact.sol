@@ -51,7 +51,6 @@ contract Transact is Initializable, ITransact {
     string ref;
   }
 
-
   /// Old Events.
 
   // V1 Events.
