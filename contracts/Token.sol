@@ -175,7 +175,7 @@ contract Token is Initializable, IToken, IERC20, IERC1404 {
     require(amount <= allowed, 'Insufficient allowance from owner');
     _approve(owner, msg.sender, allowed - amount);
     accounts[owner].freeze(amount);
-    reg.transact().request(owner, msg.sender, recipient, amount, '');
+    reg.transact().request(owner, msg.sender, recipient, amount, 'Unspecified');
     return true;
   }
 

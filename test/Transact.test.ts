@@ -90,15 +90,8 @@ contract('Transact', accounts => {
       assert.equal(o.recipient, actor2);
       assertNumberEquality(o.amount, '1000');
       assertNumberEquality(o.status, XferOrderStatus.Pending);
+      assert.equal(o.ref, 'Why not?');
     });
-
-    it('keeps track of the reference why the order was created', async () => {
-      await t.request(actor1, actor1, actor2, '1', 'Why not?', { from: fakeToken });
-      const orderCount = await t.orderCount(actor1);
-      const orderId = await t.orderIdByOwnerAndIndex(actor1, orderCount.sub(new BN(1)));
-      const reason = await t.orderReference(orderId);
-      assert.equal(reason, 'Why not?');
-    })
 
     it('adds the created order in both the owner and recipient books', async () => {
       await t.request(actor1, actor2, actor3, '1000', 'Why not?', { from: fakeToken });
@@ -140,18 +133,6 @@ contract('Transact', accounts => {
         const o = await t.orderByOwnerAndIndex(actor1, i);
         assertNumberEquality(o.amount, amounts[i]);
       }
-    });
-  });
-
-  describe('orderReference', async () => {
-    it('keeps track of order references', async () => {
-      // Issue a transfer order with a given reference.
-      const ref = 'Sample reference';
-      await t.request(actor1, actor1, actor2, '100', 'Sample reference', { from: fakeToken })
-      // Simply check that the reference matches.
-      const orderIdx = (await t.orderCount(actor1)).sub(new BN(1));
-      const orderId = await t.orderIdByOwnerAndIndex(actor1, orderIdx);
-      assert.equal(ref, await t.orderReference(orderId));
     });
   });
 

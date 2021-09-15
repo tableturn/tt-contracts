@@ -202,6 +202,7 @@ contract('Token', accounts => {
       assert.equal(actor1, order.recipient);
       assert.equal('100', order.amount.toString());
       assert.equal(order.status, XferOrderStatus.Pending);
+      assert.equal(order.ref, 'Allocation from Reserve');
     });
 
     it('carries over to totalSupply', async () => {
@@ -303,6 +304,64 @@ contract('Token', accounts => {
         assert.equal(order.spender, actor1);
         assert.equal(order.recipient, actor3);
         assertNumberEquality(order.amount, '100');
+        assert.equal(order.ref, 'Unspecified');
+      });
+    });
+  });
+
+  describe('transferWithReference', () => {
+    beforeEach(async () => {
+      await token.issue('5000', 'Test issuance', issuance);
+    });
+
+    itThrows('sender is not an actor', OWNER_NOT_ACTOR, async () => {
+      await token.transferWithReference(actor1, '500', 'Why not?', { from: acc2 });
+    });
+    itThrows('recipient is not an actor', RECIPIENT_NOT_ACTOR, async () => {
+      await token.transferWithReference(acc2, '500', 'Why not?', { from: actor1 });
+    });
+    itThrows('there are not enough funds', INSUFFICIENT_FUNDS, async () => {
+      await token.transferWithReference(actor2, '100', 'Why not?', { from: actor1 });
+    });
+    itThrows('sender is the same as recipient', OWNER_SAME_AS_RECIPIENT, async () => {
+      await token.allocate(actor1, '100', governance);
+      const orderIdx = (await transact.orderCount(ZERO_ADDRESS)).sub(new BN(1));
+      const orderId = await transact.orderIdByOwnerAndIndex(ZERO_ADDRESS, orderIdx);
+      await transact.approve(orderId, governance);
+      await token.transferWithReference(actor1, '100', 'Why not?', { from: actor1 });
+    });
+    itThrows('amount is zero', INVALID_ZERO_AMOUNT, async () => {
+      await token.transferWithReference(actor3, '0', 'Why not?', { from: actor1 });
+    });
+
+    describe('when successful', () => {
+      beforeEach(async () => {
+        await token.allocate(actor1, '2000', governance);
+        const orderIdx = (await transact.orderCount(ZERO_ADDRESS)).sub(new BN(1));
+        const orderId = await transact.orderIdByOwnerAndIndex(ZERO_ADDRESS, orderIdx);
+        await transact.approve(orderId, governance);
+      });
+
+      it('freezes the funds from the owner account', async () => {
+        await token.transferWithReference(actor3, '100', 'Why not?', { from: actor1 });
+        assertNumberEquality(await token.balanceOf(actor1), '1900');
+        assertNumberEquality(await token.frozenOf(actor1), '100');
+      });
+
+      it('does not credit the recipient', async () => {
+        await token.transferWithReference(actor3, '100', 'Why not?', { from: actor1 });
+        assertNumberEquality(await token.balanceOf(actor3), '0');
+      });
+
+      it('calls a request on the Transact contract', async () => {
+        await token.transferWithReference(actor3, '100', 'Why not?', { from: actor1 });
+        const orderIdx = (await transact.orderCount(actor3)).sub(new BN(1));
+        const order = await transact.orderByOwnerAndIndex(actor3, orderIdx);
+        assert.equal(order.owner, actor1);
+        assert.equal(order.spender, actor1);
+        assert.equal(order.recipient, actor3);
+        assertNumberEquality(order.amount, '100');
+        assert.equal(order.ref, 'Why not?');
       });
     });
   });
@@ -364,6 +423,69 @@ contract('Token', accounts => {
         assert.equal(order.spender, acc1);
         assert.equal(order.recipient, actor3);
         assertNumberEquality(order.amount, '100');
+        assert.equal(order.ref, 'Unspecified');
+      });
+    });
+  });
+
+  describe('transferFromWithReference', () => {
+    beforeEach(async () => {
+      await token.issue('5000', 'Test issuance', issuance);
+    });
+
+    itThrows('owner is not an actor', OWNER_NOT_ACTOR, async () => {
+      await token.transferFromWithReference(acc2, actor3, '100', 'Why not?', { from: actor1 });
+    });
+    itThrows('recipient is not an actor', RECIPIENT_NOT_ACTOR, async () => {
+      await token.transferFromWithReference(actor2, acc2, '100', 'Why not?', { from: actor1 });
+    });
+    itThrows('owner and spender are the same', SELF_ALLOWANCE, async () => {
+      await token.transferFromWithReference(actor1, actor2, '100', 'Why not?', { from: actor1 });
+    });
+    itThrows('sender is the same as recipient', OWNER_SAME_AS_RECIPIENT, async () => {
+      await token.transferFromWithReference(actor2, actor2, '100', 'Why not?', { from: actor1 });
+    });
+    itThrows('allowance is insuficient', INSUFFICIENT_ALLOWANCE, async () => {
+      await token.transferFromWithReference(actor2, actor3, '100', 'Why not?', { from: actor1 });
+    });
+    itThrows('amount is zero', INVALID_ZERO_AMOUNT, async () => {
+      await token.transferWithReference(actor3, '0', 'Why not?', { from: actor1 });
+    });
+
+    describe('when successful', () => {
+      beforeEach(async () => {
+        await token.allocate(actor1, '2000', governance);
+        const orderIdx = (await transact.orderCount(ZERO_ADDRESS)).sub(new BN(1));
+        const orderId = await transact.orderIdByOwnerAndIndex(ZERO_ADDRESS, orderIdx);
+        await transact.approve(orderId, governance);
+        await token.approve(acc1, '300', { from: actor1 })
+      });
+
+      it('freezes the funds from the owner account', async () => {
+        await token.transferFromWithReference(actor1, actor3, '100', 'Why not?', { from: acc1 });
+        assertNumberEquality(await token.balanceOf(actor1), '1900');
+        assertNumberEquality(await token.frozenOf(actor1), '100');
+      });
+
+      it('does not credit the recipient', async () => {
+        await token.transferFromWithReference(actor1, actor3, '100', 'Why not?', { from: acc1 });
+        assertNumberEquality(await token.balanceOf(actor3), '0');
+      });
+
+      it('decreases the allowance', async () => {
+        await token.transferFromWithReference(actor1, actor3, '100', 'Why not?', { from: acc1 });
+        assertNumberEquality(await token.allowance(actor1, acc1), '200');
+      });
+
+      it('calls a request on the Transact contract', async () => {
+        await token.transferFromWithReference(actor1, actor3, '100', 'Why not?', { from: acc1 });
+        const orderIdx = (await transact.orderCount(actor1)).sub(new BN(1));
+        const order = await transact.orderByOwnerAndIndex(actor1, orderIdx);
+        assert.equal(order.owner, actor1);
+        assert.equal(order.spender, acc1);
+        assert.equal(order.recipient, actor3);
+        assertNumberEquality(order.amount, '100');
+        assert.equal(order.ref, 'Why not?');
       });
     });
   });
