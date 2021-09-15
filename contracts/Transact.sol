@@ -35,9 +35,26 @@ contract Transact is Initializable, ITransact {
   // Transfer references are stored separately.
   mapping(bytes32 => string) orderRefs;
 
+  // As we added mappings to this contract to hold extra oder data, we have
+  // a dummy struct that can be returned for consumers to be able to get
+  // everything about a single order without having to perform many calls.
+  // This struct should **never** be used in the contract storage space,
+  // it only meant to encapsulate return data.
+  struct FullOrder {
+    bytes32 id;
+    address owner;
+    address spender;
+    address recipient;
+    uint256 amount;
+    uint256 createdAt;
+    OrderLib.Status status;
+    string ref;
+  }
+
+
   /// Old Events.
 
-  /// V1 Events.
+  // V1 Events.
   event Granted(address indexed owner, uint256 grantId);
   event Request(address indexed owner, uint256 orderId);
   event Approval(address indexed owner, uint256 orderId);
@@ -90,16 +107,6 @@ contract Transact is Initializable, ITransact {
     return orderData.count(owner);
   }
 
-  /**
-   * @dev Allows to retrieve the reference associated with an order.
-   * @param orderId is the order for which to retrieve the string reference.
-   * @return The reference associated with the order, of any.
-   */
-  function orderReference(bytes32 orderId) public view returns(string memory) {
-    return orderRefs[orderId];
-  }
-
-
   /** @dev Gets an order id given its owner and index.
    * @param owner is the address for which to get the order id.
    * @param index is the index of the order id to be retrieved.
@@ -110,7 +117,7 @@ contract Transact is Initializable, ITransact {
     view
     isActor(owner)
     returns (bytes32) {
-    return orderData.idByOwnerAndIndex(owner, index);
+      return orderData.idByOwnerAndIndex(owner, index);
   }
 
   /** @dev Gets an order given its owner and the index of its id.
@@ -122,16 +129,16 @@ contract Transact is Initializable, ITransact {
     external
     view
     isActor(owner)
-    returns (OrderLib.Order memory) {
-    return orderData.byOwnerAndIndex(owner, index);
-  }
+    returns (FullOrder memory) {
+      return fullOrderFromOrder(orderData.byOwnerAndIndex(owner, index));
+    }
 
   /** @dev Gets an order given it's id.
    * @param orderId is the order id to look for.
    * @return An order when the call succeeds, otherwise throws.
    */
-  function orderById(bytes32 orderId) external view returns (OrderLib.Order memory) {
-    return orderData.byId(orderId);
+  function orderById(bytes32 orderId) external view returns (FullOrder memory) {
+    return fullOrderFromOrder(orderData.byId(orderId));
   }
 
   /**
@@ -251,6 +258,21 @@ contract Transact is Initializable, ITransact {
     reg.token().transferRejected(o.owner, o.spender, o.amount);
     // Emit!
     emit RejectionV2(o.owner, o.recipient, orderId);
+  }
+
+  // Helper methods.
+
+  function fullOrderFromOrder(OrderLib.Order memory order) private view returns (FullOrder memory) {
+    return FullOrder({
+      id: order.id,
+      owner: order.owner,
+      spender: order.spender,
+      recipient: order.recipient,
+      amount: order.amount,
+      createdAt: order.createdAt,
+      status: order.status,
+      ref: orderRefs[order.id]
+    });
   }
 
   // Modifiers.

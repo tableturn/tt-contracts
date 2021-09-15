@@ -27,6 +27,7 @@ const Token = artifacts.require('Token');
 
 const ISSUANCE_REASON = 'Test Issuance.';
 
+// TODO: We might want to add at least two tests around `transferWithReference` and `transferFromWithReference`.
 contract('EndToEnd', accounts => {
   const [, issuer, governor, bob, marie, tom] = accounts;
   const governance = { from: governor };
@@ -119,8 +120,9 @@ contract('EndToEnd', accounts => {
       // Get order ID for the allocation.
       const orderIdx = (await transact.orderCount(ZERO_ADDRESS)).sub(new BN(1));
       const orderId = await transact.orderIdByOwnerAndIndex(ZERO_ADDRESS, orderIdx);
-      const orderRef = await transact.orderReference(orderId);
-      assert.equal('Allocation from Reserve', orderRef);
+      const order = await transact.orderById(orderId);
+      // Make sure that the reference is correct.
+      assert.equal('Allocation from Reserve', order.ref);
       // Accept the transfer order.
       await transact.approve(orderId, governance)
 
