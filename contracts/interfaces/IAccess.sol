@@ -23,4 +23,11 @@ interface IAccess {
    * @return a boolean.
    */
   function isActor(address c) external view returns (bool);
+
+  /**
+   * @dev Determines whether a given address is an automaton or not.
+   * @param c is an address to test for automaton belonging.
+   * @return a boolean.
+   */
+  function isAutomaton(address c) external view returns (bool);
 }
