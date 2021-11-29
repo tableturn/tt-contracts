@@ -17,11 +17,13 @@ contract Access is Initializable, IAccess {
     bool isIssuer;
     bool isGovernor;
     bool isActor;
+    bool isAutomaton;
   }
 
   AddressSetLib.Data issuerList;
   AddressSetLib.Data governorList;
   AddressSetLib.Data actorList;
+  AddressSetLib.Data automatonList;
 
   /// Events.
 
@@ -31,6 +33,8 @@ contract Access is Initializable, IAccess {
   event IssuerRemoved(address indexed issuer);
   event ActorAdded(address indexed actor);
   event ActorRemoved(address indexed actor);
+  event AutomatonAdded(address indexed automaton);
+  event AutomatonRemoved(address indexed automaton);
 
   /// Public stuff.
 
@@ -72,7 +76,7 @@ contract Access is Initializable, IAccess {
   }
 
   /**
-   * @dev Removes an issuer from the issuers list.
+   * @dev Removes an issuer from the issuer list.
    * @param a is the address of the issuer to be removed.
    */
   function removeIssuer(address a) public governance {
@@ -113,7 +117,7 @@ contract Access is Initializable, IAccess {
    * @param a is the address of the governor to be removed.
    */
   function removeGovernor(address a) public governance {
-    require(msg.sender != a, 'Cannot self-destruct as a governor');
+    require(msg.sender != a, 'Cannot self-destruct');
     governorList.remove(a);
     emit GovernorRemoved(a);
   }
@@ -138,22 +142,61 @@ contract Access is Initializable, IAccess {
   }
 
   /**
-   * @dev Adds an address to the actors list.
+   * @dev Adds an address to the actor list.
    * @param a is the address to be added as an actor.
    */
-  function addActor(address a) public governance {
+  function addActor(address a) public governanceOrAutomation {
     actorList.add(a);
     emit ActorAdded(a);
   }
 
   /**
-   * @dev Removes an actor from the actors list.
+   * @dev Removes an actor from the actor list.
    * @param a is the address of the actor to be removed.
    */
   function removeActor(address a) public governance {
     actorList.remove(a);
     emit ActorRemoved(a);
   }
+
+  /// Automatons.
+
+  /**
+   * @dev Retrieves the list of automatons.
+   * @return the list of addresses considered automatons.
+   */
+  function automatons() external view returns (address[] memory) {
+    return automatonList.values;
+  }
+
+  /**
+   * @dev Determines whether a given address is an automaton or not.
+   * @param c is an address to test for automaton belonging.
+   * @return a boolean.
+   */
+  function isAutomaton(address c) public view override returns (bool) {
+    return automatonList.contains(c);
+  }
+
+  /**
+   * @dev Adds an address to the automaton list.
+   * @param a is the address to be added as an automaton.
+   */
+  function addAutomaton(address a) public governance {
+    automatonList.add(a);
+    emit AutomatonAdded(a);
+  }
+
+  /**
+   * @dev Removes an actor from the automaton list.
+   * @param a is the address of the automaton to be removed.
+   */
+  function removeAutomaton(address a) public governance {
+    automatonList.remove(a);
+    emit AutomatonRemoved(a);
+  }
+
+  /// Flags.
 
   /**
    * @dev Gets all flags at once.
@@ -162,7 +205,12 @@ contract Access is Initializable, IAccess {
    */
   function flags(address a) public view returns (Flags memory) {
     return
-      Flags({isIssuer: this.isIssuer(a), isGovernor: this.isGovernor(a), isActor: this.isActor(a)});
+      Flags({
+        isIssuer: this.isIssuer(a),
+        isGovernor: this.isGovernor(a),
+        isActor: this.isActor(a),
+        isAutomaton: this.isAutomaton(a)
+      });
   }
 
   /**
@@ -180,12 +228,23 @@ contract Access is Initializable, IAccess {
     if (isActor(a) != _flags.isActor) {
       _flags.isActor ? addActor(a) : removeActor(a);
     }
+    if (isAutomaton(a) != _flags.isAutomaton) {
+      _flags.isAutomaton ? addAutomaton(a) : removeAutomaton(a);
+    }
   }
 
   // Modifiers.
 
   modifier governance {
     require(governorList.contains(msg.sender), 'This function must be called by a governor');
+    _;
+  }
+
+  modifier governanceOrAutomation {
+    require(
+      governorList.contains(msg.sender) || automatonList.contains(msg.sender),
+      'This function must be called by a governor or an automaton.'
+    );
     _;
   }
 }
