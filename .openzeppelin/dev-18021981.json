@@ -1,11 +1,11 @@
 {
   "contracts": {
     "Access": {
-      "address": "0xcA2FDFe9E155e8007D98f435f2aD48f1e6B7B1F1",
-      "constructorCode": "608060405234801561001057600080fd5b50611dc5806100206000396000f3fe",
-      "bodyBytecodeHash": "4162f9fbb1fedcfe43edbe4957b28fd8edf165bb1703bfc1b5ce2a42c5f7da1c",
-      "localBytecodeHash": "8cf5103a96426ab9797d89d8d523427dfe7cf8808bea1a9cc09fd355ea101dae",
-      "deployedBytecodeHash": "9c10da17f1ec73c037ccce5374dbdd2f112005cef87ef8550b5c82649b8b20b1",
+      "address": "0xd6e7FC8B596349ed4110F1012192184D877dBe05",
+      "constructorCode": "608060405234801561001057600080fd5b506123e7806100206000396000f3fe",
+      "bodyBytecodeHash": "706514ae153725df183cf4b75d2c30d741e546c5860e6c5a0d4526f8f29559b5",
+      "localBytecodeHash": "14baff16d785ba33fb63886eaf6273ce2400a6bf39e2be275c4f555257bf5ea5",
+      "deployedBytecodeHash": "f695ba80b582203d78c80415a150ebcff45f38632ff31e69c08a49dc1e6ddee4",
       "types": {
         "t_bool": {
           "id": "t_bool",
@@ -31,13 +31,13 @@
           "members": [
             {
               "label": "indices",
-              "astId": 2457,
+              "astId": 2584,
               "type": "t_mapping<t_uint256>",
               "src": "145:35:12"
             },
             {
               "label": "values",
-              "astId": 2460,
+              "astId": 2587,
               "type": "t_array:dyn<t_address>",
               "src": "186:16:12"
             }
@@ -67,7 +67,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initialized",
-          "astId": 4512,
+          "astId": 4639,
           "type": "t_bool",
           "src": "748:24:30"
         },
@@ -75,7 +75,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "initializing",
-          "astId": 4515,
+          "astId": 4642,
           "type": "t_bool",
           "src": "867:25:30"
         },
@@ -83,7 +83,7 @@
           "contract": "Initializable",
           "path": "@openzeppelin/upgrades/contracts/Initializable.sol",
           "label": "______gap",
-          "astId": 4580,
+          "astId": 4707,
           "type": "t_array:50<t_uint256>",
           "src": "1973:29:30"
         },
@@ -91,25 +91,33 @@
           "contract": "Access",
           "path": "contracts/Access.sol",
           "label": "issuerList",
-          "astId": 23,
+          "astId": 25,
           "type": "t_struct<AddressSetLib.Data>",
-          "src": "476:29:0"
+          "src": "498:29:0"
         },
         {
           "contract": "Access",
           "path": "contracts/Access.sol",
           "label": "governorList",
-          "astId": 26,
+          "astId": 28,
           "type": "t_struct<AddressSetLib.Data>",
-          "src": "509:31:0"
+          "src": "531:31:0"
         },
         {
           "contract": "Access",
           "path": "contracts/Access.sol",
           "label": "actorList",
-          "astId": 29,
+          "astId": 31,
           "type": "t_struct<AddressSetLib.Data>",
-          "src": "544:28:0"
+          "src": "566:28:0"
+        },
+        {
+          "contract": "Access",
+          "path": "contracts/Access.sol",
+          "label": "automatonList",
+          "astId": 34,
+          "type": "t_struct<AddressSetLib.Data>",
+          "src": "598:32:0"
         }
       ],
       "warnings": {
@@ -123,28 +131,49 @@
             "contract": "Access",
             "path": "contracts/Access.sol",
             "label": "issuerList",
-            "astId": 23,
+            "astId": 25,
             "type": "t_struct<AddressSetLib.Data>",
-            "src": "476:29:0"
+            "src": "498:29:0"
           },
           {
             "contract": "Access",
             "path": "contracts/Access.sol",
             "label": "governorList",
-            "astId": 26,
+            "astId": 28,
             "type": "t_struct<AddressSetLib.Data>",
-            "src": "509:31:0"
+            "src": "531:31:0"
           },
           {
             "contract": "Access",
             "path": "contracts/Access.sol",
             "label": "actorList",
-            "astId": 29,
+            "astId": 31,
             "type": "t_struct<AddressSetLib.Data>",
-            "src": "544:28:0"
+            "src": "566:28:0"
+          },
+          {
+            "contract": "Access",
+            "path": "contracts/Access.sol",
+            "label": "automatonList",
+            "astId": 34,
+            "type": "t_struct<AddressSetLib.Data>",
+            "src": "598:32:0"
           }
         ],
-        "storageDiff": []
+        "storageDiff": [
+          {
+            "action": "append",
+            "updated": {
+              "index": 6,
+              "contract": "Access",
+              "path": "contracts/Access.sol",
+              "label": "automatonList",
+              "astId": 34,
+              "type": "t_struct<AddressSetLib.Data>",
+              "src": "598:32:0"
+            }
+          }
+        ]
       }
     },
     "Registry": {
@@ -984,7 +1013,7 @@
       {
         "address": "0xba2CC6707D46358ced394924BA587e4AfedeA576",
         "version": "0.0.2",
-        "implementation": "0xcA2FDFe9E155e8007D98f435f2aD48f1e6B7B1F1",
+        "implementation": "0xd6e7FC8B596349ed4110F1012192184D877dBe05",
         "admin": "0x76b277aFfcA697c29dA8045C4C819f95b3308F43",
         "kind": "Upgradeable"
       }
