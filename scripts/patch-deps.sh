@@ -1,9 +1,17 @@
 #!/bin/bash
 
-NODE_MODULES="$(pwd)/.."
+echo "TOOLING DEBUG: Current directory: $PWD"
+if [[ $PWD == *"node_modules/tt-contracts"* ]]; then
+  echo "TOOLING DEBUG: This script is being ran as part of a dependency."
+  NODE_MODULES="$(pwd)/.."
+else
+  echo "TOOLING DEBUG: This script is being ran as part of the main project."
+  NODE_MODULES="$(pwd)/node_modules"
+fi
+
 deps=("@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol" "@openzeppelin/upgrades/contracts/Initializable.sol")
 
 for dep in "${deps[@]}"; do
-  echo "Patching ${dep} ..."
+  echo "TOOLING DEBUG: Patching ${dep} ..."
   sed -i 's/^pragma solidity.*;/pragma solidity ^0.8.0;/' "${NODE_MODULES}/$dep"
 done
