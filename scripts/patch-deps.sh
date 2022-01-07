@@ -9,7 +9,7 @@ else
   NODE_MODULES="$(pwd)/node_modules"
 fi
 
-deps=("@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol" "@openzeppelin/upgrades/contracts/Initializable.sol")
+deps=("@openzeppelin/upgrades/contracts/Initializable.sol")
 
 for dep in "${deps[@]}"; do
   echo "TOOLING DEBUG: Patching ${dep} ..."
