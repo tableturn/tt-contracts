@@ -18,7 +18,7 @@ export const itThrows = (reason: string, exp: string, fun: any) => {
         error = e;
       });
     } catch (e) {
-      error = e;
+      error = e as Error | null;
     }
 
     // No error was returned or raised - make the test fail plain and simple.
