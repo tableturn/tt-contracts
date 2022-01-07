@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 // Interfaces and Contracts.
-import '@openzeppelin/contracts-ethereum-package/contracts/token/ERC20/IERC20.sol';
 import '@openzeppelin/upgrades/contracts/Initializable.sol';
+import './interfaces/IERC20.sol';
 import './interfaces/IERC1404.sol';
 import './interfaces/IToken.sol';
 import './interfaces/ITransact.sol';
