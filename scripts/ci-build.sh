@@ -2,7 +2,7 @@
 set -e
 
 apk update
-apk add bash g++ make python
+apk add bash g++ make python3
 
 echo "Installing dependencies..."
 yarn
