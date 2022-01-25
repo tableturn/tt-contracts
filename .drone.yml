@@ -4,7 +4,7 @@ name: tt-contracts
 
 steps:
   - name: build
-    image: node:erbium-alpine
+    image: node:erbium-alpine3.15
     commands: [./scripts/ci-build.sh]
 
   # - name: coverage
